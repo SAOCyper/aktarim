@@ -1,4 +1,268 @@
-> postinstall
+root@0ca2e90b8761:/home/theia# npm run build:browser
+
+> build:browser
+> npm run compile && npm run build:extensions && cd browser-app && npm run build
+
+
+> gsc.scheduling.theia@ compile /home/theia
+> lerna run compile
+
+lerna notice cli v9.0.7
+
+ Lerna (powered by Nx)   Running target compile for 2 projects:
+
+- gsc-browser-app
+- gsc-browser-app-cesium
+
+—————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+> gsc-browser-app:compile
+
+
+> gsc-browser-app-cesium:compile
+
+gsc-browser-app: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
+gsc-browser-app: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
+gsc-browser-app: npm warn config shrinkwrap Use the --package-lock setting instead.
+gsc-browser-app: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
+gsc-browser-app: npm warn config `--include=optional` to include them.
+gsc-browser-app: npm warn config
+gsc-browser-app: npm warn config       Default value does install optional deps unless otherwise omitted.
+gsc-browser-app: > gsc-browser-app@1.0.0 compile
+gsc-browser-app: > tsc -b
+gsc-browser-app-cesium: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
+gsc-browser-app-cesium: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
+gsc-browser-app-cesium: npm warn config shrinkwrap Use the --package-lock setting instead.
+gsc-browser-app-cesium: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
+gsc-browser-app-cesium: npm warn config `--include=optional` to include them.
+gsc-browser-app-cesium: npm warn config
+gsc-browser-app-cesium: npm warn config       Default value does install optional deps unless otherwise omitted.
+gsc-browser-app-cesium: > gsc-browser-app-cesium@1.0.0 compile
+gsc-browser-app-cesium: > tsc -b
+
+—————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+ Lerna (powered by Nx)   Successfully ran target compile for 2 projects
+
+
+
+> gsc.scheduling.theia@ build:extensions /home/theia
+> lerna run --scope="@uzay/*" build
+
+lerna notice cli v9.0.7
+lerna notice filter including "@uzay/*"
+lerna info filter [ '@uzay/*' ]
+
+ Lerna (powered by Nx)   Running target build for 9 projects:
+
+- @uzay/gsc-core-extension
+- @uzay/gsc-earth-extension
+- @uzay/gsc-files-extension
+- @uzay/gsc-mission-extension
+- @uzay/gsc-moon-extension
+- @uzay/gsc-pass-control-extension
+- @uzay/gsc-pass-prediction-extension
+- @uzay/gsc-settings-extension
+- @uzay/gsc-common
+
+—————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+> @uzay/gsc-common:build
+
+@uzay/gsc-common: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
+@uzay/gsc-common: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
+@uzay/gsc-common: npm warn config shrinkwrap Use the --package-lock setting instead.
+@uzay/gsc-common: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
+@uzay/gsc-common: npm warn config `--include=optional` to include them.
+@uzay/gsc-common: npm warn config
+@uzay/gsc-common: npm warn config       Default value does install optional deps unless otherwise omitted.
+@uzay/gsc-common: > @uzay/gsc-common@1.0.0 build
+@uzay/gsc-common: > npm run build:lib
+@uzay/gsc-common: > @uzay/gsc-common@1.0.0 build:lib /home/theia/gsc-common
+@uzay/gsc-common: > vite build --mode lib
+@uzay/gsc-common: vite v7.3.6 building client environment for lib...
+@uzay/gsc-common: transforming...
+@uzay/gsc-common: ✓ 11 modules transformed.
+@uzay/gsc-common: rendering chunks...
+@uzay/gsc-common: computing gzip size...
+@uzay/gsc-common: dist/soc-widgets.es.js  115.90 kB │ gzip: 29.96 kB
+@uzay/gsc-common: dist/soc-widgets.umd.js  89.26 kB │ gzip: 26.05 kB
+@uzay/gsc-common: ✓ built in 3.50s
+
+> @uzay/gsc-core-extension:build
+
+
+> @uzay/gsc-files-extension:build
+
+
+> @uzay/gsc-mission-extension:build
+
+
+> @uzay/gsc-pass-control-extension:build
+
+
+> @uzay/gsc-pass-prediction-extension:build
+
+
+> @uzay/gsc-settings-extension:build
+
+
+> @uzay/gsc-moon-extension:build
+
+@uzay/gsc-files-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
+@uzay/gsc-files-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
+@uzay/gsc-files-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
+@uzay/gsc-files-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
+@uzay/gsc-files-extension: npm warn config `--include=optional` to include them.
+@uzay/gsc-files-extension: npm warn config
+@uzay/gsc-files-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
+@uzay/gsc-mission-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
+@uzay/gsc-mission-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
+@uzay/gsc-mission-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
+@uzay/gsc-mission-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
+@uzay/gsc-mission-extension: npm warn config `--include=optional` to include them.
+@uzay/gsc-mission-extension: npm warn config
+@uzay/gsc-mission-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
+@uzay/gsc-pass-control-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
+@uzay/gsc-pass-control-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
+@uzay/gsc-pass-control-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
+@uzay/gsc-pass-control-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
+@uzay/gsc-pass-control-extension: npm warn config `--include=optional` to include them.
+@uzay/gsc-pass-control-extension: npm warn config
+@uzay/gsc-pass-control-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
+@uzay/gsc-mission-extension: > @uzay/gsc-mission-extension@1.0.0 build
+@uzay/gsc-mission-extension: > tsc && cpx "src/**/*.css" lib/
+@uzay/gsc-files-extension: > @uzay/gsc-files-extension@1.0.0 build
+@uzay/gsc-files-extension: > tsc && cpx "src/**/*.css" lib/
+@uzay/gsc-core-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
+@uzay/gsc-core-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
+@uzay/gsc-core-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
+@uzay/gsc-core-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
+@uzay/gsc-core-extension: npm warn config `--include=optional` to include them.
+@uzay/gsc-core-extension: npm warn config
+@uzay/gsc-core-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
+@uzay/gsc-pass-control-extension: > @uzay/gsc-pass-control-extension@1.0.0 build
+@uzay/gsc-pass-control-extension: > tsc && cpx "src/**/*.css" lib/
+@uzay/gsc-core-extension: > @uzay/gsc-core-extension@1.0.0 build
+@uzay/gsc-core-extension: > tsc
+@uzay/gsc-pass-prediction-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
+@uzay/gsc-pass-prediction-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
+@uzay/gsc-pass-prediction-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
+@uzay/gsc-pass-prediction-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
+@uzay/gsc-pass-prediction-extension: npm warn config `--include=optional` to include them.
+@uzay/gsc-pass-prediction-extension: npm warn config
+@uzay/gsc-pass-prediction-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
+@uzay/gsc-pass-prediction-extension: > @uzay/gsc-pass-prediction-extension@1.0.0 build
+@uzay/gsc-pass-prediction-extension: > tsc && cpx "src/**/*.css" lib/
+@uzay/gsc-settings-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
+@uzay/gsc-settings-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
+@uzay/gsc-settings-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
+@uzay/gsc-settings-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
+@uzay/gsc-settings-extension: npm warn config `--include=optional` to include them.
+@uzay/gsc-settings-extension: npm warn config
+@uzay/gsc-settings-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
+@uzay/gsc-moon-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
+@uzay/gsc-moon-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
+@uzay/gsc-moon-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
+@uzay/gsc-moon-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
+@uzay/gsc-moon-extension: npm warn config `--include=optional` to include them.
+@uzay/gsc-moon-extension: npm warn config
+@uzay/gsc-moon-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
+@uzay/gsc-moon-extension: npm warn config ignoring workspace config at /home/theia/extensions/gsc-moon-extension/.npmrc
+@uzay/gsc-settings-extension: > @uzay/gsc-settings-extension@1.0.0 build
+@uzay/gsc-settings-extension: > tsc && cpx "src/**/*.css" lib/
+@uzay/gsc-moon-extension: > @uzay/gsc-moon-extension@1.0.0 build
+@uzay/gsc-moon-extension: > tsc -p tsconfig.json && cpx "src/**/*.css" lib/
+
+> @uzay/gsc-earth-extension:build
+
+@uzay/gsc-earth-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
+@uzay/gsc-earth-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
+@uzay/gsc-earth-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
+@uzay/gsc-earth-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
+@uzay/gsc-earth-extension: npm warn config `--include=optional` to include them.
+@uzay/gsc-earth-extension: npm warn config
+@uzay/gsc-earth-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
+@uzay/gsc-earth-extension: > @uzay/gsc-earth-extension@1.0.0 build
+@uzay/gsc-earth-extension: > tsc
+
+—————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+ Lerna (powered by Nx)   Successfully ran target build for 9 projects
+
+
+
+> gsc-browser-app@1.0.0 build /home/theia/browser-app
+> npm run -s compile && npm run -s bundle
+
+native node modules are already rebuilt for browser
+Could not resolve optional peer dependency '@theia/electron'. Skipping...
+[webpack-cli] Failed to load '/home/theia/browser-app/webpack.config.js' config
+
+[webpack-cli] Error: Cannot find module 'terser-webpack-plugin'
+Require stack:
+- /home/theia/browser-app/gen-webpack.node.config.js
+- /home/theia/browser-app/webpack.config.js
+- /home/theia/node_modules/webpack-cli/lib/webpack-cli.js
+- /home/theia/node_modules/webpack-cli/lib/bootstrap.js
+- /home/theia/node_modules/webpack-cli/bin/cli.js
+- /home/theia/node_modules/webpack/bin/webpack.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Function._load (node:internal/modules/cjs/loader:1055:27)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+    at Module.require (node:internal/modules/cjs/loader:1311:12)
+    at require (/home/theia/node_modules/v8-compile-cache/v8-compile-cache.js:159:20)
+    at Object.<anonymous> (/home/theia/browser-app/gen-webpack.node.config.js:9:22)
+    at Module._compile (/home/theia/node_modules/v8-compile-cache/v8-compile-cache.js:192:30)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/theia/browser-app/gen-webpack.node.config.js',
+    '/home/theia/browser-app/webpack.config.js',
+    '/home/theia/node_modules/webpack-cli/lib/webpack-cli.js',
+    '/home/theia/node_modules/webpack-cli/lib/bootstrap.js',
+    '/home/theia/node_modules/webpack-cli/bin/cli.js',
+    '/home/theia/node_modules/webpack/bin/webpack.js'
+  ]
+}
+
+Error: webpack exited with an unexpected code: 2.
+    at ChildProcess.<anonymous> (/home/theia/node_modules/@theia/application-manager/lib/application-process.js:86:28)
+    at ChildProcess.emit (node:events:518:28)
+    at maybeClose (node:internal/child_process:1101:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:304:5)
+Uncaught Exception:  Error: webpack exited with an unexpected code: 2.
+Error: webpack exited with an unexpected code: 2.
+    at ChildProcess.<anonymous> (/home/theia/node_modules/@theia/application-manager/lib/application-process.js:86:28)
+    at ChildProcess.emit (node:events:518:28)
+    at maybeClose (node:internal/child_process:1101:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:304:5)
+
+npm ERR! Linux 6.12.69+deb13-amd64
+npm ERR! argv "/usr/local/bin/node" "/home/theia/node_modules/.bin/npm" "run" "build"
+npm ERR! node v22.14.0
+npm ERR! npm  v2.15.12
+npm ERR! code ELIFECYCLE
+npm ERR! gsc-browser-app@1.0.0 build: `npm run -s compile && npm run -s bundle`
+npm ERR! Exit status 1
+npm ERR! 
+npm ERR! Failed at the gsc-browser-app@1.0.0 build script 'npm run -s compile && npm run -s bundle'.
+npm ERR! This is most likely a problem with the gsc-browser-app package,
+npm ERR! not with npm itself.
+npm ERR! Tell the author that this fails on your system:
+npm ERR!     npm run -s compile && npm run -s bundle
+npm ERR! You can get information on how to open an issue for this project with:
+npm ERR!     npm bugs gsc-browser-app
+npm ERR! Or if that isn't available, you can get their info via:
+npm ERR! 
+npm ERR!     npm owner ls gsc-browser-app
+npm ERR! There is likely additional logging output above.
+
+npm ERR! Please include the following file with any support request:
+npm ERR!     /home/theia/browser-app/npm-debug.log
+root@0ca2e90b8761:/home/theia# > postinstall
 > theia check:theia-version
 
 ✅ Found 11 workspaces
