@@ -1,4 +1,54 @@
-root@c604f5f9045f:/home/theia# npm run build:extensions 
+> postinstall
+> theia check:theia-version
+
+✅ Found 11 workspaces
+✅ Found 48 dependencies
+🟠 Found 2 issues
+
+#1  @theia/core in @uzay/gsc-settings-extension [multiple-versions]
+    error Multiple versions of dependency @theia/core found.
+    1.73.0 in extensions/gsc-settings-extension/node_modules/@theia/core/package.json
+    1.72.0 in node_modules/@theia/core/package.json
+    1.73.0 in extensions/gsc-files-extension/node_modules/@theia/core/package.json
+    1.73.0 in extensions/gsc-mission-extension/node_modules/@theia/core/package.json
+    1.73.0 in extensions/gsc-pass-control-extension/node_modules/@theia/core/package.json
+    1.73.0 in extensions/gsc-pass-prediction-extension/node_modules/@theia/core/package.json
+
+#2  @theia/ai-core in gsc.scheduling.theia [theia-version-mix]
+    error Mix of @theia/* versions found.
+    1.72.0 in node_modules/@theia/ai-core/package.json
+    1.73.0 in extensions/gsc-files-extension/node_modules/@theia/core/package.json
+    1.73.0 in extensions/gsc-mission-extension/node_modules/@theia/core/package.json
+    1.73.0 in extensions/gsc-pass-control-extension/node_modules/@theia/core/package.json
+    1.73.0 in extensions/gsc-pass-prediction-extension/node_modules/@theia/core/package.json
+    1.73.0 in extensions/gsc-settings-extension/node_modules/@theia/core/package.json
+
+
+⛔ A mix of Theia versions is very likely leading to a broken application.
+ℹ️  Use npm ls <package-name> to find out why those multiple versions of a package are pulled.
+ℹ️  Try to resolve those issues by finding package versions along the dependency chain that depend on compatible versions.
+ℹ️  Use overrides in your root package.json to force specific versions as a last resort.
+
+npm verbose stack Error: command failed
+npm verbose stack     at promiseSpawn (/usr/local/lib/node_modules/npm/node_modules/@npmcli/promise-spawn/lib/index.js:22:22)
+npm verbose stack     at spawnWithShell (/usr/local/lib/node_modules/npm/node_modules/@npmcli/promise-spawn/lib/index.js:124:10)
+npm verbose stack     at promiseSpawn (/usr/local/lib/node_modules/npm/node_modules/@npmcli/promise-spawn/lib/index.js:12:12)
+npm verbose stack     at runScriptPkg (/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/run-script-pkg.js:77:13)
+npm verbose stack     at runScript (/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/run-script.js:12:10)
+npm verbose stack     at async Install.exec (/usr/local/lib/node_modules/npm/lib/commands/install.js:163:9)
+npm verbose stack     at async Npm.exec (/usr/local/lib/node_modules/npm/lib/npm.js:207:9)
+npm verbose stack     at async module.exports (/usr/local/lib/node_modules/npm/lib/cli/entry.js:74:5)
+npm error code 1
+npm error path /home/theia
+npm error command failed
+npm error command sh -c theia check:theia-version
+npm verbose cwd /home/theia
+npm verbose os Linux 6.12.69+deb13-amd64
+npm verbose node v22.14.0
+npm verbose npm  v10.9.2
+npm verbose exit 1
+npm verbose code 1
+npm error A complete log of this run can be found in: /root/.npm/_logs/2026-07-22T12_42_29_236Z-debug-0.logroot@c604f5f9045f:/home/theia# npm run build:extensions 
 
 > build:extensions
 > lerna run --scope="@uzay/*" build
