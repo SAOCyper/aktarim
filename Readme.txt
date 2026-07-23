@@ -1,3 +1,166 @@
+2026-07-23T06:18:58.853Z root INFO [MoonViewer] Tab hidden. Throttling render loop. bundle.js:81981:16
+2026-07-23T06:18:58.857Z root INFO Changed application state from 'ready' to 'closing_window'. bundle.js:81981:16
+2026-07-23T06:18:58.857Z root INFO >>> Storing the layout... bundle.js:81981:16
+2026-07-23T06:18:58.857Z root INFO <<< The layout has been successfully stored. bundle.js:81981:16
+2026-07-23T06:18:58.857Z root INFO >>> Stopping frontend contributions... bundle.js:81981:16
+2026-07-23T06:18:58.857Z root INFO <<< All frontend contributions have been stopped. bundle.js:81981:16
+Frontend: loading modules... [0.803 s since frontend page start] bundle.js:462657:43
+Frontend: container created [0.818 s since frontend page start] bundle.js:462657:43
+sending initial connect on D1b6gyee7hdRRVseAAAB bundle.js:56369:17
+initial connect received on D1b6gyee7hdRRVseAAAB bundle.js:56364:21
+Frontend: preloaded [0.885 s since frontend page start] bundle.js:462657:43
+Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools bundle.js:449957:17
+Frontend: core modules loaded [1.009 s since frontend page start] bundle.js:462657:43
+[SOC Core] Frontend module loading... extensions_gsc-core-extension_lib_browser_soc-core-frontend-module_js.js:171:13
+[SOC Core] Frontend module bindings completed. extensions_gsc-core-extension_lib_browser_soc-core-frontend-module_js.js:194:13
+[SOC-Earth] Frontend module loading... extensions_gsc-earth-extension_lib_browser_soc-frontend-module_js-data_text_plain_base64_iVBO-cff990.js:1771:13
+>>> [SOC] SOCFrontendModule bindings completed. extensions_gsc-earth-extension_lib_browser_soc-frontend-module_js-data_text_plain_base64_iVBO-cff990.js:1805:13
+>>> [SOC] SOCFrontendModule loading... extensions_gsc-moon-extension_lib_browser_soc-frontend-module_js-data_text_plain_base64_iVBOR-38d532.js:1668:13
+>>> [SOC] SOCFrontendModule bindings completed. extensions_gsc-moon-extension_lib_browser_soc-frontend-module_js-data_text_plain_base64_iVBOR-38d532.js:1680:13
+Frontend: modules loaded [2.094 s since frontend page start] bundle.js:462657:43
+Frontend: resolving application [2.094 s since frontend page start] bundle.js:462657:43
+Frontend: application resolved [2.095 s since frontend page start] bundle.js:462657:43
+Default overrides registered for these keys, but preferences not registered 
+Array [ "toolbar.showToolbar" ]
+bundle.js:88597:21
+2026-07-23T06:19:00.930Z root INFO [SOC Earth] Extension loaded. RPC already initialized by gsc-core-extension bundle.js:81981:16
+2026-07-23T06:19:01.005Z SkillService INFO Watching parent directory '/root/.theia' for skills folder creation bundle.js:81981:16
+2026-07-23T06:19:01.012Z root INFO [SOC Core] Initializing RPC connection to backend... bundle.js:81981:16
+2026-07-23T06:19:01.012Z root INFO [SocDataService] Starting locked refresh flow (force=true)... bundle.js:81981:16
+2026-07-23T06:19:01.012Z root INFO [SOC Core] SocDataService RPC client initialized. bundle.js:81981:16
+2026-07-23T06:19:01.013Z root INFO [SOC] Satellite Ops Center extension loaded. 2 bundle.js:81981:16
+2026-07-23T06:19:01.013Z root INFO [SOC] Files Panel extension loaded. bundle.js:81981:16
+2026-07-23T06:19:01.014Z root INFO [SOC] Settings Panel extension loaded. bundle.js:81981:16
+2026-07-23T06:19:01.014Z root INFO [SOC] Mission Panel extension loaded. bundle.js:81981:16
+2026-07-23T06:19:01.015Z root INFO [SOC] Pass Control Panel extension loaded. bundle.js:81981:16
+2026-07-23T06:19:01.022Z root INFO Start frontend contributions: 167.0 ms [2.262 s since frontend page start] bundle.js:81981:16
+2026-07-23T06:19:01.022Z root INFO Changed application state from 'init' to 'started_contributions'. bundle.js:81981:16
+2026-07-23T06:19:01.023Z root INFO Changed application state from 'started_contributions' to 'attached_shell'. bundle.js:81981:16
+2026-07-23T06:19:01.023Z root INFO >>> Restoring the layout state... bundle.js:81981:16
+2026-07-23T06:19:01.128Z root INFO [SocDataService] Acquire. refCount: 1 bundle.js:81981:16
+Uncaught (in promise) Error: Unable to write to Workspace Settings.
+    set preference-service.ts:458
+    onStart soc-frontend-contribution.ts:74
+    node_modules bundle.js:51501
+    node_modules bundle.js:51529
+    startAsync stopwatch.ts:96
+    measure frontend-application.ts:331
+    measureContribution frontend-application.ts:323
+    startContributions frontend-application.ts:294
+    node_modules bundle.js:51314
+    startAsync stopwatch.ts:96
+    measure frontend-application.ts:331
+    start frontend-application.ts:81
+    start index.js:148
+    exports index.js:135
+    js index.js:150
+    Webpack 3
+bundle.js:89153:15
+2026-07-23T06:19:01.139Z root INFO [3b3417b6-eae3-4306-9a89-adfefc72e71a] Waiting for backend deployment: 129.0 ms [2.387 s since frontend page start] bundle.js:81981:16
+2026-07-23T06:19:01.148Z root INFO [SocDataService] Acquire. refCount: 2 bundle.js:81981:16
+2026-07-23T06:19:01.165Z root INFO [SocDataService] Acquire. refCount: 3 bundle.js:81981:16
+2026-07-23T06:19:01.165Z root INFO [SocDataService] Acquire. refCount: 4 bundle.js:81981:16
+2026-07-23T06:19:01.165Z root INFO [SocDataService] Acquire. refCount: 5 bundle.js:81981:16
+2026-07-23T06:19:01.168Z root INFO [SocDataService] fetchGroundStations success: Received 1 stations. bundle.js:81981:16
+2026-07-23T06:19:01.168Z root INFO [SocDataService] _updateGroundStations: Updating state with 1 sanitized stations. bundle.js:81981:16
+2026-07-23T06:19:01.168Z root INFO [SocDataService] Triggering GLOBAL Pass Sync for initial load... bundle.js:81981:16
+2026-07-23T06:19:01.168Z root INFO [SocDataService] fetchGroundStations finished inFlight for key: groundstations bundle.js:81981:16
+2026-07-23T06:19:01.188Z root INFO [SocDataService] Acquire. refCount: 6 bundle.js:81981:16
+2026-07-23T06:19:01.188Z root INFO [SocDataService] Starting locked refresh flow (force=false)... bundle.js:81981:16
+2026-07-23T06:19:01.356Z root WARN Linked preference "workbench.colorCustomizations" not found. bundle.js:81981:16
+2026-07-23T06:19:01.357Z root WARN Linked preference "editor.experimental.preferTreeSitter" not found. bundle.js:81981:16
+2026-07-23T06:19:01.363Z root INFO [MoonViewer] [soc-cmd] Processing command: "selectSatellite" null bundle.js:81981:16
+2026-07-23T06:19:01.419Z root INFO [3b3417b6-eae3-4306-9a89-adfefc72e71a] Loading plugin contributions bundle.js:81981:16
+2026-07-23T06:19:01.429Z root INFO [MoonViewer] Received MBTiles state sync update: 
+Object { earth: (1) […], moon: (1) […] }
+bundle.js:81981:16
+2026-07-23T06:19:01.430Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:81981:16
+2026-07-23T06:19:01.437Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:81981:16
+2026-07-23T06:19:01.438Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:81981:16
+2026-07-23T06:19:01.439Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:81981:16
+2026-07-23T06:19:01.447Z root INFO <<< The layout has been successfully restored. bundle.js:81981:16
+2026-07-23T06:19:01.448Z root INFO Initialize the workbench layout: 426.0 ms [2.696 s since frontend page start] bundle.js:81981:16
+2026-07-23T06:19:01.448Z root INFO Changed application state from 'attached_shell' to 'initialized_layout'. bundle.js:81981:16
+2026-07-23T06:19:01.452Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:81981:16
+2026-07-23T06:19:01.464Z root INFO [SocDataService] Merged 1 dynamic passes into main state for normalized IDs. bundle.js:81981:16
+2026-07-23T06:19:01.464Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:81981:16
+2026-07-23T06:19:01.464Z root INFO [SocDataService] Merged 1 dynamic passes into main state for normalized IDs. bundle.js:81981:16
+2026-07-23T06:19:01.465Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:81981:16
+2026-07-23T06:19:01.475Z root ERROR Warning: Removing a style property during rerender (background) when a conflicting property is set (backgroundColor) can lead to styling bugs. To avoid this, don't mix shorthand and non-shorthand properties for the same value; instead, replace the shorthand with separate values.
+div
+PassControlWidgetPanel@http://localhost:3300/extensions_gsc-pass-control-extension_lib_browser_soc-pass-control-frontend-module_js.js:168:159
+rt@http://localhost:3300/gsc-common_dist_soc-widgets_es_js.js:1863:12 bundle.js:81981:16
+2026-07-23T06:19:01.485Z root INFO [PassControlPanel] Auto-fetching actual pass trajectory for sat #65148 (Pass ID/Time: 2026-07-23T07:45:06.084160110Z)... bundle.js:81981:16
+XHRGET
+http://localhost:3300/v1/assets/2/endpoint?access_token=
+[HTTP/1.1 404 Not Found 2ms]
+
+2026-07-23T06:19:01.655Z root ERROR [object Object] bundle.js:81981:16
+WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+XHRGET
+http://localhost:3300/dem_tiles/meta.json
+[HTTP/1.1 404 Not Found 1ms]
+
+2026-07-23T06:19:02.323Z root WARN [MoonViewer] Moon DEM terrain failed: updateGlobe@http://localhost:3300/extensions_gsc-moon-extension_lib_browser_soc-frontend-module_js-data_text_plain_base64_iVBOR-38d532.js:908:27
+async*../extensions/gsc-moon-extension/lib/browser/components/MoonViewer.js/MoonViewer/<@http://localhost:3300/extensions_gsc-moon-extension_lib_browser_soc-frontend-module_js-data_text_plain_base64_iVBOR-38d532.js:1068:9
+commitHookEffectListMount@http://localhost:3300/bundle.js:443251:26
+commitPassiveMountOnFiber@http://localhost:3300/bundle.js:445032:36
+commitPassiveMountEffects_complete@http://localhost:3300/bundle.js:444992:34
+commitPassiveMountEffects_begin@http://localhost:3300/bundle.js:444979:41
+commitPassiveMountEffects@http://localhost:3300/bundle.js:444967:34
+flushPassiveEffectsImpl@http://localhost:3300/bundle.js:447140:28
+flushPassiveEffects@http://localhost:3300/bundle.js:447085:14
+performConcurrentWorkOnRoot@http://localhost:3300/bundle.js:445810:32
+workLoop@http://localhost:3300/bundle.js:456707:42
+flushWork@http://localhost:3300/bundle.js:456680:14
+performWorkUntilDeadline@http://localhost:3300/bundle.js:456974:21
+EventHandlerNonNull*../node_modules/scheduler/cjs/scheduler.development.js/<@http://localhost:3300/bundle.js:457012:3
+../node_modules/scheduler/cjs/scheduler.development.js@http://localhost:3300/bundle.js:457074:5
+__webpack_require__@http://localhost:3300/bundle.js:492582:42
+../node_modules/scheduler/index.js@http://localhost:3300/bundle.js:457091:20
+__webpack_require__@http://localhost:3300/bundle.js:492582:42
+../node_modules/react-dom/cjs/react-dom.development.js/<@http://localhost:3300/bundle.js:420093:36
+../node_modules/react-dom/cjs/react-dom.development.js@http://localhost:3300/bundle.js:449984:5
+__webpack_require__@http://localhost:3300/bundle.js:492582:42
+../node_modules/react-dom/index.js@http://localhost:3300/bundle.js:450057:20
+__webpack_require__@http://localhost:3300/bundle.js:492582:42
+../node_modules/react-dom/client.js@http://localhost:3300/bundle.js:449999:28
+__webpack_require__@http://localhost:3300/bundle.js:492582:42
+../node_modules/@theia/core/lib/browser/widgets/react-widget.js@http://localhost:3300/bundle.js:75475:37
+__webpack_require__@http://localhost:3300/bundle.js:492582:42
+../node_modules/@theia/core/lib/browser/status-bar/status-bar.js@http://localhost:3300/bundle.js:67236:43
+__webpack_require__@http://localhost:3300/bundle.js:492582:42
+../node_modules/@theia/core/lib/browser/shell/application-shell.js@http://localhost:3300/bundle.js:60049:41
+__webpack_require__@http://localhost:3300/bundle.js:492582:42
+../node_modules/@theia/core/lib/browser/shell/index.js@http://localhost:3300/bundle.js:62199:22
+__webpack_require__@http://localhost:3300/bundle.js:492582:42
+../node_modules/@theia/core/lib/browser/index.js@http://localhost:3300/bundle.js:52388:22
+__webpack_require__@http://localhost:3300/bundle.js:492582:42
+../node_modules/@theia/monaco/lib/browser/monaco-editor-service.js@http://localhost:3300/bundle.js:368330:38
+__webpack_require__@http://localhost:3300/bundle.js:492582:42
+../node_modules/@theia/monaco/lib/browser/monaco-init.js@http://localhost:3300/bundle.js:370388:52
+__webpack_require__@http://localhost:3300/bundle.js:492582:42
+./src-gen/frontend/index.js/module.exports<@http://localhost:3300/bundle.js:462722:47
+async*./src-gen/frontend/index.js@http://localhost:3300/bundle.js:462804:3
+__webpack_require__@http://localhost:3300/bundle.js:492582:42
+@http://localhost:3300/bundle.js:492899:56
+@http://localhost:3300/bundle.js:492901:12
+bundle.js:81981:16
+2026-07-23T06:19:02.336Z root INFO [PassControlPanel] Received pass_trajectory_update: 
+Object { type: "gsc_pass_trajectory", noradId: "65148", gsName: "REAL", pointCount: 531, points: (531) […], startingTime: "2026-07-23T07:45:06.083999807Z" }
+bundle.js:81981:16
+2026-07-23T06:19:02.360Z root INFO [PassControlPanel] Received pass_trajectory_update: 
+Object { satelliteNo: "65148", timeType: null, points: (531) […], startingTime: "2026-07-23T07:45:06.083999807Z" }
+bundle.js:81981:16
+2026-07-23T06:19:02.374Z root INFO Replace loading indicator with ready workbench UI (animation): 924.0 ms [3.621 s since frontend page start] bundle.js:81981:16
+2026-07-23T06:19:02.375Z root INFO Changed application state from 'initialized_layout' to 'ready'. bundle.js:81981:16
+2026-07-23T06:19:02.375Z root INFO All frontend contributions settled: 1527.0 ms [3.622 s since frontend page start] bundle.js:81981:16
+2026-07-23T06:19:02.387Z root INFO [PassControlPanel] Received pass_trajectory_update: 
+Object { satelliteNo: "65148", timeType: null, points: (531) […], startingTime: "2026-07-23T07:45:06.083999807Z" }
+bundle.js:81981:16
+2026-07-23T06:19:04.686Z root WARN Widget was activated, but did not accept focus after 2000ms: soc:pass-list bundle.js:81981:16
+2026-07-23T06:19:04.687Z root WARN Widget was activated, but did not accept focus after 2000ms: soc:pass-summary bundle.js:81981:16
 root@0ca2e90b8761:/home/theia# npm run build:browser
 
 > build:browser
