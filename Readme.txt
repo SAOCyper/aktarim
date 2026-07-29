@@ -1,911 +1,1340 @@
 import { injectable, postConstruct, inject } from '@theia/core/shared/inversify';
-import { ArtemisService } from './artemis.service';
+import { SatellitePosition, GroundStation } from '@uzay/gsc-common';
 import { SatelliteClientManager } from '../rpc/satellite-client-manager';
-import { SatelliteApplicationService } from './satellite-application.service';
-import { CustomLogger as Cl } from '../logging/custom-logger';
-import { correlationGet } from './gsc-correlation-cache';
-
-// GSC Kuyruk Sabitleri
-const GSC_DB_QUEUE = 'gsc.server.database_request_queue_';
-const GSC_DB_RESPONSE = `${GSC_DB_QUEUE}/response`;
-const GSC_ODSRUNNER_QUEUE = 'gsc.server.odsrunner_request_queue_';
-const GSC_ODSRUNNER_RESPONSE = `${GSC_ODSRUNNER_QUEUE}/response`;
-const GSC_PASSCALC_QUEUE = 'gsc.server.passcalculations_request_queue_';
-const GSC_PASSCALC_RESPONSE = `${GSC_PASSCALC_QUEUE}/response`;
-const GSC_PASSOPERATIONS_QUEUE = 'gsc.server.passoperations_request_queue_';
-const GSC_PASSOPERATIONS_RESPONSE = `${GSC_PASSOPERATIONS_QUEUE}/response`;
-const GSC_ADMIN_QUEUE = 'gsc.server.administration_request_queue_';
-const GSC_ADMIN_RESPONSE = `${GSC_ADMIN_QUEUE}/response`;
-
+import * as fs from 'fs';
+import * as path from 'path';
+import { ArtemisService } from './artemis.service';
+import { CustomLogger } from '../logging/custom-logger';
+import { correlationSet } from './gsc-correlation-cache';
 
 @injectable()
-export class OdsListenerService {
-  private readonly logger = new Cl(OdsListenerService.name);
+export class SatelliteApplicationService {
+    private readonly logger = new CustomLogger(SatelliteApplicationService.name);
 
-  // Expose an internal Map for the cache
-  private cache = new Map<string, { value: any, expires: number }>();
-  private async cacheSet(key: string, value: any, ttlMs: number) {
-      this.cache.set(key, { value, expires: Date.now() + ttlMs });
-  }
-  private async cacheGet<T>(key: string): Promise<T | null> {
-      const item = this.cache.get(key);
-      if (!item) return null;
-      if (Date.now() > item.expires) {
-          this.cache.delete(key);
-          return null;
-      }
-      return item.value as T;
-  }
-  private async cacheDel(key: string) {
-      this.cache.delete(key);
-  }
+    private cache = new Map<string, { value: any, expires: number }>();
+    private async cacheSet(key: string, value: any, ttlMs: number) {
+        this.cache.set(key, { value, expires: Date.now() + ttlMs });
+    }
+    private async cacheGet<T>(key: string): Promise<T | null> {
+        const item = this.cache.get(key);
+        if (!item) return null;
+        if (Date.now() > item.expires) {
+            this.cache.delete(key);
+            return null;
+        }
+        return item.value as T;
+    }
+    private async cacheDel(key: string) {
+        this.cache.delete(key);
+    }
 
-  constructor(
-    @inject(ArtemisService) private readonly artemis: ArtemisService,
-    @inject(SatelliteClientManager) private readonly gateway: SatelliteClientManager,
-    @inject(SatelliteApplicationService) private readonly satelliteAppService: SatelliteApplicationService,
-  ) { }
+    private static isInitialized = false;
+    private lastGlobalRecalcTime = 0;
+    private static lastCurrentPassMap = new Map<string, any>();
+    private static lastApproachingPassMap = new Map<string, any[]>();
+    private static inMemorySatellites = new Map<string, any>();
+    private static inMemoryGroundStations = new Map<string, any>();
+    private static inMemoryPrecalculatedPasses: any[] = [];
+    private static lastUnifiedRefreshTimeMap = new Map<string, number>();
+    private readonly RECALC_COOLDOWN_MS = 15000; // 15 seconds debounce
+    private readonly UNIFIED_REFRESH_COOLDOWN_MS = 5000; // 5 seconds debounce
 
-  /**
-   * Returns cached ODS trajectory points for a satellite ID.
-   * Used by the Theia Express REST route to serve /satellite/trajectory/:id
-   */
-  async getTrajectory(satId: string): Promise<any[]> {
-    return (await this.cacheGet<any[]>(`ODS_TRAJECTORY:${satId}`)) || [];
-  }
+    constructor(
+        @inject(SatelliteClientManager) private readonly gateway: SatelliteClientManager,
+        @inject(ArtemisService) private readonly artemis: ArtemisService,
+    ) { }
 
-  @postConstruct()
-  init() {
-    this.logger.log('Subscribing to GSC response queues...');
+    @postConstruct()
+    init() {
+        if (SatelliteApplicationService.isInitialized) {
+            this.logger.warn('SatelliteApplicationService already initialized by another instance. Skipping repeat init.');
+            return;
+        }
+        SatelliteApplicationService.isInitialized = true;
 
-    // 1. GSC Database Request - Uydu Listesi / İstasyon Listesi cevapları
-    this.artemis.subscribe(GSC_DB_RESPONSE, async (payload: any, headers?: any) => {
-      this.logger.debug(`[GSC-DB-RESPONSE] @class: ${payload?.['@class']} | Keys: ${payload ? Object.keys(payload): null}`);
-      await this.handleDatabaseResponse(payload, headers);
-    });
+        try {
+            this.logger.log('Starting SatelliteApplicationService GLOBAL initialization...');
 
-    // 2. GSC OdsRunner Request - ODS'e uydu ekleme/çıkarma, efemeris, geçiş listesi, TLE cevapları
-    this.artemis.subscribe(GSC_ODSRUNNER_RESPONSE, async (payload: any, headers?: any) => {
-      this.logger.debug(`[GSC-ODSRUNNER-RESPONSE] @class: ${payload['@class']} | Keys: ${Object.keys(payload)}`);
-      await this.handleOdsRunnerResponse(payload, headers);
-    });
+            // Diagnostics
+            const stUser = process.env.SPACETRACK_USERNAME;
+            const useProxy = process.env.USE_PROXY;
+            this.logger.log(`[Config Check] SPACETRACK_USERNAME: ${stUser ? 'FOUND' : 'MISSING'}`);
+            this.logger.log(`[Config Check] USE_PROXY: ${useProxy}`);
 
-    // 3. GSC Pass Calculations Request - Gelecek Zamanlı Geçiş Listesi
-    this.artemis.subscribe(GSC_PASSCALC_RESPONSE, async (payload: any, headers?: any) => {
-      this.logger.debug(`[GSC-PASSCALC-RESPONSE] @class: ${payload['@class']} | Keys: ${Object.keys(payload)}`);
-      await this.handlePassCalcResponse(payload, headers);
-    });
+            this.initializeSatellites();
 
-    // 4. GSC Pass Operations Request - Anlık Geçiş Bilgisi ve Konfigürasyon Değişimleri
-    this.artemis.subscribe(GSC_PASSOPERATIONS_RESPONSE, async (payload: any, headers?: any) => {
-      this.logger.debug(`[GSC-PASSOPERATIONS-RESPONSE] @class: ${payload['@class']} | Keys: ${Object.keys(payload)}`);
-      await this.handlePassOperationsResponse(payload, headers);
-    });
 
-    // 5. GSC Administration Request - Sistem Çalışma Modu / feedback cevapları
-    this.artemis.subscribe(GSC_ADMIN_RESPONSE, async (payload: any, headers?: any) => {
-      this.logger.debug(`[GSC-ADMIN-RESPONSE] @class: ${payload['@class']} | Keys: ${Object.keys(payload)}`);
-      await this.handleAdminResponse(payload, headers);
-    });
 
-    this.logger.log(`Subscribed to:\n  - ${GSC_DB_RESPONSE}\n  - ${GSC_ODSRUNNER_RESPONSE}\n  - ${GSC_PASSCALC_RESPONSE}\n  - ${GSC_PASSOPERATIONS_RESPONSE}\n  - ${GSC_ADMIN_RESPONSE}`);
-  }
+            // 2. Metadata: Satellites & Stations
+            setTimeout(() => this.requestGscSatelliteList().catch(() => { }), 2000);
+            setTimeout(() => this.requestGscStationList().catch(() => { }), 3000);
 
-  // ─────────────────────────────────────────────────────────────────
-  // GSC DATABASE RESPONSE HANDLER
-  // ─────────────────────────────────────────────────────────────────
+            // Periodically refresh GSC DB satellite list every 30 seconds to sync deletions/updates from Eclipse RCP
+            setInterval(() => {
+                this.requestGscSatelliteList().catch(err => {
+                    this.logger.error(`Periodic requestGscSatelliteList failed: ${err.message}`);
+                });
+            }, 30000);
 
-  /**
-   * Gelen GSC veritabanı cevabına göre SatListResponse veya StationListResponse işler.
-   */
-  private async handleDatabaseResponse(payload: any, headers?: any) {
-    try {
-      const javaClass: string = payload['@class'] || '';
-      const headerCorrId = headers?.['correlation-id'] || headers?.['JMSCorrelationID'] || headers?.['correlationId'] || '';
-      const payloadCorrId = payload.correlationId || payload.corrId || '';
-      const corrId = headerCorrId || payloadCorrId;
+            // 3. Ephemeris (Positions)
+            setTimeout(() => this.requestAllSatellitesPositionsFromGsc().catch(() => { }), 22000);
+            setInterval(() => this.requestAllSatellitesPositionsFromGsc().catch(() => { }), 12 * 60 * 60 * 1000);
 
-      this.logger.log(`[GSC-DB-INCOMING] Class: ${javaClass} | CorrId: ${corrId} | Keys: ${Object.keys(payload).join(',')}`);
+            // 4. Pass Lists (Recalculation)
+            setTimeout(() => this.triggerGlobalPassRecalculation(), 25000);
+            setInterval(() => this.triggerGlobalPassRecalculation(), 12 * 60 * 60 * 1000);
 
-      // Uydu Listesi Cevabı (SatListResponse)
-      if (javaClass.includes('SatListResponse') || payload.satelliteList) {
-        const list: any[] = payload.satelliteList || [];
-        this.logger.log(`### GSC SAT LIST RECEIVED (${list.length} ITEMS) ###`);
+            // 5. Dynamic Dashboard Updates
+            setTimeout(() => this.refreshAllPasses().catch(() => { }), 10000);
+            setInterval(() => this.refreshAllPasses().catch(() => { }), 5 * 60 * 1000);
 
-        await this.satelliteAppService.syncSatellites(list);
+            this.logger.log('SatelliteApplicationService initialization completed.');
+        } catch (err: any) {
+            this.logger.error(`SatelliteApplicationService â†’ Global initialization failure: ${err.message}`);
+            this.logger.warn('Application starting in degraded mode. Database may be uninitialized.');
+        }
+    }
+
+    private initializeSatellites(forceReset = false) {
+        try {
+            const existingCount = SatelliteApplicationService.inMemorySatellites.size;
+            if (existingCount === 0 || forceReset) {
+                this.logger.log('initializeSatellites â†’ Constellation is empty.');
+            }
+        } catch (err: any) {
+            this.logger.error(`initializeSatellites â†’ Initialization failed: ${err.message}`);
+            throw err; // Re-throw to be caught by onModuleInit
+        }
+    }
+
+    private inMemorySettings: Record<string, any> = {};
+
+    async getSettings() {
+        return this.inMemorySettings;
+    }
+
+    async updateSettings(data: any) {
+        const { id, createdAt, updatedAt, ...updateData } = data;
+        this.inMemorySettings = { ...this.inMemorySettings, ...updateData };
+        return this.inMemorySettings;
+    }
+
+    async getAllSatellites(): Promise<any[]> {
+        // Sort by priority ASC (Rank 1 is top)
+        return Array.from(SatelliteApplicationService.inMemorySatellites.values())
+            .sort((a, b) => (a.priority || 999) - (b.priority || 999));
+    }
+
+    async syncSatellites(list: any[]) {
+        SatelliteApplicationService.inMemorySatellites.clear();
+        for (const sat of list) {
+            const idStr = sat.satelliteNo?.toString() || sat.satelliteName;
+            if (!idStr) continue;
+            SatelliteApplicationService.inMemorySatellites.set(idStr, {
+                id: idStr,
+                name: sat.satelliteName,
+                noradId: sat.satelliteNo?.toString(),
+                priority: sat.priorityNum || 0,
+                time: new Date().toISOString(),
+                modelPath: 'models/imece-web2.gltf', // Default model
+                modelScale: 1.0,
+                referenceBody: 'earth',
+                tleAutoUpdate: sat.tleAutoUpdate,
+                disabled: !!sat.disabled,
+                isFrozen: !!sat.disabled // Ensure boolean type and UI consistency
+            });
+        }
+    }
+
+    async updateSatelliteTelemetry(id: string, telemetry: Partial<SatellitePosition>): Promise<void> {
+        const sat = SatelliteApplicationService.inMemorySatellites.get(id);
+        if (sat) {
+            SatelliteApplicationService.inMemorySatellites.set(id, { ...sat, ...telemetry });
+            await this.cacheDel('ALL_SATELLITES');
+        }
+    }
+
+    /**
+     * Tek bir uydunun GSC'den gelen zengin verilerini (priority, configs, disabled vb) senkronize eder.
+     */
+    async syncSingleSatellite(payload: any): Promise<void> {
+        if (!payload) return;
+
+        // GSC verisi kök dizinde veya 'satellite' objesi içinde olabilir
+        const sat = payload.satellite || payload;
+        const satNo = sat.satelliteNo !== undefined ? sat.satelliteNo : payload.satelliteNo;
+
+        if (satNo === undefined) {
+            this.logger.warn(`[SYNC] Received SatResponse but no satelliteNo found. Keys: ${Object.keys(payload)}`);
+            return;
+        }
+
+        const id = satNo.toString();
+        const existing = SatelliteApplicationService.inMemorySatellites.get(id);
+
+        this.logger.log(`[SYNC] Processing GSC data for Sat ${id}: priorityNum=${sat.priorityNum}, disabled=${sat.disabled}`);
+
+        const updatedInfo = {
+            id,
+            name: sat.satelliteName || (existing ? existing.name : `SAT-${id}`),
+            noradId: id,
+            priority: sat.priorityNum !== undefined ? Number(sat.priorityNum) : (existing ? existing.priority : 0),
+            defaultPassConfig: sat.defaultPassConfig || null,
+            defaultEndingConfig: sat.defaultEndingConfig || null,
+            tleAutoUpdate: sat.tleAutoUpdate !== undefined ? sat.tleAutoUpdate : (existing ? existing.tleAutoUpdate : false),
+            disabled: sat.disabled !== undefined ? !!sat.disabled : (existing ? !!existing.disabled : false),
+            isFrozen: sat.disabled !== undefined ? !!sat.disabled : (existing ? !!existing.isFrozen : false),
+            time: new Date().toISOString()
+        };
+
+        if (existing) {
+            SatelliteApplicationService.inMemorySatellites.set(id, { ...existing, ...updatedInfo });
+        } else {
+            SatelliteApplicationService.inMemorySatellites.set(id, {
+                ...updatedInfo,
+                modelPath: 'models/imece-web2.gltf',
+                modelScale: 1.0,
+                referenceBody: 'earth'
+            } as any);
+        }
+
         await this.cacheDel('ALL_SATELLITES');
+        this.logger.log(`[SYNC] Satellite ${id} state updated. NEW PRIORITY: ${updatedInfo.priority}`);
+        this.gateway.broadcast('satellite_updated', { type: 'gsc_sat_refresh', id, satellite: updatedInfo });
+    }
 
-        list.forEach(sat => {
-          this.logger.log(
-            `[SAT] No: ${sat.satelliteNo} | Name: ${sat.satelliteName} | Priority: ${sat.priorityNum} | TLE Auto: ${sat.tleAutoUpdate} | Disabled: ${sat.disabled}`
-          );
-        });
-        this.gateway.broadcast('satellite_updated', { count: list.length, type: 'gsc_sat_list' });
-        return;
-      }
+    async getTrajectory(id: string, startTime?: string, durationMinutes?: number): Promise<SatellitePosition[]> {
+        const cacheKey = `ODS_TRAJECTORY:${id}`;
+        const trajectory = await this.cacheGet<SatellitePosition[]>(cacheKey);
 
-      // Tekil Uydu Cevabı (SatResponse)
-      const isSatResponse = javaClass.includes('SatResponse') || 
-                            payload.satellite !== undefined || 
-                            (payload.satelliteNo !== undefined && payload.satelliteName !== undefined);
+        this.logger.debug(`[TRAJECTORY-READ] Key: ${cacheKey} | Result: ${trajectory ? `FOUND (${trajectory.length} pts)` : 'NOT FOUND'}`);
 
-      if (isSatResponse) {
-        const satNo = payload.satellite?.satelliteNo || payload.satelliteNo;
-        this.logger.log(`[GSC-DB] Detected SatResponse for No: ${satNo}. Syncing...`);
-        await this.satelliteAppService.syncSingleSatellite(payload);
-        return;
-      }
+        if (trajectory && trajectory.length > 0) {
+            if (startTime) {
+                const startThreshold = new Date(startTime).getTime();
+                const firstDataTime = new Date(trajectory[0].time).getTime();
 
-      // Yer İstasyonu Listesi Cevabı (StationListResponse)
-      if (javaClass.includes('StationListResponse') || payload.stationList || payload.groundStationList || payload.stationlist) {
-        const list: any[] = payload.stationList || payload.groundStationList || payload.stationlist || [];
-        this.logger.log(`### GSC STATION LIST RECEIVED (${list.length} ITEMS) ###`);
-
-        await this.satelliteAppService.syncGroundStations(list);
-
-        list.forEach(gs => {
-          this.logger.log(
-            `[GS] Name: ${gs.name || gs.stationName} | Lat: ${gs.latitude || gs.lat} | Lon: ${gs.longitude || gs.lon} | Alt: ${gs.altitude || gs.alt} | ElevMask: ${gs.elevMask || gs.minElevation}`
-          );
-        });
-        this.gateway.broadcast('ground_station_updated', { count: list.length, type: 'gsc_station_list' });
-        return;
-      }
-
-      // Aktif İstasyon Cevabı (ActiveStationResponse)
-      if (javaClass.includes('ActiveStationResponse') || payload.activeStationId !== undefined || payload.stationId !== undefined) {
-        const activeId = payload.activeStationId || payload.stationId;
-        if (activeId) {
-            this.logger.log(`[GSC-DB] Received authoritative ActiveStation: ${activeId}`);
-            await this.satelliteAppService.setActiveStation(activeId);
-            // No broadcast here because setActiveStation already broadcasts
-        }
-        return;
-      }
-
-      this.logger.log(`[GSC-DB-DEBUG] javaClass: ${javaClass}, keys: ${Object.keys(payload)}`);
-
-      let detectedSatNo: number | undefined = payload.satelliteNo !== undefined ? Number(payload.satelliteNo) : undefined;
-
-      // Extract satNo from corrId if possible (e.g. "sat-config-names:123:timestamp")
-      if (detectedSatNo === undefined && corrId.startsWith('sat-config-')) {
-        const parts = corrId.split(':');
-        if (parts.length >= 2) {
-          detectedSatNo = Number(parts[1]);
-        }
-      }
-
-      // --- SATELLITE CONFIG HANDLERS (Check these first) ---
-
-      // Sat Config Names Response
-      if (javaClass.includes('SatConfigNamesResponse') || (payload.configNames && detectedSatNo !== undefined) || corrId.startsWith('sat-config-names:')) {
-        this.logger.log(`[GSC-DB] Received Sat Config Names for Sat ${detectedSatNo}: ${payload.configNames?.length || 0} items`);
-        this.gateway.broadcast('sat_config_names', {
-          satelliteNo: detectedSatNo,
-          configNames: payload.configNames || []
-        });
-        return;
-      }
-
-      // Sat Config Response
-      if (javaClass.includes('SatConfigResponse') || payload.satConfiguration || corrId.startsWith('sat-config-details:')) {
-        this.logger.log(`[GSC-DB] Received Sat Config details for Sat ${detectedSatNo}, Config: ${payload.satConfiguration?.configName}`);
-        this.gateway.broadcast('sat_config_details', {
-          satelliteNo: detectedSatNo,
-          satConfiguration: payload.satConfiguration
-        });
-        return;
-      }
-
-      // --- GLOBAL CONFIG HANDLERS ---
-
-      // Global Config Names Response (Strict: must NOT have satelliteNo)
-      if (javaClass.includes('GlobalConfigNamesResponse') || (payload.configNames && payload.satelliteNo === undefined)) {
-        this.logger.log(`[GSC-DB] Received Global Config Names: ${payload.configNames?.length || 0} items`);
-        this.gateway.broadcast('global_config_names', { configNames: payload.configNames || [] });
-        return;
-      }
-
-      // Global Config Response (Strict: must NOT have satelliteNo)
-      if (javaClass.includes('GlobalConfigResponse') || (payload.configuration && payload.satelliteNo === undefined)) {
-        this.logger.log(`[GSC-DB] Received Global Config details for: ${payload.configuration?.configName}`);
-        this.gateway.broadcast('global_config_details', { configuration: payload.configuration });
-        return;
-      }
-
-      const hasPassPrefs = javaClass.includes('PassPreferences') || javaClass.includes('PassSettings') || payload.passPreferences !== undefined || payload.passSettings !== undefined || payload.passPreferencesResponse !== undefined || (payload.passMinusDay !== undefined && payload.passPlusDay !== undefined);
-      if ( hasPassPrefs) {
-        const prefs = payload.passPreferences || payload.passSettings || payload.passPreferencesResponse || payload ;
-        this.logger.log(`[GSC-DB] Received PassPreferences: MinusDay=${prefs.passMinusDay}, PlusDay=${prefs.passPlusDay}, SendMin = ${prefs.configSendMinBeforePass}, Overlap=${prefs.overlapMinDiff}`);
-        this.gateway.broadcast('pass_preferences', prefs);
-        return;
-      }
-      // PassPreferences Response
-      if (javaClass.includes('PassSettingsResponse') || (payload.passMinusDay !== undefined && payload.passPlusDay !== undefined)) {
-        this.logger.log(`[GSC-DB] Received PassSettingsResponse: MinusDay=${payload.passMinusDay}, PlusDay=${payload.passPlusDay}, SendMin=${payload.configSendMinBeforePass}, Overlap=${payload.overlapMinDiff}`);
-        this.gateway.broadcast('pass_preferences', payload);
-        return;
-      }
-
-      // --- Feedback Handling ---
-      // GSC bazen veriyi 'feedback' objesi içinde gönderir
-      const fb = payload.feedback || payload;
-      const isFeedback = javaClass.includes('Feedback') || payload.feedback !== undefined || fb.feedbackContent !== undefined;
-
-      if (isFeedback) {
-        const feedbackSuccessful = fb.successful === true || fb.successful === 'true';
-        const feedbackContent = fb.feedbackContent || '';
-        const feedbackMessage = fb.message || '';
-        const finalCorrId = corrId || fb.correlationId || fb.corrId || '';
-
-        this.logger.log(`[GSC-DB] Received Feedback: ${feedbackSuccessful ? 'SUCCESS' : 'FAIL'} | Content: ${feedbackContent} | Message: ${feedbackMessage} | CorrId: ${finalCorrId}`);
-
-        // --- Handle Pass Settings Feedback ---
-        if (finalCorrId.startsWith('PASS_SETTINGS_')) {
-          this.gateway.broadcast('pass_settings_feedback', {
-            successful: feedbackSuccessful || feedbackContent === 'SUCCESS' || feedbackContent === 'REQUEST_IS_RECEIVED',
-            message: feedbackMessage || feedbackContent
-          });
-        }
-
-        // --- Handle Priority Update Feedback ---
-        if (finalCorrId.startsWith('PRIORITY_UPDATE_')) {
-          const isActuallySuccess = feedbackSuccessful || feedbackContent === 'SUCCESS' || feedbackContent === 'REQUEST_IS_RECEIVED';
-          
-          if (isActuallySuccess) {
-            const parts = finalCorrId.split('_');
-            const satNo = Number(parts[2]);
-            const newPriority = Number(parts[3]);
-            const oldPriority = Number(parts[4]);
-
-            this.logger.log(`[GSC-DB] Priority update success for Sat ${satNo} (moved to ${newPriority}). Checking for displacement...`);
-
-            // Find if another satellite occupies the new priority
-            let displacedSatNo: number | null = null;
-            let morePriorForDisplaced = false;
-
-            if (!isNaN(newPriority) && !isNaN(oldPriority)) {
-                const sats = await this.satelliteAppService.getAllSatellites();
-                for (const otherSat of sats) {
-                    if (otherSat.id !== String(satNo) && otherSat.priority === newPriority) {
-                        displacedSatNo = Number(otherSat.noradId || otherSat.id);
-                        // If target sat went UP (e.g. 2 -> 1, priority number decreased), 
-                        // the displaced sat must go DOWN (1 -> 2, morePrior=false).
-                        // If target sat went DOWN (e.g. 1 -> 2, priority number increased),
-                        // the displaced sat must go UP (2 -> 1, morePrior=true).
-                        morePriorForDisplaced = (oldPriority < newPriority); 
-                        break;
+                if (durationMinutes) {
+                    const endThreshold = startThreshold + (durationMinutes * 60 * 1000);
+                    if (endThreshold < firstDataTime) {
+                        this.logger.warn(`Requested window strictly PAST of trajectory buffer. Returning 0.`);
+                        return [];
                     }
                 }
-            }
 
-            if (displacedSatNo !== null) {
-                this.logger.log(`[GSC-DB] Displacing Sat ${displacedSatNo} to priority ${oldPriority}`);
-                const displacedCorrId = `DISPLACED_PRIORITY_${displacedSatNo}_${Date.now()}`;
-                const payload = {
-                    satelliteNo: displacedSatNo,
-                    morePrior: morePriorForDisplaced,
-                    '@class': 'tr.gov.uzay.gsc.server.database.api.messaging.requests.PriorityUpdateRequest'
-                };
-                this.artemis.publish(GSC_DB_QUEUE, payload['@class'], payload, `${GSC_DB_QUEUE}/response`, displacedCorrId)
-                    .catch(err => this.logger.error(`[GSC-DB] Displaced priority update failed: ${err.message}`));
-            }
+                let filtered = trajectory.filter(p => new Date(p.time).getTime() >= startThreshold);
+                if (filtered.length === 0 && startThreshold < firstDataTime) filtered = trajectory;
 
-            // DB'nin güncellenmesi için kısa bir süre bekle (Race condition önlemi)
-            setTimeout(() => {
-              this.satelliteAppService.requestGscSatellite(satNo).catch(() => { });
-              if (displacedSatNo) {
-                  this.satelliteAppService.requestGscSatellite(displacedSatNo).catch(() => { });
-              }
-            }, 2000);
-          } else {
-            this.logger.error(`[GSC-DB] Priority update FAILED for Sat ${finalCorrId}: ${feedbackMessage} (Content: ${feedbackContent})`);
-          }
+                if (durationMinutes && filtered.length > 0) {
+                    const endThreshold = startThreshold + (durationMinutes * 60 * 1000);
+                    return filtered.filter(p => new Date(p.time).getTime() <= endThreshold);
+                }
+                return filtered;
+            }
+            return trajectory;
         }
 
-        // Broadcast results
-        this.gateway.broadcast('global_config_operation_result', {
-          successful: feedbackSuccessful,
-          message: feedbackMessage,
-          feedbackContent: feedbackContent
+        this.logger.warn(`Trajectory for ${id} not in cache. Triggering a GSC positions request...`);
+
+        const sat = SatelliteApplicationService.inMemorySatellites.get(id);
+        if (sat?.noradId) {
+            this.requestGscSatPositions(sat.noradId).catch(err =>
+                this.logger.error(`Auto-trigger GSC positions failed for ${id}: ${err.message}`)
+            );
+        }
+
+        return [];
+    }
+
+    async uploadTle(id: string | undefined, tleLine1: string, tleLine2: string, newName?: string): Promise<{ id: string }> {
+        if (!tleLine1 || !tleLine2) throw new Error('TLE lines missing');
+
+        let targetId = id;
+
+        // If no ID provided, we are creating a new satellite (e.g. from NORAD fetch)
+        if (!targetId && newName) {
+            targetId = newName;
+            this.logger.log(`uploadTle â†’ Creating new satellite: "${targetId}"`);
+        } else if (!targetId) {
+            throw new Error('Satellite ID or newName required for creation');
+        }
+
+        if (id && newName && newName !== id) {
+            this.logger.log(`uploadTle â†’ Renaming satellite: "${id}" to "${newName}"`);
+            const exists = SatelliteApplicationService.inMemorySatellites.get(id);
+            if (exists) {
+                const { id: oldId, ...cleanData } = exists;
+                SatelliteApplicationService.inMemorySatellites.set(newName, {
+                    ...cleanData,
+                    id: newName,
+                    tleLine1: tleLine1.trim(),
+                    tleLine2: tleLine2.trim(),
+                    time: new Date().toISOString()
+                });
+                SatelliteApplicationService.inMemorySatellites.delete(id);
+                targetId = newName;
+            } else {
+                targetId = newName;
+            }
+        }
+
+        const existingSat = SatelliteApplicationService.inMemorySatellites.get(targetId);
+        SatelliteApplicationService.inMemorySatellites.set(targetId, {
+            id: targetId,
+            ...existingSat,
+            tleLine1: tleLine1.trim(),
+            tleLine2: tleLine2.trim(),
+            time: new Date().toISOString(),
+            ...(existingSat ? {} : {
+                name: targetId,
+                x: 0, y: 0, z: 0, lat: 0, lon: 0, alt: 500,
+                referenceBody: 'earth',
+                priority: 0,
+                modelPath: 'models/imece-web2.gltf',
+                modelScale: 1.0,
+                imagingModes: 'STRIPMAP',
+                maxOffNadir: 35.0,
+                swathWidth: 10.0
+            })
         });
 
-        this.gateway.broadcast('sat_config_operation_result', {
-          successful: feedbackSuccessful,
-          message: feedbackMessage,
-          feedbackContent: feedbackContent
+        await this.cacheDel('ALL_SATELLITES');
+
+        // Broadcast the update
+        this.gateway.broadcast('satellite_updated', { type: 'tle_update', id: targetId, renamed: id !== targetId });
+
+        // Trigger recalculation in background to avoid request timeout
+        this.triggerGlobalPassRecalculation();
+
+        return { id: targetId };
+    }
+
+    // =================================================================
+    // GSC DATABASE REQUESTS
+    // =================================================================
+    private readonly GSC_DB_QUEUE = 'gsc.server.database_request_queue_';
+    private readonly GSC_ODSRUNNER_QUEUE = 'gsc.server.odsrunner_request_queue_';
+
+    /**
+     * GSC veritabanından uydu listesini çeker (SatListRequest)
+     */
+    async requestGscSatelliteList(): Promise<void> {
+        const payload = {
+            requestType: 'SAT_LIST',
+            '@class': 'tr.gov.uzay.gsc.server.database.api.messaging.requests.SatListRequest'
+        };
+        const replyTo = `${this.GSC_DB_QUEUE}/response`;
+        this.logger.log('[GSC-DB] Requesting Satellite List...');
+        await this.artemis.publish(this.GSC_DB_QUEUE, payload['@class'], payload, replyTo);
+    }
+
+    /**
+     * GSC veritabanından yer istasyonu listesini çeker (StationListRequest)
+     */
+    async requestGscStationList(): Promise<void> {
+        const payload = {
+            requestType: 'STATION_LIST',
+            '@class': 'tr.gov.uzay.gsc.server.database.api.messaging.requests.StationListRequest'
+        };
+        const replyTo = `${this.GSC_DB_QUEUE}/response`;
+        this.logger.log('[GSC-DB] Requesting Station List...');
+        await this.artemis.publish(this.GSC_DB_QUEUE, payload['@class'], payload, replyTo);
+    }
+
+    /**
+     * GSC veritabanından tek bir uydunun detaylarını çeker (SatelliteRequest)
+     */
+    async requestGscSatellite(satelliteNo: number): Promise<void> {
+        const payload = {
+            satelliteNo,
+            '@class': 'tr.gov.uzay.gsc.server.database.api.messaging.requests.SatelliteRequest'
+        };
+        const replyTo = `${this.GSC_DB_QUEUE}/response`;
+        const corrId = `REFRESH_SAT_${satelliteNo}_${Date.now()}`;
+        this.logger.log(`[GSC-DB] Requesting specific Satellite details for No: ${satelliteNo}`);
+        await this.artemis.publish(this.GSC_DB_QUEUE, payload['@class'], payload, replyTo, corrId);
+    }
+
+    /**
+     * Listedeki TÜM uydular için SatelliteRequest atarak toplu güncelleme başlatır.
+     */
+    async refreshAllSatellites(): Promise<void> {
+        this.logger.log('[SYNC] Triggering bulk SatelliteRequest for all satellites...');
+        const satellites = Array.from(SatelliteApplicationService.inMemorySatellites.values());
+        for (const sat of satellites) {
+            const satNo = Number(sat.noradId || sat.id);
+            if (!isNaN(satNo)) {
+                await this.requestGscSatellite(satNo).catch(e =>
+                    this.logger.error(`Failed to request refresh for sat ${satNo}: ${e.message}`)
+                );
+            }
+        }
+    }
+
+    async setSystemMode(systemMode: 'AUTOMATIC' | 'MANUAL'): Promise<string> {
+        this.logger.log(`[SYSTEM-MODE] Sending SystemModeSettingRequest for: ${systemMode}`);
+        return this.artemis.sendSystemModeSettingRequest(systemMode);
+    }
+
+    async getSystemMode(): Promise<string> {
+        this.logger.log(`[SYSTEM-MODE] Sending SystemModeRequest`);
+        return this.artemis.sendSystemModeRequest();
+    }
+
+    async startPass(satelliteNo?: number): Promise<string> {
+        this.logger.log(`[PASS-CONTROL] Sending PassStartingRequest`);
+        return this.artemis.sendPassStartingRequest(satelliteNo);
+    }
+
+    async stopPass(satelliteNo?: number): Promise<string> {
+        this.logger.log(`[PASS-CONTROL] Sending PassStoppingRequest`);
+        return this.artemis.sendPassStoppingRequest(satelliteNo);
+    }
+
+    async getPassTrajectory(satelliteNo: number, startTime: string, endTime: string, timeType: 'REAL' | 'DELTA'): Promise<string> {
+        this.logger.log(`[PASS-CONTROL] Sending PassTrajectoryRequest for Sat: ${satelliteNo} (Type: ${timeType})`);
+        return this.artemis.sendPassTrajectoryRequest(satelliteNo, startTime, endTime, timeType);
+    }
+
+
+    // =================================================================
+    // GSC ODSRUNNER REQUESTS
+    // =================================================================
+
+    /**
+     * GSC üzerinden ODS'e Catalog No (NORAD ID) ile uydu ekler
+     * Java: OdsSatAdditionWithCatalogNoRequest
+     */
+    async requestGscAddSatelliteByCatalogNo(satelliteNo: number, satelliteName: string): Promise<void> {
+        const payload = {
+            satelliteNo,
+            satelliteName,
+            '@class': 'tr.gov.uzay.gsc.server.odsrunner.api.messaging.requests.OdsSatAdditionWithCatalogNoRequest'
+        };
+        const replyTo = `${this.GSC_ODSRUNNER_QUEUE}/response`;
+        this.logger.log(`[GSC-ODSRUNNER] Adding satellite by Catalog No: ${satelliteNo} (${satelliteName})`);
+        const corrId = await this.artemis.publish(this.GSC_ODSRUNNER_QUEUE, payload['@class'], payload, replyTo);
+        correlationSet(corrId, `ADDITION:${satelliteNo}:${satelliteName}`, 300000);
+    }
+
+    /**
+     * GSC üzerinden ODS'e TLE ile uydu ekler
+     * Java: OdsSatAdditionWithTleRequest
+     */
+    async requestGscAddSatelliteByTle(satelliteName: string, tleFirstLine: string, tleSecondLine: string): Promise<void> {
+        const payload = {
+            satelliteName,
+            tleFirstLine,
+            tleSecondLine,
+            '@class': 'tr.gov.uzay.gsc.server.odsrunner.api.messaging.requests.OdsSatAdditionWithTleRequest'
+        };
+        const replyTo = `${this.GSC_ODSRUNNER_QUEUE}/response`;
+        this.logger.log(`[GSC-ODSRUNNER] Adding satellite by TLE: ${satelliteName}`);
+        const corrId = await this.artemis.publish(this.GSC_ODSRUNNER_QUEUE, payload['@class'], payload, replyTo);
+        correlationSet(corrId, `ADDITION_TLE:${satelliteName}`, 300000);
+    }
+
+    /**
+     * GSC üzerinden ODS'ten uydu siler
+     * Java: OdsSatelliteRemovalRequest
+     */
+    async requestGscRemoveSatellite(satelliteNo: number): Promise<void> {
+        const payload = {
+            satelliteNo,
+            '@class': 'tr.gov.uzay.gsc.server.odsrunner.api.messaging.requests.OdsSatelliteRemovalRequest'
+        };
+        const replyTo = `${this.GSC_ODSRUNNER_QUEUE}/response`;
+        this.logger.log(`[GSC-ODSRUNNER] Removing satellite Catalog No: ${satelliteNo}`);
+        const corrId = await this.artemis.publish(this.GSC_ODSRUNNER_QUEUE, payload['@class'], payload, replyTo);
+        correlationSet(corrId, `REMOVAL:${satelliteNo}`, 300000);
+    }
+
+    /**
+     * GSC üzerinden uydu konum haritası ister (SatPositionsMapRequest)
+     * Java: SatPositionsMapRequest
+     */
+    async requestGscSatPositions(noradId: string, startTime?: string, endTime?: string): Promise<void> {
+        const start = startTime || new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+        const end = endTime || new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
+
+        const payload = {
+            satelliteNo: parseInt(noradId, 10),
+            startTime: this.artemis.normalizeTimestampForRequest(start),
+            endTime: this.artemis.normalizeTimestampForRequest(end),
+            '@class': 'tr.gov.uzay.gsc.server.odsrunner.api.messaging.requests.SatPositionsMapRequest'
+        };
+        const replyTo = `${this.GSC_ODSRUNNER_QUEUE}/response`;
+        this.logger.log(`[GSC-ODSRUNNER] Requesting positions for NORAD ${noradId} from ${start} to ${end}`);
+        const corrId = await this.artemis.publish(this.GSC_ODSRUNNER_QUEUE, payload['@class'], payload, replyTo);
+        correlationSet(corrId, `POSITIONS:${noradId}`, 300000);
+    }
+
+    /**
+     * GSC üzerinden geçiş yörüngesi ister (PassTrajectoryRequest)
+     * Java: PassTrajectoryRequest
+     */
+    async requestGscPassTrajectory(
+        noradId: string,
+        gsName: string,
+        startTime?: string,
+        endTime?: string,
+        timeType: 'UTC' | 'LOCAL' = 'UTC'
+    ): Promise<void> {
+        const start = startTime || new Date().toISOString();
+        const end = endTime || new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
+
+        const payload = {
+            satelliteNo: parseInt(noradId, 10),
+            startTime: this.artemis.normalizeTimestampForRequest(start),
+            endTime: this.artemis.normalizeTimestampForRequest(end),
+            timeType,
+            '@class': 'tr.gov.uzay.gsc.server.odsrunner.api.messaging.requests.PassTrajectoryRequest'
+        };
+        const replyTo = `${this.GSC_ODSRUNNER_QUEUE}/response`;
+        this.logger.log(`[GSC-ODSRUNNER] Requesting pass trajectory for NORAD ${noradId} at GS ${gsName} from ${start} to ${end}`);
+        const corrId = await this.artemis.publish(this.GSC_ODSRUNNER_QUEUE, payload['@class'], payload, replyTo);
+        correlationSet(corrId, `PASSTRAJECTORY:${noradId}:${gsName}`, 300000);
+    }
+
+    async requestAllSatellitesPositionsFromGsc(): Promise<void> {
+        this.logger.log('[GSC] Triggering batch positions request for all satellites...');
+        const satellites = Array.from(SatelliteApplicationService.inMemorySatellites.values()).filter(s => s.noradId);
+
+        for (const sat of satellites) {
+            if (sat.noradId) {
+                try {
+                    await this.requestGscSatPositions(sat.noradId);
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                } catch (error: any) {
+                    this.logger.error(`[GSC] Failed positions request for ${sat.id}: ${error.message}`);
+                }
+            }
+        }
+    }
+
+    async deleteSatellite(id: string): Promise<void> {
+        this.logger.log(`deleteSatellite → Initiating for identifier: "${id}"`);
+
+        // Search by ID or NoradID (since frontend might send CATNR)
+        let satellite = SatelliteApplicationService.inMemorySatellites.get(id);
+        if (!satellite) {
+            satellite = Array.from(SatelliteApplicationService.inMemorySatellites.values()).find(s => s.noradId === id);
+        }
+
+        if (!satellite) {
+            this.logger.warn(`deleteSatellite → Satellite "${id}" not found in memory. Skipping deletion.`);
+            return;
+        }
+
+        const actualId = satellite.id;
+        this.logger.log(`deleteSatellite → Resolved to ID: "${actualId}". Starting purge.`);
+
+        if (satellite.noradId) {
+            try {
+                this.logger.log(`deleteSatellite → Dispatching GSC Sat Removal for NORAD: ${satellite.noradId}`);
+                await this.requestGscRemoveSatellite(parseInt(satellite.noradId, 10));
+            } catch (err: any) {
+                this.logger.warn(`deleteSatellite → Failed to dispatch GSC Removal Request: ${err.message}`);
+            }
+        }
+
+        try {
+            SatelliteApplicationService.inMemorySatellites.delete(actualId);
+
+            // Clean up in-memory passes for this satellite
+            SatelliteApplicationService.inMemoryPrecalculatedPasses =
+                SatelliteApplicationService.inMemoryPrecalculatedPasses.filter(p => p.satId !== actualId && p.satelliteNo !== actualId);
+
+            this.logger.log(`deleteSatellite → Successfully purged "${actualId}" and all associated data.`);
+
+            // Clear caches
+            await this.cacheDel('ALL_SATELLITES');
+            await this.cacheDel('all_passes');
+            await this.cacheDel(`passes_${actualId}`);
+
+            // Broadcast the deletion with both identifiers to be safe
+            this.gateway.broadcast('satellite_updated', { id: actualId, originalId: id });
+        } catch (err: any) {
+            this.logger.error(`deleteSatellite → Error purging "${actualId}": ${err.message}`);
+            throw err;
+        }
+    }
+
+    async updateSatelliteConfig(id: string, config: {
+        name?: string;
+        noradId?: string;
+        modelPath?: string;
+        modelScale?: number;
+        imagingModes?: string;
+        maxOffNadir?: number;
+        swathWidth?: number;
+        timeBiasSeconds?: number;
+        availableConfigs?: string;
+        availableEndingConfigs?: string;
+    }): Promise<void> {
+        const sat = SatelliteApplicationService.inMemorySatellites.get(id);
+        if (sat) {
+            SatelliteApplicationService.inMemorySatellites.set(id, { ...sat, ...config });
+            await this.cacheDel('ALL_SATELLITES');
+        }
+        this.logger.log(`updateSatelliteConfig: updated config for satellite "${id}" (name=${config.name ?? '(unchanged)'})`);
+    }
+
+    async uploadBulkTle(tleData: string): Promise<{ count: number, satellites: string[] }> {
+        const lines = tleData.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+        let currentName = '', currentLine1 = '', currentLine2 = '';
+        let count = 0;
+        const processedSatellites: string[] = [];
+
+        this.logger.log(`Parsing bulk TLE data. Found ${lines.length} non-empty lines.`);
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+
+            // TLE line 1 starts with '1 ' followed by 5 digits and then other characters (length is usually ~69)
+            if (/^1 \d{5}/.test(line)) {
+                currentLine1 = line;
+            }
+            // TLE line 2 starts with '2 ' followed by 5 digits
+            else if (/^2 \d{5}/.test(line)) {
+                currentLine2 = line;
+
+                if (currentLine1 && currentLine2) {
+                    // If the line BEFORE line 1 was likely a name (didn't look like a TLE line)
+                    if (i >= 2 && !/^1 \d{5}/.test(lines[i - 2]) && !/^2 \d{5}/.test(lines[i - 2])) {
+                        currentName = lines[i - 2];
+                    } else if (i >= 1 && !/^1 \d{5}/.test(lines[i - 1]) && !/^2 \d{5}/.test(lines[i - 1])) {
+                        // This case is unlikely if currentLine1 is lines[i-1]
+                        currentName = lines[i - 1];
+                    }
+
+                    let targetId = currentName || `SAT-${currentLine1.substring(2, 7).trim()}`;
+                    const displayName = currentName || targetId;
+                    this.logger.log(`  -> Processing satellite: "${targetId}"`);
+                    try {
+                        const existingSat = SatelliteApplicationService.inMemorySatellites.get(targetId);
+                        SatelliteApplicationService.inMemorySatellites.set(targetId, {
+                            id: targetId,
+                            name: displayName,
+                            ...existingSat,
+                            tleLine1: currentLine1,
+                            tleLine2: currentLine2,
+                            time: new Date().toISOString(),
+                            ...(existingSat ? {} : { x: 0, y: 0, z: 0, lat: 0, lon: 0, alt: 500 })
+                        });
+                        count++;
+                        processedSatellites.push(targetId);
+                    } catch (err: any) { this.logger.error(`Failed to save ${targetId}: ${err.message}`); }
+                    currentName = ''; currentLine1 = ''; currentLine2 = '';
+                }
+            } else {
+                // Potential name line
+                currentName = line;
+            }
+        }
+
+        await this.cacheDel('ALL_SATELLITES');
+
+        // Trigger global recalculation in the background to avoid frontend timeouts
+        this.triggerGlobalPassRecalculation();
+
+        return { count, satellites: processedSatellites };
+    }
+
+    async getAllGroundStations(): Promise<GroundStation[]> {
+        return Array.from(SatelliteApplicationService.inMemoryGroundStations.values());
+    }
+
+    async syncGroundStations(list: any[]) {
+        this.logger.log(`[GSC-SYNC] Synchronizing ${list.length} ground stations...`);
+        SatelliteApplicationService.inMemoryGroundStations.clear();
+        for (const gs of list) {
+            // Robustly find the name/id
+            const name = gs.name || gs.stationName || gs.station_name || "Unknown GS";
+            const idStr = gs.id || gs.name || gs.stationName || name;
+
+            if (!idStr) {
+                this.logger.warn(`[GSC-SYNC] Skipping station with no identifier: ${JSON.stringify(gs)}`);
+                continue;
+            }
+
+            SatelliteApplicationService.inMemoryGroundStations.set(idStr, {
+                id: idStr,
+                name: name,
+                lat: this.cleanDouble(gs.latitude || gs.lat || 0),
+                lon: this.cleanDouble(gs.longitude || gs.lon || 0),
+                alt: this.cleanDouble(gs.altitude || gs.alt || 0),
+                minElevation: this.cleanDouble(gs.elevMask || gs.minElevation || 5.0)
+            });
+        }
+        this.logger.log(`[GSC-SYNC] Sync complete. Memory now contains ${SatelliteApplicationService.inMemoryGroundStations.size} stations.`);
+    }
+
+    async addGroundStation(station: GroundStation & { minElevation?: number }): Promise<GroundStation> {
+        this.logger.log(`addGroundStation → Upserting station: "${station.name}"`);
+
+        const id = station.id || `GS-${Date.now()}`;
+
+        const finalGs = {
+            id,
+            name: station.name,
+            lat: station.lat,
+            lon: station.lon,
+            alt: station.alt ?? 0,
+            minElevation: station.minElevation ?? 5.0
+        };
+
+        SatelliteApplicationService.inMemoryGroundStations.set(id, finalGs);
+
+        // --- GSC-DB REQUEST ---
+        const replyTo = `${this.GSC_DB_QUEUE}/response`;
+        const payload = {
+            station: {
+                id: id,
+                stationId: id,
+                name: station.name,
+                stationName: station.name,
+                latitude: Number(station.lat),
+                longitude: Number(station.lon),
+                altitude: Number(station.alt),
+                elevMask: Number(station.minElevation ?? 5.0)
+            },
+            '@class': 'tr.gov.uzay.gsc.server.database.api.messaging.requests.StationAdditionRequest'
+        };
+        await this.artemis.publish(this.GSC_DB_QUEUE, payload['@class'], payload, replyTo);
+
+        this.gateway.broadcast('ground_station_updated', { type: 'create_or_update', station: finalGs });
+
+        // Auto-refresh authoritative state from GSC
+        setTimeout(() => this.requestGscStationList().catch(() => { }), 1000);
+
+        // Trigger pass recalculation for all satellites in background
+        this.triggerGlobalPassRecalculation();
+
+        return finalGs;
+    }
+
+    async deleteGroundStation(id: string): Promise<void> {
+        this.logger.log(`deleteGroundStation → Deleting GS: ${id} and cleaning up associated passes`);
+
+        SatelliteApplicationService.inMemoryGroundStations.delete(id);
+
+        // Clean up in-memory passes for this ground station
+        SatelliteApplicationService.inMemoryPrecalculatedPasses =
+            SatelliteApplicationService.inMemoryPrecalculatedPasses.filter(p => p.gsId !== id && p.groundStationId !== id);
+
+        // --- GSC-DB REQUEST ---
+        const replyTo = `${this.GSC_DB_QUEUE}/response`;
+        const payload = {
+            stationId: id,
+            '@class': 'tr.gov.uzay.gsc.server.database.api.messaging.requests.StationRemovalRequest'
+        };
+        await this.artemis.publish(this.GSC_DB_QUEUE, payload['@class'], payload, replyTo);
+
+        // Clear caches
+        await this.cacheDel('all_passes');
+        await this.cacheDel(`passes_${id}`);
+
+        // Broadcast update
+        this.gateway.broadcast('ground_station_updated', { type: 'delete', id });
+
+        // Auto-refresh authoritative state from GSC
+        setTimeout(() => this.requestGscStationList().catch(() => { }), 1000);
+
+        // Trigger pass recalculation for all satellites in background
+        this.triggerGlobalPassRecalculation();
+    }
+
+    private async triggerGlobalPassRecalculation(gsId?: string) {
+        const now = Date.now();
+        if (now - this.lastGlobalRecalcTime < this.RECALC_COOLDOWN_MS) {
+            this.logger.debug(`triggerGlobalPassRecalculation → Cooldown active (${Math.round((this.RECALC_COOLDOWN_MS - (now - this.lastGlobalRecalcTime)) / 1000)}s). Ignoring request.`);
+            return;
+        }
+
+        this.lastGlobalRecalcTime = now;
+
+        try {
+            SatelliteApplicationService.inMemoryPrecalculatedPasses = [];
+            await this.cacheDel('all_passes');
+
+            const stations = Array.from(SatelliteApplicationService.inMemoryGroundStations.values());
+            this.logger.log(`triggerGlobalPassRecalculation → Firing GSC Pass calculation for all ${stations.length} stations in memory`);
+            for (const gs of stations){
+                if(gs && gs.id){
+                    this.logger.log(`[GSC-PASS-CALC] Dispatching requestFilteredPasses for GS: ${gs.id}`);
+                    await this.requestFilteredPasses(gs.id);
+                }
+            }
+            await this.requestAllSatellitesPassListsFromOds(gsId);
+        } catch (err: any) {
+            this.logger.error(`triggerGlobalPassRecalculation → Error: ${err.message}`);
+        }
+    }
+
+    private activeStationId: string | null = null;
+
+    async getActiveStation() {
+        return { stationId: this.activeStationId || (Array.from(SatelliteApplicationService.inMemoryGroundStations.keys())[0]) };
+    }
+
+    async setActiveStation(stationName: string) {
+        this.activeStationId = stationName;
+        this.logger.log(`Setting active station as ${stationName}`);
+        const replyTo = `${this.GSC_DB_QUEUE}/response`;
+        // --- GSC-DB REQUEST ---
+        const payload = {
+            stationName,
+            '@class': 'tr.gov.uzay.gsc.server.database.api.messaging.requests.ActiveStationSettingRequest'
+        };
+        const corrId = await this.artemis.publish(this.GSC_DB_QUEUE, payload['@class'], payload, replyTo);
+
+        this.gateway.broadcast('ground_station_updated', { type: 'active_station_changed', stationName });
+        await this.cacheSet(`ACTIVESTATION:${corrId}`, `ACTIVESTATION:${corrId}:${stationName}`, 300000);
+        // Trigger authoritative refresh to sync state across all subscribers
+        setTimeout(() => {
+            this.requestGscStationList().catch(() => { });
+            this.artemis.sendActiveStationRequest().catch(() => { });
+        }, 1000);
+
+        return { success: true, stationName };
+    }
+
+    async editGroundStation(station: any) {
+        this.logger.log(`[GS-EDIT] Editing GS: ${station.id || 'NO-ID'} (Name: ${station.name})`);
+        const existing = SatelliteApplicationService.inMemoryGroundStations.get(station.id);
+        const replyTo = `${this.GSC_DB_QUEUE}/response`;
+        if (existing) {
+            const updated = { ...existing, ...station };
+            SatelliteApplicationService.inMemoryGroundStations.set(station.id, updated);
+
+            // --- GSC-DB REQUEST ---
+            const payload = {
+                stationName: station.name,
+                station: {
+                    name: station.name,
+                    latitude: Number(station.lat),
+                    longitude: Number(station.lon),
+                    altitude: Number(station.alt),
+                    elevMask: Number(station.minElevation)
+                },
+                '@class': 'tr.gov.uzay.gsc.server.database.api.messaging.requests.StationEditingRequest'
+            };
+            await this.artemis.publish(this.GSC_DB_QUEUE, payload['@class'], payload, replyTo);
+
+            this.gateway.broadcast('ground_station_updated', { type: 'update', station: updated });
+
+            // Auto-refresh authoritative state from GSC
+            setTimeout(() => this.requestGscStationList().catch(() => { }), 1000);
+
+            return updated;
+        }
+        return null;
+    }
+
+    async toggleGroundStationEnable(stationId: string, enabled: boolean) {
+        const gs = SatelliteApplicationService.inMemoryGroundStations.get(stationId);
+        if (gs) {
+            const updated = { ...gs, enabled };
+            SatelliteApplicationService.inMemoryGroundStations.set(stationId, updated);
+            this.gateway.broadcast('ground_station_updated', { type: 'status_update', stationId, enabled });
+            return { success: true };
+        }
+        return { success: false };
+    }
+
+
+    async setReferenceBody(id: string, referenceBody: 'earth' | 'moon'): Promise<void> {
+        const sat = SatelliteApplicationService.inMemorySatellites.get(id);
+        if (sat) {
+            SatelliteApplicationService.inMemorySatellites.set(id, { ...sat, referenceBody });
+            await this.cacheDel('ALL_SATELLITES');
+        }
+    }
+
+    async resetSimulation() {
+        SatelliteApplicationService.inMemorySatellites.clear();
+        await this.cacheDel('ALL_SATELLITES');
+    }
+
+    async updateSatellitePriority(satelliteNo: number, morePrior: boolean) {
+        const id = satelliteNo.toString();
+        const sat = SatelliteApplicationService.inMemorySatellites.get(id);
+        if (sat) {
+            // Inverse logic: More prior = Lower number (Ranking)
+            const currentPriority = sat.priority || 0;
+            const newPriority = morePrior ? Math.max(1, currentPriority - 1) : currentPriority + 1;
+
+            if (newPriority === currentPriority) {
+                // Already at boundary (e.g. already priority 1 and trying to go higher)
+                return sat;
+            }
+
+            // We do NOT displace optimistically here.
+            // Displacement will be handled automatically by ods-listener upon successful feedback.
+            
+            // --- GSC-DB REQUEST for target satellite ---
+            const payload = {
+                satelliteNo,
+                morePrior,
+                '@class': 'tr.gov.uzay.gsc.server.database.api.messaging.requests.PriorityUpdateRequest'
+            };
+            
+            // Encode new and current priority in the correlation ID so feedback listener can process displacement
+            const corrId = `PRIORITY_UPDATE_${satelliteNo}_${newPriority}_${currentPriority}_${Date.now()}`;
+
+            this.logger.log(`[GSC-DB] Sending PriorityUpdateRequest to ${this.GSC_DB_QUEUE} for Sat: ${satelliteNo}, morePrior: ${morePrior}, corrId: ${corrId}`);
+
+            await this.artemis.publish(this.GSC_DB_QUEUE, payload['@class'], payload, `${this.GSC_DB_QUEUE}/response`, corrId);
+
+            // Note: Authorized number will come back via SatelliteRequest triggered by Feedback listener
+            return sat;
+        }
+        return null;
+    }
+
+    async toggleSatelliteEnable(satelliteNo: number, enabled: boolean) {
+        const id = satelliteNo.toString();
+        const sat = SatelliteApplicationService.inMemorySatellites.get(id);
+        if (sat) {
+            const updatedStatus = { ...sat, isFrozen: !enabled, disabled: !enabled };
+            SatelliteApplicationService.inMemorySatellites.set(id, updatedStatus);
+            await this.cacheDel('ALL_SATELLITES');
+
+            // --- GSC-DB REQUEST ---
+            const payload = {
+                satelliteNo,
+                enabled,
+                '@class': 'tr.gov.uzay.gsc.server.database.api.messaging.requests.SatEnablingRequest'
+            };
+            await this.artemis.publish(this.GSC_DB_QUEUE, payload['@class'], payload, `${this.GSC_DB_QUEUE}/response`);
+
+            this.gateway.broadcast('satellite_updated', { type: 'status_update', id, enabled });
+
+            // Auto-refresh from GSC to get authoritative state
+            setTimeout(() => this.requestGscSatellite(satelliteNo).catch(() => { }), 1000);
+
+            return { success: true };
+        }
+        return { success: false, message: 'Satellite not found' };
+    }
+
+    async editSatellite(satelliteNo: number, name: string, catalogNo: number) {
+        const id = satelliteNo.toString();
+        const sat = SatelliteApplicationService.inMemorySatellites.get(id);
+        if (sat) {
+            const updated = { ...sat, name, noradId: catalogNo.toString() };
+            SatelliteApplicationService.inMemorySatellites.set(id, updated);
+            await this.cacheDel('ALL_SATELLITES');
+
+            // --- GSC-DB REQUEST ---
+            // Tüm alanları gönderiyoruz ki GSC tarafında eksik veri kalmasın
+            const payload = {
+                satellite: {
+                    satelliteNo,
+                    satelliteName: name,
+                    priorityNum: sat.priority || 0,
+                    defaultPassConfig: sat.defaultPassConfig || null,
+                    defaultEndingConfig: sat.defaultEndingConfig || null,
+                    tleAutoUpdate: sat.tleAutoUpdate || false,
+                    disabled: sat.disabled || false
+                },
+                '@class': 'tr.gov.uzay.gsc.server.database.api.messaging.requests.SatelliteEditingRequest'
+            };
+
+            this.logger.log(`[GSC-DB] Sending SatelliteEditingRequest for Sat ${satelliteNo} with full metadata`);
+            await this.artemis.publish(this.GSC_DB_QUEUE, payload['@class'], payload, `${this.GSC_DB_QUEUE}/response`);
+
+            this.gateway.broadcast('satellite_updated', { type: 'metadata_update', id, name, catalogNo });
+
+            // Auto-refresh from GSC to get authoritative state
+            setTimeout(() => this.requestGscSatellite(satelliteNo).catch(() => { }), 1000);
+
+            return updated;
+        }
+        return null;
+    }
+
+    // == Precalculated Pass Management ==
+    async getPrecalculatedPasses(satId?: string): Promise<any[]> {
+        const cacheKey = satId ? `passes_${satId}` : 'all_passes';
+        const cached = await this.cacheGet<any[]>(cacheKey);
+        if (cached) return cached;
+
+        let passes = SatelliteApplicationService.inMemoryPrecalculatedPasses;
+        if (satId) {
+            passes = passes.filter(p => p.satId === satId || p.satelliteNo === satId);
+        }
+
+        // Sort by AOS ascending
+        const sortedPasses = [...passes].sort((a, b) => new Date(a.aos).getTime() - new Date(b.aos).getTime());
+
+        await this.cacheSet(cacheKey, sortedPasses, 2000); // 2 seconds flash cache
+        return sortedPasses;
+    }
+
+    async saveInMemoryPrecalculatedPasses(passes: any[]): Promise<void> {
+        this.logger.log(`[InMemory-Passes] Updating ${passes.length} precalculated passes in memory...`);
+        const currentPasses = SatelliteApplicationService.inMemoryPrecalculatedPasses;
+        const passMap = new Map<string, any>();
+
+        // Populate with existing passes
+        currentPasses.forEach(p => {
+            const satIdStr = String(p.satId || p.satelliteNo);
+            const gsIdStr = String(p.gsId || p.groundStationId);
+            const key = `${satIdStr}_${gsIdStr}_${new Date(p.aos).getTime()}`;
+            passMap.set(key, p);
         });
 
-        if (feedbackSuccessful) {
-          this.artemis.sendGlobalConfigNamesRequest();
-        }
-        return;
-      }
+        // Merge/upsert incoming passes
+        passes.forEach(p => {
+            const satIdStr = String(p.satId || p.satelliteNo);
+            const gsIdStr = String(p.gsId || p.groundStationId);
+            const key = `${satIdStr}_${gsIdStr}_${new Date(p.aos).getTime()}`;
 
-      this.logger.warn(`[GSC-DB-RESPONSE] Unknown: ${javaClass}. Keys: ${Object.keys(payload)}`);
-    } catch (error: any) {
-      this.logger.error(`[GSC-DB-RESPONSE] Processing error: ${error.message}`);
+            passMap.set(key, {
+                ...passMap.get(key),
+                ...p,
+                satId: satIdStr,
+                gsId: gsIdStr,
+                satelliteNo: satIdStr,
+                groundStationId: gsIdStr
+            });
+        });
+
+        SatelliteApplicationService.inMemoryPrecalculatedPasses = Array.from(passMap.values());
+        this.logger.log(`[InMemory-Passes] Total precalculated passes in memory cache: ${SatelliteApplicationService.inMemoryPrecalculatedPasses.length}`);
+
+        // Invalidate the cache
+        await this.cacheDel('all_passes');
     }
-  }
 
-  // ─────────────────────────────────────────────────────────────────
-  // GSC ODSRUNNER RESPONSE HANDLER
-  // ─────────────────────────────────────────────────────────────────
-
-  /**
-   * GSC OdsRunner cevabını türüne göre yönlendirir.
-   */
-  private async handleOdsRunnerResponse(payload: any, headers?: any) {
-    try {
-      const javaClass: string = payload['@class'] || '';
-
-      // Korelasyon ID'den gönderen satellite ID'yi çöz
-      let correlationMeta: string | null = null;
-      if (headers) {
-        const corrId = headers['correlation-id'] || headers['JMSCorrelationID'];
-        if (corrId) {
-          correlationMeta = correlationGet(corrId) ?? null;
-          if (correlationMeta) {
-            this.logger.log(`[GSC-CORR] Resolved meta "${correlationMeta}" from correlation ${corrId}`);
-          }
+    /**
+     * GSC'den tüm (veya belirli bir) istasyonlar için filtrelenmiş geçişleri (Pass List) ister
+     */
+    /**
+     * GSC'den tüm istasyonlar için hem geçmiş hem de gelecek geçiş listelerini ister
+     */
+    async requestAllSatellitesPassListsFromOds(targetGsId?: string): Promise<void> {
+        this.logger.log(`[GSC-PASS-PREDICTION] Requesting GLOBAL pass lists from GSC (Past + Future)...`);
+        const destination = 'gsc.server.passcalculations_request_queue_';
+        const replyTo = `${destination}/response`;
+        const gsIdObj = await this.getActiveStation();
+        let gsId = 'ALL';
+        if (targetGsId && targetGsId !== 'undefined' && targetGsId !== 'null'){
+            gsId = targetGsId;
         }
-      }
-
-      // ODS'e uydu ekleme cevabı (Catalog No veya TLE ile)
-      if (javaClass.includes('OdsSatAdditionWithCatalogNoResponse') || javaClass.includes('OdsSatAdditionWithTleResponse')) {
-        await this.handleSatAdditionResponse(payload, correlationMeta);
-        return;
-      }
-
-      // ODS'ten uydu çıkarma cevabı
-      if (javaClass.includes('OdsSatelliteRemovalResponse')) {
-        await this.handleSatRemovalResponse(payload, correlationMeta);
-        return;
-      }
-
-      // Efemeris / Konum Haritası cevabı (SatPositionsMapResponse)
-      if (javaClass.includes('SatPositionsMapResponse') || payload.positionsMap) {
-        await this.handlePositionsMapResponse(payload, correlationMeta);
-        return;
-      }
-
-      // Geçiş Yörüngesi cevabı (PassTrajectoryResponse)
-      if (javaClass.includes('PassTrajectoryResponse') || payload.trajectoryPointList || payload.trajectory) {
-        await this.handlePassTrajectoryResponse(payload, correlationMeta);
-        return;
-      }
-
-
-      // TLE cevabı (LatestTleResponse)
-      if (javaClass.includes('LatestTleResponse') || payload.tleLine1 || payload.tleLine2 || payload.tle) {
-        await this.handleLatestTleResponse(payload, correlationMeta);
-        return;
-      }
-
-      this.logger.warn(`[GSC-ODSRUNNER-RESPONSE] Unknown response @class: "${javaClass}". Keys: ${Object.keys(payload)}`);
-    } catch (error: any) {
-      this.logger.error(`[GSC-ODSRUNNER-RESPONSE] Processing error: ${error.message}`);
-    }
-  }
-
-  // ─────────────────────────────────────────────────────────────────
-  // GSC PASSCALC RESPONSE HANDLER
-  // ─────────────────────────────────────────────────────────────────
-
-  private async handlePassCalcResponse(payload: any, headers?: any) {
-    try {
-      // BÜTÜN IDENTIFIER'LARI DENE (GSC bazen farklı header isimleri kullanabiliyor)
-      const rawCorrId: string = headers?.['correlation-id'] || headers?.['JMSCorrelationID'] || headers?.['correlationId'] || headers?.['id'] || '';
-      const correlationMeta = rawCorrId ? (correlationGet(rawCorrId) ?? null): null;
-      // Check if it is a Feedback response
-      const javaClass: string = payload['@class'] || '';
-      const fb = payload.feedback || payload;
-      const isFeedback = javaClass.includes('Feedback') || payload.feedback !== undefined || fb.feedbackContent !== undefined;
-
-      if (isFeedback) {
-        const feedbackSuccessful = fb.successful === true || fb.successful === 'true';
-        const feedbackContent = fb.feedbackContent || '';
-        const feedbackMessage = fb.message || '';
-
-        this.logger.log(`[GSC-PASSCALC-FEEDBACK] Received Feedback: ${feedbackSuccessful ? 'SUCCESS' : 'FAIL'} | Content: ${feedbackContent} | Message: ${feedbackMessage} | CorrId: ${rawCorrId}`);
-
-        if (rawCorrId.startsWith('TLE_RENEWAL:') || javaClass.includes('TleRenewal')) {
-        // Broadcast to socket clients
-          this.gateway.broadcast('tle_renewal_result', {
-            successful: feedbackSuccessful,
-            message: feedbackMessage,
-            feedbackContent: feedbackContent,
-            correlationId: rawCorrId
-          });
-
-          const parts = rawCorrId.split(':');
-          if (parts.length >= 2) {
-            const satelliteNo = Number(parts[1]);
-            this.logger.log(`[TLE-RENEWAL] TLE renewal successful for Sat ${satelliteNo}. Triggering automatic requestLatestTle...`);
-            await this.satelliteAppService.requestLatestTle(satelliteNo);
-          }
-        }
-        else if(rawCorrId.startsWith('PASS_SCHED_SETTING_:')){
-          this.logger.log(`[PASS_SCHED_SETTING_] Broadcast result for CorrId: ${rawCorrId}, Success: ${feedbackSuccessful}`);
-          this.gateway.broadcast('pass_schedule_setting_result', { successful: feedbackSuccessful, message: feedbackMessage || feedbackContent, correlationId: rawCorrId});
-        }
-        else {
-          this.gateway.broadcast('pass_calc_feedback', {successful: feedbackSuccessful, message: feedbackContent || feedbackMessage, correlationId: rawCorrId});
-        }
-        return;
-      }
-
-      // Case-insensitive pass list extraction
-      const passList: any[] = payload.passList || payload.passlist || payload.futurePassList || payload.passageList || payload.satellitePassList || [];
-
-      this.logger.log(`[GSC-PASSCALC] Received Message | ID: ${rawCorrId} | Items: ${passList.length} | Keys: ${Object.keys(payload)}`);
-
-      // 1. GLOBAL REFRESH (PAST/FUTURE/GLOBAL)
-      const isGlobal = rawCorrId.includes('GLOBAL') || rawCorrId.includes('FUTURE') || rawCorrId.includes('PAST');
-      let gsIdFromCorr = 'ALL';
-      if (isGlobal) {
-        if (passList.length === 0) {
-          this.logger.warn(`[GSC-PASSCALC] Received GLOBAL message but passList is EMPTY. ID: ${rawCorrId}`);
+        else if(gsIdObj && gsIdObj.stationId !== 'undefined' && gsIdObj.stationId !== 'null'){
+            gsId = gsIdObj.stationId;
         } else {
-          
-          this.logger.log(`[GSC-PASSCALC] Raw Correlation ID:${rawCorrId}`);
-          if(rawCorrId.startsWith('FILTEREDPASS:')) {
-            const parts = rawCorrId.substring('FILTEREDPASS:'.length).split('_');
-            if(parts.length > 0 && parts[0]){
-              gsIdFromCorr = parts[0];
-              this.logger.log(`[GSC-PASSCALC] GSID Correlation ID:${gsIdFromCorr}`);
+            const keys = Array.from(SatelliteApplicationService.inMemoryGroundStations.keys());
+            if(keys.length > 0 && keys[0] && keys[0] !== 'undefined' && keys[0] !== 'null'){
+                gsId = keys[0]
             }
-          }
-          this.logger.log(`[GSC-PASSCALC] ${rawCorrId} ID'li tüm geçişleri yakala. Yer İstasyonu ID: ${gsIdFromCorr} Items: ${passList.length}`);
-          
-          if(rawCorrId.includes('PAST_REFRESH_') || rawCorrId.includes('FUTURE_REFRESH_')){
-            const parts = rawCorrId.split('_');
-            if (parts.length >=3){
-              gsIdFromCorr = parts[2];
-            }
-          }
-          if(gsIdFromCorr === 'ALL' && correlationMeta && correlationMeta.startsWith('GLOBAL_REFRESH|')){
-            gsIdFromCorr = correlationMeta.substring('GLOBAL_REFRESH|'.length);
-          }
-
-          const normalizedPasses = passList.map(p => this.normalizePass(p, gsIdFromCorr));
-          // Save in backend memory
-          await this.satelliteAppService.saveInMemoryPrecalculatedPasses(normalizedPasses);
-
-          this.gateway.broadcast('pass_prediction', { count: normalizedPasses.length, gsId: 'ALL', passes: normalizedPasses });
         }
-        return;
-      }
+        // 1. PAST REQUEST (Geçmiş veriler)
+        const pastCorrId = `PAST_REFRESH_${targetGsId}_${Date.now()}`;
+        const pastPayload = { '@class': 'tr.gov.uzay.gsc.server.passcalculations.api.messaging.requests.PastPassListRequest' };
+        correlationSet(pastCorrId, `GLOBAL_REFRESH|${targetGsId}`, 300000);
+        await this.artemis.publish(destination, pastPayload['@class'], pastPayload, replyTo, pastCorrId);
 
-      // 2. DASHBOARD NEXT: Eğer ID kartlara aitse
-      if (rawCorrId.includes('DASHBOARD_NEXT')) {
-        const gsId = rawCorrId.split('_')[2] || 'ALL';
-        const normalizedPasses = passList.map(p => this.normalizePass(p, gsId));
-        this.logger.log(`[GSC-PASSCALC] Received Dashboard Approaching (GS: ${gsId}) | Items: ${passList.length}`);
-        this.satelliteAppService.setApproachingPasses(normalizedPasses, gsId);
-        this.gateway.broadcast('approaching_passes', { passes: normalizedPasses, gsId });
-        return;
-      }
+        // 2. FUTURE REQUEST (Gelecek veriler)
+        const futureCorrId = `FUTURE_REFRESH_${targetGsId}_${Date.now()}`;
+        const futurePayload = { '@class': 'tr.gov.uzay.gsc.server.passcalculations.api.messaging.requests.FuturePassListRequest' };
+        correlationSet(futureCorrId, `GLOBAL_REFRESH|${targetGsId}`, 300000);
+        await this.artemis.publish(destination, futurePayload['@class'], futurePayload, replyTo, futureCorrId);
 
-      // 3. FALLBACK: Liste varsa tabloya
-      if (passList.length > 0) {
-        this.logger.log(`[GSC-PASSCALC] Catch-all routing for ID: ${rawCorrId} | Items: ${passList.length}`);
-        const normalizedPasses = passList.map(p => this.normalizePass(p, gsIdFromCorr));
-        
-        // Save in backend memory
-        await this.satelliteAppService.saveInMemoryPrecalculatedPasses(normalizedPasses);
-
-        this.gateway.broadcast('pass_prediction', { count: normalizedPasses.length, gsId: gsIdFromCorr, passes: normalizedPasses });
-      } else {
-        this.logger.debug(`[GSC-PASSCALC] Discarded message (Empty or Non-relevant) | ID: ${rawCorrId}`);
-      }
-    } catch (error: any) {
-      this.logger.error(`[GSC-PASSCALC-RESPONSE] Error: ${error.message}`);
+        this.logger.log(`[GSC-REFRESH] Dispatched both Past and Future requests. IDs: ${pastCorrId}, ${futureCorrId}`);
     }
-  }
 
-  // ─────────────────────────────────────────────────────────────────
-  // GSC PASS OPERATIONS RESPONSE HANDLER
-  // ─────────────────────────────────────────────────────────────────
 
-  private async handlePassOperationsResponse(payload: any, headers?: any) {
-    try {
-      const javaClass: string = payload['@class'] || '';
 
-      let correlationMeta: string | null = null;
-      let rawCorrId = '';
-      if (headers) {
-        rawCorrId = headers['correlation-id'] || headers['JMSCorrelationID'] || '';
-        if (rawCorrId) {
-          correlationMeta = correlationGet(rawCorrId) ?? null;
+
+    /**
+     * GSC'den anlık (mevcut/planlanan) geçiş bilgisini ister. (CurrentSatellitePassRequest)
+     */
+    async requestCurrentPassFromOds() {
+        this.logger.log('[GSC-OPERATIONS] Requesting Current Satellite Pass from GSC...');
+        return this.artemis.sendCurrentSatellitePassRequest();
+    }
+
+    /**
+     * GSC'den yaklaşan geçişler listesini (Dashboard için) ister. (NextSchedPassRequest)
+     */
+    async requestNextSchedPassesFromOds() {
+        this.logger.log('[GSC-PASSCALC] Requesting Next Scheduled Passes from GSC...');
+        return this.artemis.sendNextSchedPassRequest();
+    }
+
+    async requestLatestTle(satelliteNo: number) {
+        return this.artemis.sendLatestTleRequest(satelliteNo);
+    }
+
+    async requestTleRenewal(satelliteNo: number) {
+        return this.artemis.sendTleRenewalRequest(satelliteNo);
+    }
+
+    async updateTleMode(satelliteNo: number, isTleAutoUpdate: boolean) {
+        return this.artemis.sendTleUpdateModeRequest(satelliteNo, isTleAutoUpdate);
+    }
+
+    async manualTleUpdate(satelliteNo: number, tleFirstLine: string, tleSecondLine: string) {
+        return this.artemis.sendManualTleUpdateRequest(satelliteNo, tleFirstLine, tleSecondLine);
+    }
+
+    /**
+     * Belirli bir yer istasyonu için filtrelenmiş geçiş listesi oluşturma isteği gönderir.
+     */
+    async requestFilteredPasses(gsId: string) {
+        this.logger.log(`[GSC-PASSCALC] Requesting filtered pass list for ground station: ${gsId}`);
+        const gs = SatelliteApplicationService.inMemoryGroundStations.get(gsId);
+        if(!gs){
+            this.logger.warn(`requestFilteredPasses -> Ground Station ${gsId} not found in memory`);
+            return;
         }
-      }
-
-      // Check for PassStarting / PassStopping feedback
-      const fb = payload.feedback || payload;
-      const isFeedback = javaClass.includes('Feedback') || payload.feedback !== undefined || fb.feedbackContent !== undefined;
-
-      if (isFeedback && (rawCorrId.startsWith('PASS_START_') || rawCorrId.startsWith('PASS_STOP_') || javaClass.includes('PassStartingResponse') || javaClass.includes('PassStoppingResponse'))) {
-        const successful = fb.successful === true || fb.successful === 'true';
-        const message = fb.message || '';
-        const feedbackContent = fb.feedbackContent || '';
-        this.logger.log(`[GSC-OPERATIONS] Pass operation feedback received. CorrId: ${rawCorrId}, Success: ${successful}, Message: ${message}`);
-        this.gateway.broadcast('pass_operation_result', {
-          successful,
-          message,
-          feedbackContent,
-          operation: (rawCorrId.startsWith('PASS_START_') || javaClass.includes('PassStarting')) ? 'START' : 'STOP'
+        const satList = Array.from(SatelliteApplicationService.inMemorySatellites.values()).map(s => {
+            const satNo = s.noradId ? parseInt(s.noradId, 10): parseInt(s.id, 10);
+            return {
+                satelliteNo: satNo,
+                satelliteName: s.name,
+                priorityNum: s.priority || 0,    
+                defaultPassConfig: s.defaultPassConfig,
+                defaultEndingConfig: s.defaultEndingConfig || null,
+                tleAutoUpdate: s.tleAutoUpdate || false,
+                disabled: s.disabled || false,
+                '@class': 'tr.gov.uzay.gsc.server.database.api.model.Satellite'
+            };
         });
-        return;
-      }
-
-      // Current Satellite Pass Response handler
-      const isDashboardCurrent = correlationMeta?.startsWith('DASHBOARD_CURRENT|');
-      if (javaClass.includes('CurrentSatellitePassResponse') || payload.satellitePass || isDashboardCurrent) {
-        const rawPass = payload.satellitePass || payload;
-
-        let gsId = 'DEFAULT';
-        // If we have gsId in metadata, use it
-        if (isDashboardCurrent && correlationMeta) gsId = correlationMeta.split('|')[1];
-        else if (correlationMeta?.startsWith('FILTEREDPASS|')) gsId = correlationMeta.split('|')[1];
-
-        const pass = this.normalizePass(rawPass, gsId);
-
-        let shouldClear = false;
-        if (pass && pass.los) {
-          const los = new Date(pass.los);
-          // If the pass ended more than 1 minute ago, it's definitely stale for the "current" slot.
-          if (Date.now() - los.getTime() > 60000) {
-            this.logger.warn(`[GSC-FILTER] Ignoring stale current pass for ${pass.satelliteNo} (LOS was at ${los.toISOString()})`);
-            shouldClear = true;
-          }
-        } else if (!pass || Object.keys(pass).length === 0) {
-          shouldClear = true;
-        }
-
-        const passToSet = shouldClear ? null : pass;
-        this.satelliteAppService.setCurrentPass(passToSet, gsId);
-        this.gateway.broadcast('current_pass', { pass: passToSet, gsId });
-        return;
-      }
-
-      // PassConfigsChangeResponse - Konfigürasyon Değişikliği Onayı
-      if (javaClass.includes('PassConfigsChangeResponse') || javaClass.includes('Feedback')) {
-        this.logger.log(`[GSC-OPERATIONS] Received Config Change Feedback: ${JSON.stringify(payload.feedback || payload)}`);
-        this.gateway.broadcast('config_change_result', { success: true, payload });
-        return;
-      }
-
-      this.logger.warn(`[GSC-PASSOPERATIONS-RESPONSE] Unknown: ${javaClass}. Keys: ${Object.keys(payload)}`);
-    } catch (error: any) {
-      this.logger.error(`[GSC-PASSOPERATIONS-RESPONSE] Processing error: ${error.message}`);
+        const station = {
+            id: gs.id,
+            stationId: gs.id,
+            name:gs.name,
+            stationName: gs.name,
+            latitude: Number(gs.lat),
+            longitude: Number(gs.lon),
+            altitude: Number(gs.alt),    
+            elevMask: Number(gs.minElevation ?? 5.0),
+            '@class': 'tr.gov.uzay.gsc.server.database.api.model.Station'
+        };
+        const dayAmount = 7;
+        const onlyScheduled = false;
+        return this.artemis.sendFilteredPassListGenerationRequest(satList,station,dayAmount,onlyScheduled);
     }
-  }
 
-  // ─────────────────────────────────────────────────────────────────
-  // GSC ADMINISTRATION RESPONSE HANDLER
-  // ─────────────────────────────────────────────────────────────────
+    /**
+     * Belirli bir geçişin konfigürasyonlarını GSC üzerinde değiştirir. (PassConfigsChangeRequest)
+     */
+    async changePassConfigs(passId: string, passConfig: string, endingConfig: string) {
+        this.logger.log(`[GSC-OPERATIONS] Changing configs for PassID: ${passId} -> ${passConfig} / ${endingConfig}`);
+        return this.artemis.sendPassConfigsChangeRequest(passId, passConfig, endingConfig);
+    }
 
-  private async handleAdminResponse(payload: any, headers?: any) {
-    try {
-      const javaClass: string = payload['@class'] || '';
-      const corrId = headers?.['correlation-id'] || headers?.['JMSCorrelationID'] || headers?.['correlationId'] || '';
-      this.logger.log(`[GSC-ADMIN-INCOMING] Class: ${javaClass} | CorrId: ${corrId} | Keys: ${Object.keys(payload).join(',')}`);
 
-      // Check SystemModeResponse
-      if (javaClass.includes('SystemModeResponse') || payload.systemMode !== undefined || payload.mode !== undefined) {
-        let systemMode = payload.systemMode || payload.mode;
-        this.logger.log(`[GSC-ADMIN] Received System Mode response: ${systemMode}`);
+    /**
+     * Yerel veritabanında uydunun seçilebilir konfigürasyon listesini günceller.
+     */
+    async updateSatelliteConfigs(id: string, availableConfigs: string, availableEndingConfigs: string) {
+        this.logger.log(`[Satellite-Config] Updating available configs for: ${id}`);
+        const sat = SatelliteApplicationService.inMemorySatellites.get(id);
+        if (sat) {
+            SatelliteApplicationService.inMemorySatellites.set(id, { ...sat, availableConfigs, availableEndingConfigs });
+        }
+        return { id, availableConfigs, availableEndingConfigs };
+    }
+
+    // == Global Configuration Management ==
+    async getGlobalConfigNames(): Promise<string> {
+        this.logger.log('[Satellite-Config] Requesting Global Config Names list');
+        return this.artemis.sendGlobalConfigNamesRequest();
+    }
+
+    async getGlobalConfig(configName: string): Promise<string> {
+        this.logger.log(`[Satellite-Config] Requesting details for config: ${configName}`);
+        return this.artemis.sendGlobalConfigRequest(configName);
+    }
+
+    async addGlobalConfig(configuration: any): Promise<string> {
+        this.logger.log(`[Satellite-Config] Adding new global config: ${configuration.configName}`);
+        return this.artemis.sendGlobalConfigAdditionRequest(configuration);
+    }
+
+    async editGlobalConfig(configName: string, configuration: any): Promise<string> {
+        this.logger.log(`[Satellite-Config] Editing global config: ${configName}`);
+        return this.artemis.sendGlobalConfigEditingRequest(configName, configuration);
+    }
+
+    async removeGlobalConfig(configName: string): Promise<string> {
+        this.logger.log(`[Satellite-Config] Removing global config: ${configName}`);
+        return this.artemis.sendGlobalConfigRemovalRequest(configName);
+    }
+
+    // == Satellite Specific Configuration Management ==
+    async getSatConfigNames(satelliteNo: number): Promise<string> {
+        this.logger.log(`[Satellite-Config] Requesting Sat Config Names for Sat ${satelliteNo}`);
+        return this.artemis.sendSatConfigNamesRequest(satelliteNo);
+    }
+
+    async getSatConfig(satelliteNo: number, configName: string): Promise<string> {
+        this.logger.log(`[Satellite-Config] Requesting details for Sat ${satelliteNo}, config: ${configName}`);
+        return this.artemis.sendSatConfigRequest(satelliteNo, configName);
+    }
+
+    async addSatConfig(satConfiguration: any): Promise<string> {
+        this.logger.log(`[Satellite-Config] Adding new sat config for Sat ${satConfiguration.satelliteNo}: ${satConfiguration.configName}`);
+        return this.artemis.sendSatConfigAdditionRequest(satConfiguration);
+    }
+
+    async editSatConfig(configName: string, satConfiguration: any): Promise<string> {
+        this.logger.log(`[Satellite-Config] Editing sat config for Sat ${satConfiguration.satelliteNo}: ${configName}`);
+        return this.artemis.sendSatConfigEditingRequest(configName, satConfiguration);
+    }
+
+    async removeSatConfig(satelliteNo: number, configName: string): Promise<string> {
+        this.logger.log(`[Satellite-Config] Removing sat config for Sat ${satelliteNo}: ${configName}`);
+        return this.artemis.sendSatConfigRemovalRequest(satelliteNo, configName);
+    }
+
+    async setSatDefaultConfig(satelliteNo: number, configName: string): Promise<string> {
+        this.logger.log(`[Satellite-Config] Setting default config for Sat ${satelliteNo}: ${configName}`);
+        return this.artemis.sendSatDefaultConfigSettingRequest(satelliteNo, configName);
+    }
+
+    async removeSatDefaultConfig(satelliteNo: number, configName: string): Promise<string> {
+        this.logger.log(`[Satellite-Config] Removing default config for Sat ${satelliteNo}: ${configName} by setting it to null`);
+        return this.artemis.sendSatDefaultConfigSettingRequest(satelliteNo, "");
+    }
+
+    async setGlobalDefaultEndingConfig(configName: string): Promise<string> {
+        this.logger.log(`[Global-Config] Setting global default ending config: ${configName}`);
+        return this.artemis.sendSatDefaultEndingConfigSettingRequest(0, configName);
+    }
+
+    async setSatDefaultEndingConfig(satelliteNo: number, configName: string): Promise<string> {
+        this.logger.log(`[Satellite-Config] Setting default ending config for Sat ${satelliteNo}: ${configName}`);
+        return this.artemis.sendSatDefaultEndingConfigSettingRequest(satelliteNo, configName);
+    }
+
+    async removeGlobalDefaultEndingConfig(configName: string): Promise<string> {
+        this.logger.log(`[Global-Config] Removing global default ending config: ${configName}`);
+        return this.artemis.sendSatDefaultEndingConfigSettingRequest(0, "");
+    }
+
+    /**
+     * Güncel, yaklaşan ve tüm geçiş listesi verilerini GSC'den manuel tetikler (Total Refresh).
+     */
+    async refreshAllPasses(): Promise<void> {
+        return this.unifiedRefresh();
+    }
+
+    /**
+     * Unified logic for total dashboard refresh.
+     * Combines current pass, approaching passes, and global station pass prediction.
+     * @param gsId Optional ground station filter ID
+     */
+    async unifiedRefresh(gsId?: string): Promise<void> {
+        const key = gsId || 'ALL';
+        const now = Date.now();
+        const lastRefresh = SatelliteApplicationService.lastUnifiedRefreshTimeMap.get(key) || 0;
+        if (now - lastRefresh < this.UNIFIED_REFRESH_COOLDOWN_MS) {
+            this.logger.log(`[GSC-REFRESH] Debouncing redundant request. Unified Refresh for "${key}" is ignored (cooldown: ${Math.round((this.UNIFIED_REFRESH_COOLDOWN_MS - (now - lastRefresh)) / 1000)}s).`);
+            return;
+        }
+        SatelliteApplicationService.lastUnifiedRefreshTimeMap.set(key, now);
+
+        this.logger.log(`[GSC-REFRESH] Executing Unified Dashboard Refresh (GS: ${key})...`);
+
+        try {
+            // 1. Fire Current Pass & Next Sched (Quick Artemis calls)
+            // We use Promise.all to fire them in parallel but don't strictly wait for response 
+            // since OdsListener will handle the push updates.
+            await Promise.all([
+                this.artemis.sendCurrentSatellitePassRequest(gsId).catch(e => this.logger.error(`[GSC-REFRESH] Current pass refresh failed: ${e.message}`)),
+                this.artemis.sendNextSchedPassRequest(gsId).catch(e => this.logger.error(`[GSC-REFRESH] Next sched pass refresh failed: ${e.message}`))
+            ]);
+
+            // 2. Full Station Pass Lists (Heavy background recalculation)
+            // This is debounced internally within triggerGlobalPassRecalculation
+            // If specific gsId is provided, we prioritize its calculation
+            await this.triggerGlobalPassRecalculation(gsId);
+
+            this.logger.log(`[GSC-REFRESH] Unified Refresh commands dispatched successfully for GS: "${key}".`);
+        } catch (error: any) {
+            this.logger.error(`[GSC-REFRESH] Unified refresh failed for GS "${key}": ${error.message}`);
+        }
+    }
+
+    // Dynamic Pass Accessors
+    setCurrentPass(pass: any | null, gsId?: string) {
+        const id = gsId || pass?.groundStationId || 'DEFAULT';
+        if (pass) SatelliteApplicationService.lastCurrentPassMap.set(id, pass);
+        else SatelliteApplicationService.lastCurrentPassMap.delete(id);
+    }
+    getCurrentPass(gsId?: string) {
+        return SatelliteApplicationService.lastCurrentPassMap.get(gsId || 'DEFAULT') || Array.from(SatelliteApplicationService.lastCurrentPassMap.values())[0] || null;
+    }
+
+    setApproachingPasses(passes: any[], gsId?: string) {
+        const id = gsId || passes[0]?.groundStationId || 'DEFAULT';
+        if (passes && passes.length > 0) SatelliteApplicationService.lastApproachingPassMap.set(id, passes);
+        else SatelliteApplicationService.lastApproachingPassMap.delete(id);
+    }
+    getApproachingPasses(gsId?: string) {
+        return SatelliteApplicationService.lastApproachingPassMap.get(gsId || 'DEFAULT') || Array.from(SatelliteApplicationService.lastApproachingPassMap.values())[0] || [];
+    }
+
+    /**
+     * Helper to clean NaN/Invalid double values for GSC
+     */
+    private cleanDouble(val: any): number {
+        if (val === null || val === undefined || Number.isNaN(val) || !Number.isFinite(val)) {
+            return 0.0;
+        }
+        return Number(val);
+    }
+
+    async fetchPassPreferences(): Promise<string> {
+        const payload = {
+            '@class': 'tr.gov.uzay.gsc.server.database.api.messaging.requests.PassSettingsRequest'
+        };
+        const replyTo = `${this.GSC_DB_QUEUE}/response`;
+        const corrId = `PASS_SETTINGS_FETCH_${Date.now()}`;
+        this.logger.log(`[GSC-DB] Sending PassSettingsRequest (fetch) to ${this.GSC_DB_QUEUE}, corrId=${corrId}`);
+        await this.artemis.publish(this.GSC_DB_QUEUE, payload['@class'], payload, replyTo, corrId);
+        return corrId;
+    }
+
+    async savePassPreferences(id: number | undefined ,passMinusDay: number, passPlusDay: number, configSendMinBeforePass: number, overlapMinDiff: number): Promise<string> {
         
-        // Normalize NONE to MANUAL
-        if (systemMode === 'NONE') {
-          systemMode = 'MANUAL';
+        const passPreferences: any = {
+            passMinusDay,
+            passPlusDay,
+            configSendMinBeforePass,
+            overlapMinDiff
+        };
+        if(id !== undefined){
+            passPreferences.id = id;
         }
-
-        this.gateway.broadcast('system_mode_update', { systemMode });
-        return;
-      }
-
-      // Check FeedBack
-      const fb = payload.feedback || payload;
-      const isFeedback = javaClass.includes('Feedback') || payload.feedback !== undefined || fb.successful !== undefined || fb.feedbackContent !== undefined;
-
-      if (isFeedback) {
-        const feedbackSuccessful = fb.successful === true || fb.successful === 'true';
-        const feedbackContent = fb.feedbackContent || '';
-        const feedbackMessage = fb.message || '';
-
-        this.logger.log(`[GSC-ADMIN] Received Feedback: ${feedbackSuccessful ? 'SUCCESS' : 'FAIL'} | Content: ${feedbackContent} | Message: ${feedbackMessage}`);
-
-        // Try to extract systemMode from feedback fields or text content
-        let systemMode = fb.systemMode || fb.mode;
-        if (!systemMode) {
-          const lowerText = `${feedbackContent} ${feedbackMessage}`.toLowerCase();
-          if (lowerText.includes('manual') || lowerText.includes('none') || lowerText.includes('manüel')) {
-            systemMode = 'MANUAL';
-          } else if (lowerText.includes('automatic') || lowerText.includes('otomatik')) {
-            systemMode = 'AUTOMATIC';
-          }
-        }
-
-        // Normalize NONE to MANUAL
-        if (systemMode === 'NONE') {
-          systemMode = 'MANUAL';
-        }
-
-        // If system mode is successfully resolved, broadcast global state update
-        if (systemMode === 'AUTOMATIC' || systemMode === 'MANUAL') {
-          this.logger.log(`[GSC-ADMIN] Extracted and broadcasting system mode: ${systemMode}`);
-          this.gateway.broadcast('system_mode_update', { systemMode });
-        }
-
-        this.gateway.broadcast('system_mode_setting_result', {
-          successful: feedbackSuccessful,
-          message: feedbackMessage,
-          feedbackContent: feedbackContent,
-          systemMode: systemMode
-        });
-        return;
-      }
-
-      this.logger.warn(`[GSC-ADMIN-RESPONSE] Unknown response: ${javaClass}`);
-    } catch (error: any) {
-      this.logger.error(`[GSC-ADMIN-RESPONSE] Processing error: ${error.message}`);
-    }
-  }
-
-  // ─────────────────────────────────────────────────────────────────
-  // SUB-HANDLERS
-  // ─────────────────────────────────────────────────────────────────
-
-  /**
-   * ODS'e uydu ekleme (Catalog No veya TLE) cevabını işler.
-   */
-  private async handleSatAdditionResponse(payload: any, meta: string | null) {
-    const feedback = payload.feedback;
-    const success: boolean = feedback?.successful ?? false;
-    const message: string = feedback?.message || (success ? 'Başarılı' : 'Bilinmeyen hata');
-
-    this.logger.log(`[GSC-SAT-ADDITION] Result: ${success ? 'SUCCESS' : 'FAIL'} | Message: ${message} | Meta: ${meta}`);
-    this.gateway.broadcast('gsc_sat_addition_result', { success, message, meta });
-
-    if (success) {
-      this.logger.log('[GSC-SAT-ADDITION] Operation successful. Refreshing Sat List from GSC DB...');
-      const requestPayload = {
-        requestType: 'GET_ALL_SATELLITES',
-        '@class': 'tr.gov.uzay.gsc.server.datamodels.api.messaging.requests.SatListRequest'
-      };
-      await this.artemis.publish(GSC_DB_QUEUE, requestPayload['@class'], requestPayload, GSC_DB_RESPONSE).catch(err => {
-        this.logger.error(`[GSC-SAT-ADDITION] Failed to refresh Sat List: ${err.message}`);
-      });
-    }
-  }
-
-  /**
-   * ODS'ten uydu çıkarma cevabını işler.
-   */
-  private async handleSatRemovalResponse(payload: any, meta: string | null) {
-    const feedback = payload.feedback;
-    const success: boolean = feedback?.successful ?? false;
-    const message: string = feedback?.message || (success ? 'Başarılı' : 'Bilinmeyen hata');
-
-    this.logger.log(`[GSC-SAT-REMOVAL] Result: ${success ? 'SUCCESS' : 'FAIL'} | Message: ${message} | Meta: ${meta}`);
-    this.gateway.broadcast('gsc_sat_removal_result', { success, message, meta });
-
-    if (success) {
-      this.logger.log('[GSC-SAT-REMOVAL] Operation successful. Refreshing Sat List from GSC DB...');
-      const requestPayload = {
-        requestType: 'GET_ALL_SATELLITES',
-        '@class': 'tr.gov.uzay.gsc.server.datamodels.api.messaging.requests.SatListRequest'
-      };
-      await this.artemis.publish(GSC_DB_QUEUE, requestPayload['@class'], requestPayload, GSC_DB_RESPONSE).catch(err => {
-        this.logger.error(`[GSC-SAT-REMOVAL] Failed to refresh Sat List: ${err.message}`);
-      });
-    }
-  }
-
-  /**
-   * Uydu konum haritası (SatPositionsMapResponse) cevabını işler ve cache'e yazar.
-   */
-  private async handlePositionsMapResponse(payload: any, meta: string | null) {
-    const noradId = meta?.startsWith('POSITIONS:') ? meta.split(':')[1] : meta;
-    const positionsMap = payload.positionsMap;
-
-    if (!positionsMap) {
-      this.logger.warn(`[GSC-POSITIONS] positionsMap missing! Keys: ${Object.keys(payload)}`);
-      return;
+        const payload = {
+            id: id,
+            passMinusDay:passMinusDay,
+            passPlusDay: passPlusDay,
+            configSendMinBeforePass:configSendMinBeforePass,
+            overlapMinDiff:overlapMinDiff,
+            passPreferences : {
+                ...passPreferences,
+                '@class': 'tr.gov.uzay.gsc.server.datamodels.PassPreferences',
+            },
+            '@class': 'tr.gov.uzay.gsc.server.database.api.messaging.requests.PassPreferencesSettingRequest'
+        };
+        const replyTo = `${this.GSC_DB_QUEUE}/response`;
+        const corrId = `PASS_SETTINGS_SAVE_${Date.now()}`;
+        this.logger.log(`[GSC-DB] Sending PassPreferencesSettingRequest (save) to ${this.GSC_DB_QUEUE}: minus=${passMinusDay}, plus=${passPlusDay}, corrId=${corrId}`);
+        await this.artemis.publish(this.GSC_DB_QUEUE, payload['@class'], payload, replyTo, corrId);
+        return corrId;
     }
 
-    // İlk key formatını logla — debug için
-    const sampleKey = Object.keys(positionsMap)[0];
-    this.logger.debug(`[GSC-POSITIONS] Timestamp sample: "${sampleKey}"`);
-
-    // Satellite'yi bellekte bul
-    const allSats = await this.satelliteAppService.getAllSatellites();
-    const satellite = allSats.find(s => s.noradId === (noradId ? noradId.toString() : undefined));
-
-    if (!satellite) {
-      this.logger.warn(`[GSC-POSITIONS] No satellite found for noradId: ${noradId}`);
-      return;
+    async updatePassSchedule(passId: string, schedule: string): Promise<string> {
+        this.logger.log(`[Pass-Schedule] Requesting schedule update for pass ${passId} to ${schedule}`);
+        return await this.artemis.sendPassSchedSettingRequest(passId,schedule);
     }
-
-    const trajectoryArray: any[] = [];
-    for (const [timestamp, coords] of Object.entries(positionsMap) as [string, any][]) {
-      try {
-        const time = this.parseJavaTimestamp(timestamp).toISOString();
-
-        const lat = coords[0];
-        const lon = coords[1];
-        const altKm = coords[2] / 1000;
-
-        const cesiumRadius = (6371 + altKm) * 1000;
-        const latRad = lat * (Math.PI / 180);
-        const lonRad = lon * (Math.PI / 180);
-        const x = cesiumRadius * Math.cos(latRad) * Math.cos(lonRad);
-        const y = cesiumRadius * Math.cos(latRad) * Math.sin(lonRad);
-        const z = cesiumRadius * Math.sin(latRad);
-
-        trajectoryArray.push({ id: satellite.id, time, lat, lon, alt: altKm, x, y, z, referenceBody: 'earth' });
-      } catch (e: any) {
-        this.logger.warn(`[GSC-POSITIONS] Skipping entry: ${e.message}`);
-      }
-    }
-
-    this.logger.log(`[GSC-POSITIONS] Processed ${trajectoryArray.length} points for ${satellite.id}`);
-
-    // Cache'e yaz (mevcut veriyle birleştir)
-    const cacheKey = `ODS_TRAJECTORY:${satellite.id}`;
-    const existing = await this.cacheGet<any[]>(cacheKey) || [];
-    const mergeMap = new Map<string, any>();
-    existing.forEach(p => mergeMap.set(p.time, p));
-    trajectoryArray.forEach(p => mergeMap.set(p.time, p));
-
-    let merged = Array.from(mergeMap.values()).sort(
-      (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
-    );
-    if (merged.length > 10000) merged = merged.slice(-10000);
-
-    await this.cacheSet(cacheKey, merged, 24 * 60 * 60 * 1000);
-
-    // Skipping DB update per user request
-    this.logger.debug(`[GSC-POSITIONS] Updated cache for ${satellite.id}. No DB save.`);
-
-    this.gateway.broadcast('satellite_updated', {
-      id: satellite.id,
-      type: 'gsc_positions_update',
-      points: trajectoryArray.slice(-200),
-      latest: trajectoryArray[0] // Pass the latest position for the Satellite List update
-    });
-  }
-
-  /**
-   * Geçiş yörüngesi (PassTrajectoryResponse) cevabını işler.
-   * Payload içinde `trajectoryPointList` (Trajectory nesnesi) beklenir.
-   */
-  private async handlePassTrajectoryResponse(payload: any, meta: string | null) {
-    let noradId: string | null = null;
-    let gsName: string | null = null;
-    let satelliteNo: string | null = null;
-    let timeType: string | null = null;
-
-    if (meta?.startsWith('PASSTRAJECTORY:')) {
-      const parts = meta.split(':');
-      if (parts.length >= 3) {
-        noradId = parts[1] || null;
-        gsName = parts[2] || null;
-      } else if (parts.length === 2) {
-        // format: PASSTRAJECTORY:<satelliteNo>
-        satelliteNo = parts[1].split('_')[0] || null;
-      }
-      
-      // Check if it's our new format PASSTRAJECTORY:${satelliteNo}:${timeType}
-      if (parts.length >= 2 && !gsName) {
-        satelliteNo = parts[1] || null;
-        if (parts[2]) {
-          timeType = parts[2].split('_')[0] || null;
-        }
-      }
-    }
-
-    const trajectory = payload.trajectory || payload;
-    const points: any[] = trajectory?.trajectoryPointList || [];
-    const startingTime = trajectory?.startingTime || '';
-
-    this.logger.log(`[GSC-PASS-TRAJECTORY] Received ${points.length} trajectory points. SatelliteNo/Norad: ${satelliteNo || noradId}, GS: ${gsName || 'N/A'}`);
-
-    this.gateway.broadcast('satellite_updated', {
-      type: 'gsc_pass_trajectory',
-      noradId: noradId || satelliteNo,
-      gsName,
-      pointCount: points.length,
-      points,
-      startingTime
-    });
-
-    // Dedicated broadcast for our new Pass Control Extension
-    this.gateway.broadcast('pass_trajectory_update', {
-      satelliteNo: satelliteNo || noradId,
-      timeType,
-      points,
-      startingTime
-    });
-  }
-
-  /**
-   * Robust date parser for GSC timestamps
-   */
-  private parseJavaTimestamp(val: any): Date {
-    if (!val) return new Date();
-    if (val instanceof Date) return val;
-    if (typeof val === 'number') return new Date(val);
-
-    const valStr = String(val);
-
-    // Clean high-precision nanos if present (e.g. 2026-04-20T05:44:27.814319324Z -> 2026-04-20T05:44:27.814Z)
-    const cleaned = valStr.replace(/(\.[0-9]{3})[0-9]+/, '$1');
-
-    const date = new Date(cleaned);
-    if (!isNaN(date.getTime())) return date;
-
-    // Handle "YYYY-MM-DD_HH-mm-ss" format often found in GSC logs
-    const logFormat = valStr.replace(/_/g, 'T').replace(/-/g, (m, offset) => (offset > 10 ? ':' : '-'));
-    const logDate = new Date(logFormat);
-    if (!isNaN(logDate.getTime())) return logDate;
-
-    return new Date(valStr);
-  }
-
-  /**
-   * Normalizes a GSC pass object to a format suitable for the frontend
-   */
-  private normalizePass(pass: any, gsIdOverride?: string): any {
-    if (!pass || typeof pass !== 'object') return null;
-
-    const aos = pass.aos || pass.realStartTime || pass.schedStartTime || pass.startTime || pass.start_time;
-    const los = pass.los || pass.realEndTime || pass.schedEndTime || pass.endTime || pass.end_time;
-    const gsId = (gsIdOverride && gsIdOverride !== 'ALL') ? gsIdOverride : (pass.gsId || pass.groundStationId || 'DEFAULT');
-    const normalizedAos = this.parseJavaTimestamp(aos);
-    const normalizedLos = this.parseJavaTimestamp(los);
-    let duration = pass.duration;
-
-    if (!duration || duration <= 0) {
-      duration = Math.max(0, Math.round((normalizedLos.getTime() - normalizedAos.getTime()) / 1000));
-    }
-
-    return {
-      ...pass,
-      passId: pass.passId || `P-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
-      aos: normalizedAos.toISOString(),
-      los: normalizedLos.toISOString(),
-      duration: duration,
-      maxElevation: pass.maxElevation || pass.maxElevationDegrees || pass.max_elevation || 0,
-      gsId: gsId,
-      groundStationId: gsId,
-      satelliteNo: pass.satelliteNo || pass.satId || 'UNKNOWN'
-    };
-  }
-
-  /**
-   * En son TLE bilgisini (LatestTleResponse) işler ve frontend'e yayınlar.
-   */
-  private async handleLatestTleResponse(payload: any, meta: string | null) {
-    const satNo = meta?.startsWith('LATEST_TLE:') ? meta.split(':')[1] : (payload.satelliteNo || payload.noradId || payload.tle?.satelliteNo || payload.tle?.noradId);
-    
-    this.logger.log(`[GSC-ODSRUNNER] Received Latest TLE for Sat: ${satNo}`);
-    
-    let t1 = payload.tleLine1 || payload.tle?.tleLine1;
-    let t2 = payload.tleLine2 || payload.tle?.tleLine2;
-
-    if ( Array.isArray(payload.tle) && payload.tle.length >= 2) {
-      t1 = payload.tle[0];
-      t2 = payload.tle[1];
-    }
-    // Frontend'e TLE ve tazelik bilgisini gönder
-    this.gateway.broadcast('latest_tle_update', {
-      satelliteNo: satNo,
-      tleLine1: t1,
-      tleLine2: t2,
-      timestamp: new Date().toISOString()
-    });
-  }
 }
+
