@@ -1,21 +1,14 @@
-if (passList.length > 0) {
-        let gsIdFromCorr = 'ALL';
-        
-        // Burası correlation ID başlığından istasyonu (örn. TROMSO) ayıklar
-        if (rawCorrId.startsWith('FILTEREDPASS:')) {
-          const parts = rawCorrId.substring('FILTEREDPASS:'.length).split('_');
-          if (parts.length > 0 && parts[0]) {
-            gsIdFromCorr = parts[0];
-          }
-        }
-        this.logger.log(`[GSC-PASSCALC] Catch-all routing for ID: "${rawCorrId}" | Resolved GS ID: "${gsIdFromCorr}" | Items: ${passList.length}`);
-        
-        // Ayıklanan istasyon bilgisini normalleştirme metoduna gönderir
-        const normalizedPasses = passList.map(p => this.normalizePass(p, gsIdFromCorr));
-        
-        // Backend hafızasına kaydeder
-        await this.satelliteAppService.saveInMemoryPrecalculatedPasses(normalizedPasses);
-        this.gateway.broadcast('pass_prediction', { count: normalizedPasses.length, gsId: gsIdFromCorr, passes: normalizedPasses });
-      } else {
-        this.logger.debug(`[GSC-PASSCALC] Discarded message (Empty or Non-relevant) | ID: ${rawCorrId}`);
-      }
+// Guncellenen yer istasyonlarini bulalim
+        const gsIdsToUpdate = new Set<string>();
+        passes.forEach(p => {
+            const gsIdStr = String(p.gsId || p.groundStationId);
+            if (gsIdStr && gsIdStr !== 'undefined' && gsIdStr !== 'null') {
+                gsIdsToUpdate.add(gsIdStr);
+            }
+        });
+
+        // Sadece guncellenen istasyonlarin hafizadaki eski pass'lerini temizleyelim
+        const currentPasses = SatelliteApplicationService.inMemoryPrecalculatedPasses.filter(p => {
+            const gsIdStr = String(p.gsId || p.groundStationId);
+            return !gsIdsToUpdate.has(gsIdStr);
+        });
