@@ -1,697 +1,911 @@
-2026-07-23T06:18:58.853Z root INFO [MoonViewer] Tab hidden. Throttling render loop. bundle.js:81981:16
-2026-07-23T06:18:58.857Z root INFO Changed application state from 'ready' to 'closing_window'. bundle.js:81981:16
-2026-07-23T06:18:58.857Z root INFO >>> Storing the layout... bundle.js:81981:16
-2026-07-23T06:18:58.857Z root INFO <<< The layout has been successfully stored. bundle.js:81981:16
-2026-07-23T06:18:58.857Z root INFO >>> Stopping frontend contributions... bundle.js:81981:16
-2026-07-23T06:18:58.857Z root INFO <<< All frontend contributions have been stopped. bundle.js:81981:16
-Frontend: loading modules... [0.803 s since frontend page start] bundle.js:462657:43
-Frontend: container created [0.818 s since frontend page start] bundle.js:462657:43
-sending initial connect on D1b6gyee7hdRRVseAAAB bundle.js:56369:17
-initial connect received on D1b6gyee7hdRRVseAAAB bundle.js:56364:21
-Frontend: preloaded [0.885 s since frontend page start] bundle.js:462657:43
-Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools bundle.js:449957:17
-Frontend: core modules loaded [1.009 s since frontend page start] bundle.js:462657:43
-[SOC Core] Frontend module loading... extensions_gsc-core-extension_lib_browser_soc-core-frontend-module_js.js:171:13
-[SOC Core] Frontend module bindings completed. extensions_gsc-core-extension_lib_browser_soc-core-frontend-module_js.js:194:13
-[SOC-Earth] Frontend module loading... extensions_gsc-earth-extension_lib_browser_soc-frontend-module_js-data_text_plain_base64_iVBO-cff990.js:1771:13
->>> [SOC] SOCFrontendModule bindings completed. extensions_gsc-earth-extension_lib_browser_soc-frontend-module_js-data_text_plain_base64_iVBO-cff990.js:1805:13
->>> [SOC] SOCFrontendModule loading... extensions_gsc-moon-extension_lib_browser_soc-frontend-module_js-data_text_plain_base64_iVBOR-38d532.js:1668:13
->>> [SOC] SOCFrontendModule bindings completed. extensions_gsc-moon-extension_lib_browser_soc-frontend-module_js-data_text_plain_base64_iVBOR-38d532.js:1680:13
-Frontend: modules loaded [2.094 s since frontend page start] bundle.js:462657:43
-Frontend: resolving application [2.094 s since frontend page start] bundle.js:462657:43
-Frontend: application resolved [2.095 s since frontend page start] bundle.js:462657:43
-Default overrides registered for these keys, but preferences not registered 
-Array [ "toolbar.showToolbar" ]
-bundle.js:88597:21
-2026-07-23T06:19:00.930Z root INFO [SOC Earth] Extension loaded. RPC already initialized by gsc-core-extension bundle.js:81981:16
-2026-07-23T06:19:01.005Z SkillService INFO Watching parent directory '/root/.theia' for skills folder creation bundle.js:81981:16
-2026-07-23T06:19:01.012Z root INFO [SOC Core] Initializing RPC connection to backend... bundle.js:81981:16
-2026-07-23T06:19:01.012Z root INFO [SocDataService] Starting locked refresh flow (force=true)... bundle.js:81981:16
-2026-07-23T06:19:01.012Z root INFO [SOC Core] SocDataService RPC client initialized. bundle.js:81981:16
-2026-07-23T06:19:01.013Z root INFO [SOC] Satellite Ops Center extension loaded. 2 bundle.js:81981:16
-2026-07-23T06:19:01.013Z root INFO [SOC] Files Panel extension loaded. bundle.js:81981:16
-2026-07-23T06:19:01.014Z root INFO [SOC] Settings Panel extension loaded. bundle.js:81981:16
-2026-07-23T06:19:01.014Z root INFO [SOC] Mission Panel extension loaded. bundle.js:81981:16
-2026-07-23T06:19:01.015Z root INFO [SOC] Pass Control Panel extension loaded. bundle.js:81981:16
-2026-07-23T06:19:01.022Z root INFO Start frontend contributions: 167.0 ms [2.262 s since frontend page start] bundle.js:81981:16
-2026-07-23T06:19:01.022Z root INFO Changed application state from 'init' to 'started_contributions'. bundle.js:81981:16
-2026-07-23T06:19:01.023Z root INFO Changed application state from 'started_contributions' to 'attached_shell'. bundle.js:81981:16
-2026-07-23T06:19:01.023Z root INFO >>> Restoring the layout state... bundle.js:81981:16
-2026-07-23T06:19:01.128Z root INFO [SocDataService] Acquire. refCount: 1 bundle.js:81981:16
-Uncaught (in promise) Error: Unable to write to Workspace Settings.
-    set preference-service.ts:458
-    onStart soc-frontend-contribution.ts:74
-    node_modules bundle.js:51501
-    node_modules bundle.js:51529
-    startAsync stopwatch.ts:96
-    measure frontend-application.ts:331
-    measureContribution frontend-application.ts:323
-    startContributions frontend-application.ts:294
-    node_modules bundle.js:51314
-    startAsync stopwatch.ts:96
-    measure frontend-application.ts:331
-    start frontend-application.ts:81
-    start index.js:148
-    exports index.js:135
-    js index.js:150
-    Webpack 3
-bundle.js:89153:15
-2026-07-23T06:19:01.139Z root INFO [3b3417b6-eae3-4306-9a89-adfefc72e71a] Waiting for backend deployment: 129.0 ms [2.387 s since frontend page start] bundle.js:81981:16
-2026-07-23T06:19:01.148Z root INFO [SocDataService] Acquire. refCount: 2 bundle.js:81981:16
-2026-07-23T06:19:01.165Z root INFO [SocDataService] Acquire. refCount: 3 bundle.js:81981:16
-2026-07-23T06:19:01.165Z root INFO [SocDataService] Acquire. refCount: 4 bundle.js:81981:16
-2026-07-23T06:19:01.165Z root INFO [SocDataService] Acquire. refCount: 5 bundle.js:81981:16
-2026-07-23T06:19:01.168Z root INFO [SocDataService] fetchGroundStations success: Received 1 stations. bundle.js:81981:16
-2026-07-23T06:19:01.168Z root INFO [SocDataService] _updateGroundStations: Updating state with 1 sanitized stations. bundle.js:81981:16
-2026-07-23T06:19:01.168Z root INFO [SocDataService] Triggering GLOBAL Pass Sync for initial load... bundle.js:81981:16
-2026-07-23T06:19:01.168Z root INFO [SocDataService] fetchGroundStations finished inFlight for key: groundstations bundle.js:81981:16
-2026-07-23T06:19:01.188Z root INFO [SocDataService] Acquire. refCount: 6 bundle.js:81981:16
-2026-07-23T06:19:01.188Z root INFO [SocDataService] Starting locked refresh flow (force=false)... bundle.js:81981:16
-2026-07-23T06:19:01.356Z root WARN Linked preference "workbench.colorCustomizations" not found. bundle.js:81981:16
-2026-07-23T06:19:01.357Z root WARN Linked preference "editor.experimental.preferTreeSitter" not found. bundle.js:81981:16
-2026-07-23T06:19:01.363Z root INFO [MoonViewer] [soc-cmd] Processing command: "selectSatellite" null bundle.js:81981:16
-2026-07-23T06:19:01.419Z root INFO [3b3417b6-eae3-4306-9a89-adfefc72e71a] Loading plugin contributions bundle.js:81981:16
-2026-07-23T06:19:01.429Z root INFO [MoonViewer] Received MBTiles state sync update: 
-Object { earth: (1) […], moon: (1) […] }
-bundle.js:81981:16
-2026-07-23T06:19:01.430Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:81981:16
-2026-07-23T06:19:01.437Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:81981:16
-2026-07-23T06:19:01.438Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:81981:16
-2026-07-23T06:19:01.439Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:81981:16
-2026-07-23T06:19:01.447Z root INFO <<< The layout has been successfully restored. bundle.js:81981:16
-2026-07-23T06:19:01.448Z root INFO Initialize the workbench layout: 426.0 ms [2.696 s since frontend page start] bundle.js:81981:16
-2026-07-23T06:19:01.448Z root INFO Changed application state from 'attached_shell' to 'initialized_layout'. bundle.js:81981:16
-2026-07-23T06:19:01.452Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:81981:16
-2026-07-23T06:19:01.464Z root INFO [SocDataService] Merged 1 dynamic passes into main state for normalized IDs. bundle.js:81981:16
-2026-07-23T06:19:01.464Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:81981:16
-2026-07-23T06:19:01.464Z root INFO [SocDataService] Merged 1 dynamic passes into main state for normalized IDs. bundle.js:81981:16
-2026-07-23T06:19:01.465Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:81981:16
-2026-07-23T06:19:01.475Z root ERROR Warning: Removing a style property during rerender (background) when a conflicting property is set (backgroundColor) can lead to styling bugs. To avoid this, don't mix shorthand and non-shorthand properties for the same value; instead, replace the shorthand with separate values.
-div
-PassControlWidgetPanel@http://localhost:3300/extensions_gsc-pass-control-extension_lib_browser_soc-pass-control-frontend-module_js.js:168:159
-rt@http://localhost:3300/gsc-common_dist_soc-widgets_es_js.js:1863:12 bundle.js:81981:16
-2026-07-23T06:19:01.485Z root INFO [PassControlPanel] Auto-fetching actual pass trajectory for sat #65148 (Pass ID/Time: 2026-07-23T07:45:06.084160110Z)... bundle.js:81981:16
-XHRGET
-http://localhost:3300/v1/assets/2/endpoint?access_token=
-[HTTP/1.1 404 Not Found 2ms]
+import { injectable, postConstruct, inject } from '@theia/core/shared/inversify';
+import { ArtemisService } from './artemis.service';
+import { SatelliteClientManager } from '../rpc/satellite-client-manager';
+import { SatelliteApplicationService } from './satellite-application.service';
+import { CustomLogger as Cl } from '../logging/custom-logger';
+import { correlationGet } from './gsc-correlation-cache';
 
-2026-07-23T06:19:01.655Z root ERROR [object Object] bundle.js:81981:16
-WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
-WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
-XHRGET
-http://localhost:3300/dem_tiles/meta.json
-[HTTP/1.1 404 Not Found 1ms]
-
-2026-07-23T06:19:02.323Z root WARN [MoonViewer] Moon DEM terrain failed: updateGlobe@http://localhost:3300/extensions_gsc-moon-extension_lib_browser_soc-frontend-module_js-data_text_plain_base64_iVBOR-38d532.js:908:27
-async*../extensions/gsc-moon-extension/lib/browser/components/MoonViewer.js/MoonViewer/<@http://localhost:3300/extensions_gsc-moon-extension_lib_browser_soc-frontend-module_js-data_text_plain_base64_iVBOR-38d532.js:1068:9
-commitHookEffectListMount@http://localhost:3300/bundle.js:443251:26
-commitPassiveMountOnFiber@http://localhost:3300/bundle.js:445032:36
-commitPassiveMountEffects_complete@http://localhost:3300/bundle.js:444992:34
-commitPassiveMountEffects_begin@http://localhost:3300/bundle.js:444979:41
-commitPassiveMountEffects@http://localhost:3300/bundle.js:444967:34
-flushPassiveEffectsImpl@http://localhost:3300/bundle.js:447140:28
-flushPassiveEffects@http://localhost:3300/bundle.js:447085:14
-performConcurrentWorkOnRoot@http://localhost:3300/bundle.js:445810:32
-workLoop@http://localhost:3300/bundle.js:456707:42
-flushWork@http://localhost:3300/bundle.js:456680:14
-performWorkUntilDeadline@http://localhost:3300/bundle.js:456974:21
-EventHandlerNonNull*../node_modules/scheduler/cjs/scheduler.development.js/<@http://localhost:3300/bundle.js:457012:3
-../node_modules/scheduler/cjs/scheduler.development.js@http://localhost:3300/bundle.js:457074:5
-__webpack_require__@http://localhost:3300/bundle.js:492582:42
-../node_modules/scheduler/index.js@http://localhost:3300/bundle.js:457091:20
-__webpack_require__@http://localhost:3300/bundle.js:492582:42
-../node_modules/react-dom/cjs/react-dom.development.js/<@http://localhost:3300/bundle.js:420093:36
-../node_modules/react-dom/cjs/react-dom.development.js@http://localhost:3300/bundle.js:449984:5
-__webpack_require__@http://localhost:3300/bundle.js:492582:42
-../node_modules/react-dom/index.js@http://localhost:3300/bundle.js:450057:20
-__webpack_require__@http://localhost:3300/bundle.js:492582:42
-../node_modules/react-dom/client.js@http://localhost:3300/bundle.js:449999:28
-__webpack_require__@http://localhost:3300/bundle.js:492582:42
-../node_modules/@theia/core/lib/browser/widgets/react-widget.js@http://localhost:3300/bundle.js:75475:37
-__webpack_require__@http://localhost:3300/bundle.js:492582:42
-../node_modules/@theia/core/lib/browser/status-bar/status-bar.js@http://localhost:3300/bundle.js:67236:43
-__webpack_require__@http://localhost:3300/bundle.js:492582:42
-../node_modules/@theia/core/lib/browser/shell/application-shell.js@http://localhost:3300/bundle.js:60049:41
-__webpack_require__@http://localhost:3300/bundle.js:492582:42
-../node_modules/@theia/core/lib/browser/shell/index.js@http://localhost:3300/bundle.js:62199:22
-__webpack_require__@http://localhost:3300/bundle.js:492582:42
-../node_modules/@theia/core/lib/browser/index.js@http://localhost:3300/bundle.js:52388:22
-__webpack_require__@http://localhost:3300/bundle.js:492582:42
-../node_modules/@theia/monaco/lib/browser/monaco-editor-service.js@http://localhost:3300/bundle.js:368330:38
-__webpack_require__@http://localhost:3300/bundle.js:492582:42
-../node_modules/@theia/monaco/lib/browser/monaco-init.js@http://localhost:3300/bundle.js:370388:52
-__webpack_require__@http://localhost:3300/bundle.js:492582:42
-./src-gen/frontend/index.js/module.exports<@http://localhost:3300/bundle.js:462722:47
-async*./src-gen/frontend/index.js@http://localhost:3300/bundle.js:462804:3
-__webpack_require__@http://localhost:3300/bundle.js:492582:42
-@http://localhost:3300/bundle.js:492899:56
-@http://localhost:3300/bundle.js:492901:12
-bundle.js:81981:16
-2026-07-23T06:19:02.336Z root INFO [PassControlPanel] Received pass_trajectory_update: 
-Object { type: "gsc_pass_trajectory", noradId: "65148", gsName: "REAL", pointCount: 531, points: (531) […], startingTime: "2026-07-23T07:45:06.083999807Z" }
-bundle.js:81981:16
-2026-07-23T06:19:02.360Z root INFO [PassControlPanel] Received pass_trajectory_update: 
-Object { satelliteNo: "65148", timeType: null, points: (531) […], startingTime: "2026-07-23T07:45:06.083999807Z" }
-bundle.js:81981:16
-2026-07-23T06:19:02.374Z root INFO Replace loading indicator with ready workbench UI (animation): 924.0 ms [3.621 s since frontend page start] bundle.js:81981:16
-2026-07-23T06:19:02.375Z root INFO Changed application state from 'initialized_layout' to 'ready'. bundle.js:81981:16
-2026-07-23T06:19:02.375Z root INFO All frontend contributions settled: 1527.0 ms [3.622 s since frontend page start] bundle.js:81981:16
-2026-07-23T06:19:02.387Z root INFO [PassControlPanel] Received pass_trajectory_update: 
-Object { satelliteNo: "65148", timeType: null, points: (531) […], startingTime: "2026-07-23T07:45:06.083999807Z" }
-bundle.js:81981:16
-2026-07-23T06:19:04.686Z root WARN Widget was activated, but did not accept focus after 2000ms: soc:pass-list bundle.js:81981:16
-2026-07-23T06:19:04.687Z root WARN Widget was activated, but did not accept focus after 2000ms: soc:pass-summary bundle.js:81981:16
-root@0ca2e90b8761:/home/theia# npm run build:browser
-
-> build:browser
-> npm run compile && npm run build:extensions && cd browser-app && npm run build
+// GSC Kuyruk Sabitleri
+const GSC_DB_QUEUE = 'gsc.server.database_request_queue_';
+const GSC_DB_RESPONSE = `${GSC_DB_QUEUE}/response`;
+const GSC_ODSRUNNER_QUEUE = 'gsc.server.odsrunner_request_queue_';
+const GSC_ODSRUNNER_RESPONSE = `${GSC_ODSRUNNER_QUEUE}/response`;
+const GSC_PASSCALC_QUEUE = 'gsc.server.passcalculations_request_queue_';
+const GSC_PASSCALC_RESPONSE = `${GSC_PASSCALC_QUEUE}/response`;
+const GSC_PASSOPERATIONS_QUEUE = 'gsc.server.passoperations_request_queue_';
+const GSC_PASSOPERATIONS_RESPONSE = `${GSC_PASSOPERATIONS_QUEUE}/response`;
+const GSC_ADMIN_QUEUE = 'gsc.server.administration_request_queue_';
+const GSC_ADMIN_RESPONSE = `${GSC_ADMIN_QUEUE}/response`;
 
 
-> gsc.scheduling.theia@ compile /home/theia
-> lerna run compile
+@injectable()
+export class OdsListenerService {
+  private readonly logger = new Cl(OdsListenerService.name);
 
-lerna notice cli v9.0.7
+  // Expose an internal Map for the cache
+  private cache = new Map<string, { value: any, expires: number }>();
+  private async cacheSet(key: string, value: any, ttlMs: number) {
+      this.cache.set(key, { value, expires: Date.now() + ttlMs });
+  }
+  private async cacheGet<T>(key: string): Promise<T | null> {
+      const item = this.cache.get(key);
+      if (!item) return null;
+      if (Date.now() > item.expires) {
+          this.cache.delete(key);
+          return null;
+      }
+      return item.value as T;
+  }
+  private async cacheDel(key: string) {
+      this.cache.delete(key);
+  }
 
- Lerna (powered by Nx)   Running target compile for 2 projects:
+  constructor(
+    @inject(ArtemisService) private readonly artemis: ArtemisService,
+    @inject(SatelliteClientManager) private readonly gateway: SatelliteClientManager,
+    @inject(SatelliteApplicationService) private readonly satelliteAppService: SatelliteApplicationService,
+  ) { }
 
-- gsc-browser-app
-- gsc-browser-app-cesium
+  /**
+   * Returns cached ODS trajectory points for a satellite ID.
+   * Used by the Theia Express REST route to serve /satellite/trajectory/:id
+   */
+  async getTrajectory(satId: string): Promise<any[]> {
+    return (await this.cacheGet<any[]>(`ODS_TRAJECTORY:${satId}`)) || [];
+  }
 
-—————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+  @postConstruct()
+  init() {
+    this.logger.log('Subscribing to GSC response queues...');
 
-> gsc-browser-app:compile
+    // 1. GSC Database Request - Uydu Listesi / İstasyon Listesi cevapları
+    this.artemis.subscribe(GSC_DB_RESPONSE, async (payload: any, headers?: any) => {
+      this.logger.debug(`[GSC-DB-RESPONSE] @class: ${payload?.['@class']} | Keys: ${payload ? Object.keys(payload): null}`);
+      await this.handleDatabaseResponse(payload, headers);
+    });
+
+    // 2. GSC OdsRunner Request - ODS'e uydu ekleme/çıkarma, efemeris, geçiş listesi, TLE cevapları
+    this.artemis.subscribe(GSC_ODSRUNNER_RESPONSE, async (payload: any, headers?: any) => {
+      this.logger.debug(`[GSC-ODSRUNNER-RESPONSE] @class: ${payload['@class']} | Keys: ${Object.keys(payload)}`);
+      await this.handleOdsRunnerResponse(payload, headers);
+    });
+
+    // 3. GSC Pass Calculations Request - Gelecek Zamanlı Geçiş Listesi
+    this.artemis.subscribe(GSC_PASSCALC_RESPONSE, async (payload: any, headers?: any) => {
+      this.logger.debug(`[GSC-PASSCALC-RESPONSE] @class: ${payload['@class']} | Keys: ${Object.keys(payload)}`);
+      await this.handlePassCalcResponse(payload, headers);
+    });
+
+    // 4. GSC Pass Operations Request - Anlık Geçiş Bilgisi ve Konfigürasyon Değişimleri
+    this.artemis.subscribe(GSC_PASSOPERATIONS_RESPONSE, async (payload: any, headers?: any) => {
+      this.logger.debug(`[GSC-PASSOPERATIONS-RESPONSE] @class: ${payload['@class']} | Keys: ${Object.keys(payload)}`);
+      await this.handlePassOperationsResponse(payload, headers);
+    });
+
+    // 5. GSC Administration Request - Sistem Çalışma Modu / feedback cevapları
+    this.artemis.subscribe(GSC_ADMIN_RESPONSE, async (payload: any, headers?: any) => {
+      this.logger.debug(`[GSC-ADMIN-RESPONSE] @class: ${payload['@class']} | Keys: ${Object.keys(payload)}`);
+      await this.handleAdminResponse(payload, headers);
+    });
+
+    this.logger.log(`Subscribed to:\n  - ${GSC_DB_RESPONSE}\n  - ${GSC_ODSRUNNER_RESPONSE}\n  - ${GSC_PASSCALC_RESPONSE}\n  - ${GSC_PASSOPERATIONS_RESPONSE}\n  - ${GSC_ADMIN_RESPONSE}`);
+  }
+
+  // ─────────────────────────────────────────────────────────────────
+  // GSC DATABASE RESPONSE HANDLER
+  // ─────────────────────────────────────────────────────────────────
+
+  /**
+   * Gelen GSC veritabanı cevabına göre SatListResponse veya StationListResponse işler.
+   */
+  private async handleDatabaseResponse(payload: any, headers?: any) {
+    try {
+      const javaClass: string = payload['@class'] || '';
+      const headerCorrId = headers?.['correlation-id'] || headers?.['JMSCorrelationID'] || headers?.['correlationId'] || '';
+      const payloadCorrId = payload.correlationId || payload.corrId || '';
+      const corrId = headerCorrId || payloadCorrId;
+
+      this.logger.log(`[GSC-DB-INCOMING] Class: ${javaClass} | CorrId: ${corrId} | Keys: ${Object.keys(payload).join(',')}`);
+
+      // Uydu Listesi Cevabı (SatListResponse)
+      if (javaClass.includes('SatListResponse') || payload.satelliteList) {
+        const list: any[] = payload.satelliteList || [];
+        this.logger.log(`### GSC SAT LIST RECEIVED (${list.length} ITEMS) ###`);
+
+        await this.satelliteAppService.syncSatellites(list);
+        await this.cacheDel('ALL_SATELLITES');
+
+        list.forEach(sat => {
+          this.logger.log(
+            `[SAT] No: ${sat.satelliteNo} | Name: ${sat.satelliteName} | Priority: ${sat.priorityNum} | TLE Auto: ${sat.tleAutoUpdate} | Disabled: ${sat.disabled}`
+          );
+        });
+        this.gateway.broadcast('satellite_updated', { count: list.length, type: 'gsc_sat_list' });
+        return;
+      }
+
+      // Tekil Uydu Cevabı (SatResponse)
+      const isSatResponse = javaClass.includes('SatResponse') || 
+                            payload.satellite !== undefined || 
+                            (payload.satelliteNo !== undefined && payload.satelliteName !== undefined);
+
+      if (isSatResponse) {
+        const satNo = payload.satellite?.satelliteNo || payload.satelliteNo;
+        this.logger.log(`[GSC-DB] Detected SatResponse for No: ${satNo}. Syncing...`);
+        await this.satelliteAppService.syncSingleSatellite(payload);
+        return;
+      }
+
+      // Yer İstasyonu Listesi Cevabı (StationListResponse)
+      if (javaClass.includes('StationListResponse') || payload.stationList || payload.groundStationList || payload.stationlist) {
+        const list: any[] = payload.stationList || payload.groundStationList || payload.stationlist || [];
+        this.logger.log(`### GSC STATION LIST RECEIVED (${list.length} ITEMS) ###`);
+
+        await this.satelliteAppService.syncGroundStations(list);
+
+        list.forEach(gs => {
+          this.logger.log(
+            `[GS] Name: ${gs.name || gs.stationName} | Lat: ${gs.latitude || gs.lat} | Lon: ${gs.longitude || gs.lon} | Alt: ${gs.altitude || gs.alt} | ElevMask: ${gs.elevMask || gs.minElevation}`
+          );
+        });
+        this.gateway.broadcast('ground_station_updated', { count: list.length, type: 'gsc_station_list' });
+        return;
+      }
+
+      // Aktif İstasyon Cevabı (ActiveStationResponse)
+      if (javaClass.includes('ActiveStationResponse') || payload.activeStationId !== undefined || payload.stationId !== undefined) {
+        const activeId = payload.activeStationId || payload.stationId;
+        if (activeId) {
+            this.logger.log(`[GSC-DB] Received authoritative ActiveStation: ${activeId}`);
+            await this.satelliteAppService.setActiveStation(activeId);
+            // No broadcast here because setActiveStation already broadcasts
+        }
+        return;
+      }
+
+      this.logger.log(`[GSC-DB-DEBUG] javaClass: ${javaClass}, keys: ${Object.keys(payload)}`);
+
+      let detectedSatNo: number | undefined = payload.satelliteNo !== undefined ? Number(payload.satelliteNo) : undefined;
+
+      // Extract satNo from corrId if possible (e.g. "sat-config-names:123:timestamp")
+      if (detectedSatNo === undefined && corrId.startsWith('sat-config-')) {
+        const parts = corrId.split(':');
+        if (parts.length >= 2) {
+          detectedSatNo = Number(parts[1]);
+        }
+      }
+
+      // --- SATELLITE CONFIG HANDLERS (Check these first) ---
+
+      // Sat Config Names Response
+      if (javaClass.includes('SatConfigNamesResponse') || (payload.configNames && detectedSatNo !== undefined) || corrId.startsWith('sat-config-names:')) {
+        this.logger.log(`[GSC-DB] Received Sat Config Names for Sat ${detectedSatNo}: ${payload.configNames?.length || 0} items`);
+        this.gateway.broadcast('sat_config_names', {
+          satelliteNo: detectedSatNo,
+          configNames: payload.configNames || []
+        });
+        return;
+      }
+
+      // Sat Config Response
+      if (javaClass.includes('SatConfigResponse') || payload.satConfiguration || corrId.startsWith('sat-config-details:')) {
+        this.logger.log(`[GSC-DB] Received Sat Config details for Sat ${detectedSatNo}, Config: ${payload.satConfiguration?.configName}`);
+        this.gateway.broadcast('sat_config_details', {
+          satelliteNo: detectedSatNo,
+          satConfiguration: payload.satConfiguration
+        });
+        return;
+      }
+
+      // --- GLOBAL CONFIG HANDLERS ---
+
+      // Global Config Names Response (Strict: must NOT have satelliteNo)
+      if (javaClass.includes('GlobalConfigNamesResponse') || (payload.configNames && payload.satelliteNo === undefined)) {
+        this.logger.log(`[GSC-DB] Received Global Config Names: ${payload.configNames?.length || 0} items`);
+        this.gateway.broadcast('global_config_names', { configNames: payload.configNames || [] });
+        return;
+      }
+
+      // Global Config Response (Strict: must NOT have satelliteNo)
+      if (javaClass.includes('GlobalConfigResponse') || (payload.configuration && payload.satelliteNo === undefined)) {
+        this.logger.log(`[GSC-DB] Received Global Config details for: ${payload.configuration?.configName}`);
+        this.gateway.broadcast('global_config_details', { configuration: payload.configuration });
+        return;
+      }
+
+      const hasPassPrefs = javaClass.includes('PassPreferences') || javaClass.includes('PassSettings') || payload.passPreferences !== undefined || payload.passSettings !== undefined || payload.passPreferencesResponse !== undefined || (payload.passMinusDay !== undefined && payload.passPlusDay !== undefined);
+      if ( hasPassPrefs) {
+        const prefs = payload.passPreferences || payload.passSettings || payload.passPreferencesResponse || payload ;
+        this.logger.log(`[GSC-DB] Received PassPreferences: MinusDay=${prefs.passMinusDay}, PlusDay=${prefs.passPlusDay}, SendMin = ${prefs.configSendMinBeforePass}, Overlap=${prefs.overlapMinDiff}`);
+        this.gateway.broadcast('pass_preferences', prefs);
+        return;
+      }
+      // PassPreferences Response
+      if (javaClass.includes('PassSettingsResponse') || (payload.passMinusDay !== undefined && payload.passPlusDay !== undefined)) {
+        this.logger.log(`[GSC-DB] Received PassSettingsResponse: MinusDay=${payload.passMinusDay}, PlusDay=${payload.passPlusDay}, SendMin=${payload.configSendMinBeforePass}, Overlap=${payload.overlapMinDiff}`);
+        this.gateway.broadcast('pass_preferences', payload);
+        return;
+      }
+
+      // --- Feedback Handling ---
+      // GSC bazen veriyi 'feedback' objesi içinde gönderir
+      const fb = payload.feedback || payload;
+      const isFeedback = javaClass.includes('Feedback') || payload.feedback !== undefined || fb.feedbackContent !== undefined;
+
+      if (isFeedback) {
+        const feedbackSuccessful = fb.successful === true || fb.successful === 'true';
+        const feedbackContent = fb.feedbackContent || '';
+        const feedbackMessage = fb.message || '';
+        const finalCorrId = corrId || fb.correlationId || fb.corrId || '';
+
+        this.logger.log(`[GSC-DB] Received Feedback: ${feedbackSuccessful ? 'SUCCESS' : 'FAIL'} | Content: ${feedbackContent} | Message: ${feedbackMessage} | CorrId: ${finalCorrId}`);
+
+        // --- Handle Pass Settings Feedback ---
+        if (finalCorrId.startsWith('PASS_SETTINGS_')) {
+          this.gateway.broadcast('pass_settings_feedback', {
+            successful: feedbackSuccessful || feedbackContent === 'SUCCESS' || feedbackContent === 'REQUEST_IS_RECEIVED',
+            message: feedbackMessage || feedbackContent
+          });
+        }
+
+        // --- Handle Priority Update Feedback ---
+        if (finalCorrId.startsWith('PRIORITY_UPDATE_')) {
+          const isActuallySuccess = feedbackSuccessful || feedbackContent === 'SUCCESS' || feedbackContent === 'REQUEST_IS_RECEIVED';
+          
+          if (isActuallySuccess) {
+            const parts = finalCorrId.split('_');
+            const satNo = Number(parts[2]);
+            const newPriority = Number(parts[3]);
+            const oldPriority = Number(parts[4]);
+
+            this.logger.log(`[GSC-DB] Priority update success for Sat ${satNo} (moved to ${newPriority}). Checking for displacement...`);
+
+            // Find if another satellite occupies the new priority
+            let displacedSatNo: number | null = null;
+            let morePriorForDisplaced = false;
+
+            if (!isNaN(newPriority) && !isNaN(oldPriority)) {
+                const sats = await this.satelliteAppService.getAllSatellites();
+                for (const otherSat of sats) {
+                    if (otherSat.id !== String(satNo) && otherSat.priority === newPriority) {
+                        displacedSatNo = Number(otherSat.noradId || otherSat.id);
+                        // If target sat went UP (e.g. 2 -> 1, priority number decreased), 
+                        // the displaced sat must go DOWN (1 -> 2, morePrior=false).
+                        // If target sat went DOWN (e.g. 1 -> 2, priority number increased),
+                        // the displaced sat must go UP (2 -> 1, morePrior=true).
+                        morePriorForDisplaced = (oldPriority < newPriority); 
+                        break;
+                    }
+                }
+            }
+
+            if (displacedSatNo !== null) {
+                this.logger.log(`[GSC-DB] Displacing Sat ${displacedSatNo} to priority ${oldPriority}`);
+                const displacedCorrId = `DISPLACED_PRIORITY_${displacedSatNo}_${Date.now()}`;
+                const payload = {
+                    satelliteNo: displacedSatNo,
+                    morePrior: morePriorForDisplaced,
+                    '@class': 'tr.gov.uzay.gsc.server.database.api.messaging.requests.PriorityUpdateRequest'
+                };
+                this.artemis.publish(GSC_DB_QUEUE, payload['@class'], payload, `${GSC_DB_QUEUE}/response`, displacedCorrId)
+                    .catch(err => this.logger.error(`[GSC-DB] Displaced priority update failed: ${err.message}`));
+            }
+
+            // DB'nin güncellenmesi için kısa bir süre bekle (Race condition önlemi)
+            setTimeout(() => {
+              this.satelliteAppService.requestGscSatellite(satNo).catch(() => { });
+              if (displacedSatNo) {
+                  this.satelliteAppService.requestGscSatellite(displacedSatNo).catch(() => { });
+              }
+            }, 2000);
+          } else {
+            this.logger.error(`[GSC-DB] Priority update FAILED for Sat ${finalCorrId}: ${feedbackMessage} (Content: ${feedbackContent})`);
+          }
+        }
+
+        // Broadcast results
+        this.gateway.broadcast('global_config_operation_result', {
+          successful: feedbackSuccessful,
+          message: feedbackMessage,
+          feedbackContent: feedbackContent
+        });
+
+        this.gateway.broadcast('sat_config_operation_result', {
+          successful: feedbackSuccessful,
+          message: feedbackMessage,
+          feedbackContent: feedbackContent
+        });
+
+        if (feedbackSuccessful) {
+          this.artemis.sendGlobalConfigNamesRequest();
+        }
+        return;
+      }
+
+      this.logger.warn(`[GSC-DB-RESPONSE] Unknown: ${javaClass}. Keys: ${Object.keys(payload)}`);
+    } catch (error: any) {
+      this.logger.error(`[GSC-DB-RESPONSE] Processing error: ${error.message}`);
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────
+  // GSC ODSRUNNER RESPONSE HANDLER
+  // ─────────────────────────────────────────────────────────────────
+
+  /**
+   * GSC OdsRunner cevabını türüne göre yönlendirir.
+   */
+  private async handleOdsRunnerResponse(payload: any, headers?: any) {
+    try {
+      const javaClass: string = payload['@class'] || '';
+
+      // Korelasyon ID'den gönderen satellite ID'yi çöz
+      let correlationMeta: string | null = null;
+      if (headers) {
+        const corrId = headers['correlation-id'] || headers['JMSCorrelationID'];
+        if (corrId) {
+          correlationMeta = correlationGet(corrId) ?? null;
+          if (correlationMeta) {
+            this.logger.log(`[GSC-CORR] Resolved meta "${correlationMeta}" from correlation ${corrId}`);
+          }
+        }
+      }
+
+      // ODS'e uydu ekleme cevabı (Catalog No veya TLE ile)
+      if (javaClass.includes('OdsSatAdditionWithCatalogNoResponse') || javaClass.includes('OdsSatAdditionWithTleResponse')) {
+        await this.handleSatAdditionResponse(payload, correlationMeta);
+        return;
+      }
+
+      // ODS'ten uydu çıkarma cevabı
+      if (javaClass.includes('OdsSatelliteRemovalResponse')) {
+        await this.handleSatRemovalResponse(payload, correlationMeta);
+        return;
+      }
+
+      // Efemeris / Konum Haritası cevabı (SatPositionsMapResponse)
+      if (javaClass.includes('SatPositionsMapResponse') || payload.positionsMap) {
+        await this.handlePositionsMapResponse(payload, correlationMeta);
+        return;
+      }
+
+      // Geçiş Yörüngesi cevabı (PassTrajectoryResponse)
+      if (javaClass.includes('PassTrajectoryResponse') || payload.trajectoryPointList || payload.trajectory) {
+        await this.handlePassTrajectoryResponse(payload, correlationMeta);
+        return;
+      }
 
 
-> gsc-browser-app-cesium:compile
+      // TLE cevabı (LatestTleResponse)
+      if (javaClass.includes('LatestTleResponse') || payload.tleLine1 || payload.tleLine2 || payload.tle) {
+        await this.handleLatestTleResponse(payload, correlationMeta);
+        return;
+      }
 
-gsc-browser-app: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
-gsc-browser-app: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
-gsc-browser-app: npm warn config shrinkwrap Use the --package-lock setting instead.
-gsc-browser-app: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
-gsc-browser-app: npm warn config `--include=optional` to include them.
-gsc-browser-app: npm warn config
-gsc-browser-app: npm warn config       Default value does install optional deps unless otherwise omitted.
-gsc-browser-app: > gsc-browser-app@1.0.0 compile
-gsc-browser-app: > tsc -b
-gsc-browser-app-cesium: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
-gsc-browser-app-cesium: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
-gsc-browser-app-cesium: npm warn config shrinkwrap Use the --package-lock setting instead.
-gsc-browser-app-cesium: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
-gsc-browser-app-cesium: npm warn config `--include=optional` to include them.
-gsc-browser-app-cesium: npm warn config
-gsc-browser-app-cesium: npm warn config       Default value does install optional deps unless otherwise omitted.
-gsc-browser-app-cesium: > gsc-browser-app-cesium@1.0.0 compile
-gsc-browser-app-cesium: > tsc -b
+      this.logger.warn(`[GSC-ODSRUNNER-RESPONSE] Unknown response @class: "${javaClass}". Keys: ${Object.keys(payload)}`);
+    } catch (error: any) {
+      this.logger.error(`[GSC-ODSRUNNER-RESPONSE] Processing error: ${error.message}`);
+    }
+  }
 
-—————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+  // ─────────────────────────────────────────────────────────────────
+  // GSC PASSCALC RESPONSE HANDLER
+  // ─────────────────────────────────────────────────────────────────
 
- Lerna (powered by Nx)   Successfully ran target compile for 2 projects
+  private async handlePassCalcResponse(payload: any, headers?: any) {
+    try {
+      // BÜTÜN IDENTIFIER'LARI DENE (GSC bazen farklı header isimleri kullanabiliyor)
+      const rawCorrId: string = headers?.['correlation-id'] || headers?.['JMSCorrelationID'] || headers?.['correlationId'] || headers?.['id'] || '';
+      const correlationMeta = rawCorrId ? (correlationGet(rawCorrId) ?? null): null;
+      // Check if it is a Feedback response
+      const javaClass: string = payload['@class'] || '';
+      const fb = payload.feedback || payload;
+      const isFeedback = javaClass.includes('Feedback') || payload.feedback !== undefined || fb.feedbackContent !== undefined;
 
+      if (isFeedback) {
+        const feedbackSuccessful = fb.successful === true || fb.successful === 'true';
+        const feedbackContent = fb.feedbackContent || '';
+        const feedbackMessage = fb.message || '';
 
+        this.logger.log(`[GSC-PASSCALC-FEEDBACK] Received Feedback: ${feedbackSuccessful ? 'SUCCESS' : 'FAIL'} | Content: ${feedbackContent} | Message: ${feedbackMessage} | CorrId: ${rawCorrId}`);
 
-> gsc.scheduling.theia@ build:extensions /home/theia
-> lerna run --scope="@uzay/*" build
+        if (rawCorrId.startsWith('TLE_RENEWAL:') || javaClass.includes('TleRenewal')) {
+        // Broadcast to socket clients
+          this.gateway.broadcast('tle_renewal_result', {
+            successful: feedbackSuccessful,
+            message: feedbackMessage,
+            feedbackContent: feedbackContent,
+            correlationId: rawCorrId
+          });
 
-lerna notice cli v9.0.7
-lerna notice filter including "@uzay/*"
-lerna info filter [ '@uzay/*' ]
+          const parts = rawCorrId.split(':');
+          if (parts.length >= 2) {
+            const satelliteNo = Number(parts[1]);
+            this.logger.log(`[TLE-RENEWAL] TLE renewal successful for Sat ${satelliteNo}. Triggering automatic requestLatestTle...`);
+            await this.satelliteAppService.requestLatestTle(satelliteNo);
+          }
+        }
+        else if(rawCorrId.startsWith('PASS_SCHED_SETTING_:')){
+          this.logger.log(`[PASS_SCHED_SETTING_] Broadcast result for CorrId: ${rawCorrId}, Success: ${feedbackSuccessful}`);
+          this.gateway.broadcast('pass_schedule_setting_result', { successful: feedbackSuccessful, message: feedbackMessage || feedbackContent, correlationId: rawCorrId});
+        }
+        else {
+          this.gateway.broadcast('pass_calc_feedback', {successful: feedbackSuccessful, message: feedbackContent || feedbackMessage, correlationId: rawCorrId});
+        }
+        return;
+      }
 
- Lerna (powered by Nx)   Running target build for 9 projects:
+      // Case-insensitive pass list extraction
+      const passList: any[] = payload.passList || payload.passlist || payload.futurePassList || payload.passageList || payload.satellitePassList || [];
 
-- @uzay/gsc-core-extension
-- @uzay/gsc-earth-extension
-- @uzay/gsc-files-extension
-- @uzay/gsc-mission-extension
-- @uzay/gsc-moon-extension
-- @uzay/gsc-pass-control-extension
-- @uzay/gsc-pass-prediction-extension
-- @uzay/gsc-settings-extension
-- @uzay/gsc-common
+      this.logger.log(`[GSC-PASSCALC] Received Message | ID: ${rawCorrId} | Items: ${passList.length} | Keys: ${Object.keys(payload)}`);
 
-—————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+      // 1. GLOBAL REFRESH (PAST/FUTURE/GLOBAL)
+      const isGlobal = rawCorrId.includes('GLOBAL') || rawCorrId.includes('FUTURE') || rawCorrId.includes('PAST');
+      let gsIdFromCorr = 'ALL';
+      if (isGlobal) {
+        if (passList.length === 0) {
+          this.logger.warn(`[GSC-PASSCALC] Received GLOBAL message but passList is EMPTY. ID: ${rawCorrId}`);
+        } else {
+          
+          this.logger.log(`[GSC-PASSCALC] Raw Correlation ID:${rawCorrId}`);
+          if(rawCorrId.startsWith('FILTEREDPASS:')) {
+            const parts = rawCorrId.substring('FILTEREDPASS:'.length).split('_');
+            if(parts.length > 0 && parts[0]){
+              gsIdFromCorr = parts[0];
+              this.logger.log(`[GSC-PASSCALC] GSID Correlation ID:${gsIdFromCorr}`);
+            }
+          }
+          this.logger.log(`[GSC-PASSCALC] ${rawCorrId} ID'li tüm geçişleri yakala. Yer İstasyonu ID: ${gsIdFromCorr} Items: ${passList.length}`);
+          
+          if(rawCorrId.includes('PAST_REFRESH_') || rawCorrId.includes('FUTURE_REFRESH_')){
+            const parts = rawCorrId.split('_');
+            if (parts.length >=3){
+              gsIdFromCorr = parts[2];
+            }
+          }
+          if(gsIdFromCorr === 'ALL' && correlationMeta && correlationMeta.startsWith('GLOBAL_REFRESH|')){
+            gsIdFromCorr = correlationMeta.substring('GLOBAL_REFRESH|'.length);
+          }
 
-> @uzay/gsc-common:build
+          const normalizedPasses = passList.map(p => this.normalizePass(p, gsIdFromCorr));
+          // Save in backend memory
+          await this.satelliteAppService.saveInMemoryPrecalculatedPasses(normalizedPasses);
 
-@uzay/gsc-common: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
-@uzay/gsc-common: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
-@uzay/gsc-common: npm warn config shrinkwrap Use the --package-lock setting instead.
-@uzay/gsc-common: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
-@uzay/gsc-common: npm warn config `--include=optional` to include them.
-@uzay/gsc-common: npm warn config
-@uzay/gsc-common: npm warn config       Default value does install optional deps unless otherwise omitted.
-@uzay/gsc-common: > @uzay/gsc-common@1.0.0 build
-@uzay/gsc-common: > npm run build:lib
-@uzay/gsc-common: > @uzay/gsc-common@1.0.0 build:lib /home/theia/gsc-common
-@uzay/gsc-common: > vite build --mode lib
-@uzay/gsc-common: vite v7.3.6 building client environment for lib...
-@uzay/gsc-common: transforming...
-@uzay/gsc-common: ✓ 11 modules transformed.
-@uzay/gsc-common: rendering chunks...
-@uzay/gsc-common: computing gzip size...
-@uzay/gsc-common: dist/soc-widgets.es.js  115.90 kB │ gzip: 29.96 kB
-@uzay/gsc-common: dist/soc-widgets.umd.js  89.26 kB │ gzip: 26.05 kB
-@uzay/gsc-common: ✓ built in 3.50s
+          this.gateway.broadcast('pass_prediction', { count: normalizedPasses.length, gsId: 'ALL', passes: normalizedPasses });
+        }
+        return;
+      }
 
-> @uzay/gsc-core-extension:build
+      // 2. DASHBOARD NEXT: Eğer ID kartlara aitse
+      if (rawCorrId.includes('DASHBOARD_NEXT')) {
+        const gsId = rawCorrId.split('_')[2] || 'ALL';
+        const normalizedPasses = passList.map(p => this.normalizePass(p, gsId));
+        this.logger.log(`[GSC-PASSCALC] Received Dashboard Approaching (GS: ${gsId}) | Items: ${passList.length}`);
+        this.satelliteAppService.setApproachingPasses(normalizedPasses, gsId);
+        this.gateway.broadcast('approaching_passes', { passes: normalizedPasses, gsId });
+        return;
+      }
 
+      // 3. FALLBACK: Liste varsa tabloya
+      if (passList.length > 0) {
+        this.logger.log(`[GSC-PASSCALC] Catch-all routing for ID: ${rawCorrId} | Items: ${passList.length}`);
+        const normalizedPasses = passList.map(p => this.normalizePass(p, gsIdFromCorr));
+        
+        // Save in backend memory
+        await this.satelliteAppService.saveInMemoryPrecalculatedPasses(normalizedPasses);
 
-> @uzay/gsc-files-extension:build
+        this.gateway.broadcast('pass_prediction', { count: normalizedPasses.length, gsId: gsIdFromCorr, passes: normalizedPasses });
+      } else {
+        this.logger.debug(`[GSC-PASSCALC] Discarded message (Empty or Non-relevant) | ID: ${rawCorrId}`);
+      }
+    } catch (error: any) {
+      this.logger.error(`[GSC-PASSCALC-RESPONSE] Error: ${error.message}`);
+    }
+  }
 
+  // ─────────────────────────────────────────────────────────────────
+  // GSC PASS OPERATIONS RESPONSE HANDLER
+  // ─────────────────────────────────────────────────────────────────
 
-> @uzay/gsc-mission-extension:build
+  private async handlePassOperationsResponse(payload: any, headers?: any) {
+    try {
+      const javaClass: string = payload['@class'] || '';
 
+      let correlationMeta: string | null = null;
+      let rawCorrId = '';
+      if (headers) {
+        rawCorrId = headers['correlation-id'] || headers['JMSCorrelationID'] || '';
+        if (rawCorrId) {
+          correlationMeta = correlationGet(rawCorrId) ?? null;
+        }
+      }
 
-> @uzay/gsc-pass-control-extension:build
+      // Check for PassStarting / PassStopping feedback
+      const fb = payload.feedback || payload;
+      const isFeedback = javaClass.includes('Feedback') || payload.feedback !== undefined || fb.feedbackContent !== undefined;
 
+      if (isFeedback && (rawCorrId.startsWith('PASS_START_') || rawCorrId.startsWith('PASS_STOP_') || javaClass.includes('PassStartingResponse') || javaClass.includes('PassStoppingResponse'))) {
+        const successful = fb.successful === true || fb.successful === 'true';
+        const message = fb.message || '';
+        const feedbackContent = fb.feedbackContent || '';
+        this.logger.log(`[GSC-OPERATIONS] Pass operation feedback received. CorrId: ${rawCorrId}, Success: ${successful}, Message: ${message}`);
+        this.gateway.broadcast('pass_operation_result', {
+          successful,
+          message,
+          feedbackContent,
+          operation: (rawCorrId.startsWith('PASS_START_') || javaClass.includes('PassStarting')) ? 'START' : 'STOP'
+        });
+        return;
+      }
 
-> @uzay/gsc-pass-prediction-extension:build
+      // Current Satellite Pass Response handler
+      const isDashboardCurrent = correlationMeta?.startsWith('DASHBOARD_CURRENT|');
+      if (javaClass.includes('CurrentSatellitePassResponse') || payload.satellitePass || isDashboardCurrent) {
+        const rawPass = payload.satellitePass || payload;
 
+        let gsId = 'DEFAULT';
+        // If we have gsId in metadata, use it
+        if (isDashboardCurrent && correlationMeta) gsId = correlationMeta.split('|')[1];
+        else if (correlationMeta?.startsWith('FILTEREDPASS|')) gsId = correlationMeta.split('|')[1];
 
-> @uzay/gsc-settings-extension:build
+        const pass = this.normalizePass(rawPass, gsId);
 
+        let shouldClear = false;
+        if (pass && pass.los) {
+          const los = new Date(pass.los);
+          // If the pass ended more than 1 minute ago, it's definitely stale for the "current" slot.
+          if (Date.now() - los.getTime() > 60000) {
+            this.logger.warn(`[GSC-FILTER] Ignoring stale current pass for ${pass.satelliteNo} (LOS was at ${los.toISOString()})`);
+            shouldClear = true;
+          }
+        } else if (!pass || Object.keys(pass).length === 0) {
+          shouldClear = true;
+        }
 
-> @uzay/gsc-moon-extension:build
+        const passToSet = shouldClear ? null : pass;
+        this.satelliteAppService.setCurrentPass(passToSet, gsId);
+        this.gateway.broadcast('current_pass', { pass: passToSet, gsId });
+        return;
+      }
 
-@uzay/gsc-files-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
-@uzay/gsc-files-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
-@uzay/gsc-files-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
-@uzay/gsc-files-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
-@uzay/gsc-files-extension: npm warn config `--include=optional` to include them.
-@uzay/gsc-files-extension: npm warn config
-@uzay/gsc-files-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
-@uzay/gsc-mission-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
-@uzay/gsc-mission-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
-@uzay/gsc-mission-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
-@uzay/gsc-mission-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
-@uzay/gsc-mission-extension: npm warn config `--include=optional` to include them.
-@uzay/gsc-mission-extension: npm warn config
-@uzay/gsc-mission-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
-@uzay/gsc-pass-control-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
-@uzay/gsc-pass-control-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
-@uzay/gsc-pass-control-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
-@uzay/gsc-pass-control-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
-@uzay/gsc-pass-control-extension: npm warn config `--include=optional` to include them.
-@uzay/gsc-pass-control-extension: npm warn config
-@uzay/gsc-pass-control-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
-@uzay/gsc-mission-extension: > @uzay/gsc-mission-extension@1.0.0 build
-@uzay/gsc-mission-extension: > tsc && cpx "src/**/*.css" lib/
-@uzay/gsc-files-extension: > @uzay/gsc-files-extension@1.0.0 build
-@uzay/gsc-files-extension: > tsc && cpx "src/**/*.css" lib/
-@uzay/gsc-core-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
-@uzay/gsc-core-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
-@uzay/gsc-core-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
-@uzay/gsc-core-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
-@uzay/gsc-core-extension: npm warn config `--include=optional` to include them.
-@uzay/gsc-core-extension: npm warn config
-@uzay/gsc-core-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
-@uzay/gsc-pass-control-extension: > @uzay/gsc-pass-control-extension@1.0.0 build
-@uzay/gsc-pass-control-extension: > tsc && cpx "src/**/*.css" lib/
-@uzay/gsc-core-extension: > @uzay/gsc-core-extension@1.0.0 build
-@uzay/gsc-core-extension: > tsc
-@uzay/gsc-pass-prediction-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
-@uzay/gsc-pass-prediction-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
-@uzay/gsc-pass-prediction-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
-@uzay/gsc-pass-prediction-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
-@uzay/gsc-pass-prediction-extension: npm warn config `--include=optional` to include them.
-@uzay/gsc-pass-prediction-extension: npm warn config
-@uzay/gsc-pass-prediction-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
-@uzay/gsc-pass-prediction-extension: > @uzay/gsc-pass-prediction-extension@1.0.0 build
-@uzay/gsc-pass-prediction-extension: > tsc && cpx "src/**/*.css" lib/
-@uzay/gsc-settings-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
-@uzay/gsc-settings-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
-@uzay/gsc-settings-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
-@uzay/gsc-settings-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
-@uzay/gsc-settings-extension: npm warn config `--include=optional` to include them.
-@uzay/gsc-settings-extension: npm warn config
-@uzay/gsc-settings-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
-@uzay/gsc-moon-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
-@uzay/gsc-moon-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
-@uzay/gsc-moon-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
-@uzay/gsc-moon-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
-@uzay/gsc-moon-extension: npm warn config `--include=optional` to include them.
-@uzay/gsc-moon-extension: npm warn config
-@uzay/gsc-moon-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
-@uzay/gsc-moon-extension: npm warn config ignoring workspace config at /home/theia/extensions/gsc-moon-extension/.npmrc
-@uzay/gsc-settings-extension: > @uzay/gsc-settings-extension@1.0.0 build
-@uzay/gsc-settings-extension: > tsc && cpx "src/**/*.css" lib/
-@uzay/gsc-moon-extension: > @uzay/gsc-moon-extension@1.0.0 build
-@uzay/gsc-moon-extension: > tsc -p tsconfig.json && cpx "src/**/*.css" lib/
+      // PassConfigsChangeResponse - Konfigürasyon Değişikliği Onayı
+      if (javaClass.includes('PassConfigsChangeResponse') || javaClass.includes('Feedback')) {
+        this.logger.log(`[GSC-OPERATIONS] Received Config Change Feedback: ${JSON.stringify(payload.feedback || payload)}`);
+        this.gateway.broadcast('config_change_result', { success: true, payload });
+        return;
+      }
 
-> @uzay/gsc-earth-extension:build
+      this.logger.warn(`[GSC-PASSOPERATIONS-RESPONSE] Unknown: ${javaClass}. Keys: ${Object.keys(payload)}`);
+    } catch (error: any) {
+      this.logger.error(`[GSC-PASSOPERATIONS-RESPONSE] Processing error: ${error.message}`);
+    }
+  }
 
-@uzay/gsc-earth-extension: npm warn config cache-min This option has been deprecated in favor of `--prefer-offline`.
-@uzay/gsc-earth-extension: npm warn config cache-max This option has been deprecated in favor of `--prefer-online`
-@uzay/gsc-earth-extension: npm warn config shrinkwrap Use the --package-lock setting instead.
-@uzay/gsc-earth-extension: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
-@uzay/gsc-earth-extension: npm warn config `--include=optional` to include them.
-@uzay/gsc-earth-extension: npm warn config
-@uzay/gsc-earth-extension: npm warn config       Default value does install optional deps unless otherwise omitted.
-@uzay/gsc-earth-extension: > @uzay/gsc-earth-extension@1.0.0 build
-@uzay/gsc-earth-extension: > tsc
+  // ─────────────────────────────────────────────────────────────────
+  // GSC ADMINISTRATION RESPONSE HANDLER
+  // ─────────────────────────────────────────────────────────────────
 
-—————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+  private async handleAdminResponse(payload: any, headers?: any) {
+    try {
+      const javaClass: string = payload['@class'] || '';
+      const corrId = headers?.['correlation-id'] || headers?.['JMSCorrelationID'] || headers?.['correlationId'] || '';
+      this.logger.log(`[GSC-ADMIN-INCOMING] Class: ${javaClass} | CorrId: ${corrId} | Keys: ${Object.keys(payload).join(',')}`);
 
- Lerna (powered by Nx)   Successfully ran target build for 9 projects
+      // Check SystemModeResponse
+      if (javaClass.includes('SystemModeResponse') || payload.systemMode !== undefined || payload.mode !== undefined) {
+        let systemMode = payload.systemMode || payload.mode;
+        this.logger.log(`[GSC-ADMIN] Received System Mode response: ${systemMode}`);
+        
+        // Normalize NONE to MANUAL
+        if (systemMode === 'NONE') {
+          systemMode = 'MANUAL';
+        }
 
+        this.gateway.broadcast('system_mode_update', { systemMode });
+        return;
+      }
 
+      // Check FeedBack
+      const fb = payload.feedback || payload;
+      const isFeedback = javaClass.includes('Feedback') || payload.feedback !== undefined || fb.successful !== undefined || fb.feedbackContent !== undefined;
 
-> gsc-browser-app@1.0.0 build /home/theia/browser-app
-> npm run -s compile && npm run -s bundle
+      if (isFeedback) {
+        const feedbackSuccessful = fb.successful === true || fb.successful === 'true';
+        const feedbackContent = fb.feedbackContent || '';
+        const feedbackMessage = fb.message || '';
 
-native node modules are already rebuilt for browser
-Could not resolve optional peer dependency '@theia/electron'. Skipping...
-[webpack-cli] Failed to load '/home/theia/browser-app/webpack.config.js' config
+        this.logger.log(`[GSC-ADMIN] Received Feedback: ${feedbackSuccessful ? 'SUCCESS' : 'FAIL'} | Content: ${feedbackContent} | Message: ${feedbackMessage}`);
 
-[webpack-cli] Error: Cannot find module 'terser-webpack-plugin'
-Require stack:
-- /home/theia/browser-app/gen-webpack.node.config.js
-- /home/theia/browser-app/webpack.config.js
-- /home/theia/node_modules/webpack-cli/lib/webpack-cli.js
-- /home/theia/node_modules/webpack-cli/lib/bootstrap.js
-- /home/theia/node_modules/webpack-cli/bin/cli.js
-- /home/theia/node_modules/webpack/bin/webpack.js
-    at Function._resolveFilename (node:internal/modules/cjs/loader:1225:15)
-    at Function._load (node:internal/modules/cjs/loader:1055:27)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
-    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
-    at Module.require (node:internal/modules/cjs/loader:1311:12)
-    at require (/home/theia/node_modules/v8-compile-cache/v8-compile-cache.js:159:20)
-    at Object.<anonymous> (/home/theia/browser-app/gen-webpack.node.config.js:9:22)
-    at Module._compile (/home/theia/node_modules/v8-compile-cache/v8-compile-cache.js:192:30)
-    at Object..js (node:internal/modules/cjs/loader:1706:10)
-    at Module.load (node:internal/modules/cjs/loader:1289:32) {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [
-    '/home/theia/browser-app/gen-webpack.node.config.js',
-    '/home/theia/browser-app/webpack.config.js',
-    '/home/theia/node_modules/webpack-cli/lib/webpack-cli.js',
-    '/home/theia/node_modules/webpack-cli/lib/bootstrap.js',
-    '/home/theia/node_modules/webpack-cli/bin/cli.js',
-    '/home/theia/node_modules/webpack/bin/webpack.js'
-  ]
+        // Try to extract systemMode from feedback fields or text content
+        let systemMode = fb.systemMode || fb.mode;
+        if (!systemMode) {
+          const lowerText = `${feedbackContent} ${feedbackMessage}`.toLowerCase();
+          if (lowerText.includes('manual') || lowerText.includes('none') || lowerText.includes('manüel')) {
+            systemMode = 'MANUAL';
+          } else if (lowerText.includes('automatic') || lowerText.includes('otomatik')) {
+            systemMode = 'AUTOMATIC';
+          }
+        }
+
+        // Normalize NONE to MANUAL
+        if (systemMode === 'NONE') {
+          systemMode = 'MANUAL';
+        }
+
+        // If system mode is successfully resolved, broadcast global state update
+        if (systemMode === 'AUTOMATIC' || systemMode === 'MANUAL') {
+          this.logger.log(`[GSC-ADMIN] Extracted and broadcasting system mode: ${systemMode}`);
+          this.gateway.broadcast('system_mode_update', { systemMode });
+        }
+
+        this.gateway.broadcast('system_mode_setting_result', {
+          successful: feedbackSuccessful,
+          message: feedbackMessage,
+          feedbackContent: feedbackContent,
+          systemMode: systemMode
+        });
+        return;
+      }
+
+      this.logger.warn(`[GSC-ADMIN-RESPONSE] Unknown response: ${javaClass}`);
+    } catch (error: any) {
+      this.logger.error(`[GSC-ADMIN-RESPONSE] Processing error: ${error.message}`);
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────
+  // SUB-HANDLERS
+  // ─────────────────────────────────────────────────────────────────
+
+  /**
+   * ODS'e uydu ekleme (Catalog No veya TLE) cevabını işler.
+   */
+  private async handleSatAdditionResponse(payload: any, meta: string | null) {
+    const feedback = payload.feedback;
+    const success: boolean = feedback?.successful ?? false;
+    const message: string = feedback?.message || (success ? 'Başarılı' : 'Bilinmeyen hata');
+
+    this.logger.log(`[GSC-SAT-ADDITION] Result: ${success ? 'SUCCESS' : 'FAIL'} | Message: ${message} | Meta: ${meta}`);
+    this.gateway.broadcast('gsc_sat_addition_result', { success, message, meta });
+
+    if (success) {
+      this.logger.log('[GSC-SAT-ADDITION] Operation successful. Refreshing Sat List from GSC DB...');
+      const requestPayload = {
+        requestType: 'GET_ALL_SATELLITES',
+        '@class': 'tr.gov.uzay.gsc.server.datamodels.api.messaging.requests.SatListRequest'
+      };
+      await this.artemis.publish(GSC_DB_QUEUE, requestPayload['@class'], requestPayload, GSC_DB_RESPONSE).catch(err => {
+        this.logger.error(`[GSC-SAT-ADDITION] Failed to refresh Sat List: ${err.message}`);
+      });
+    }
+  }
+
+  /**
+   * ODS'ten uydu çıkarma cevabını işler.
+   */
+  private async handleSatRemovalResponse(payload: any, meta: string | null) {
+    const feedback = payload.feedback;
+    const success: boolean = feedback?.successful ?? false;
+    const message: string = feedback?.message || (success ? 'Başarılı' : 'Bilinmeyen hata');
+
+    this.logger.log(`[GSC-SAT-REMOVAL] Result: ${success ? 'SUCCESS' : 'FAIL'} | Message: ${message} | Meta: ${meta}`);
+    this.gateway.broadcast('gsc_sat_removal_result', { success, message, meta });
+
+    if (success) {
+      this.logger.log('[GSC-SAT-REMOVAL] Operation successful. Refreshing Sat List from GSC DB...');
+      const requestPayload = {
+        requestType: 'GET_ALL_SATELLITES',
+        '@class': 'tr.gov.uzay.gsc.server.datamodels.api.messaging.requests.SatListRequest'
+      };
+      await this.artemis.publish(GSC_DB_QUEUE, requestPayload['@class'], requestPayload, GSC_DB_RESPONSE).catch(err => {
+        this.logger.error(`[GSC-SAT-REMOVAL] Failed to refresh Sat List: ${err.message}`);
+      });
+    }
+  }
+
+  /**
+   * Uydu konum haritası (SatPositionsMapResponse) cevabını işler ve cache'e yazar.
+   */
+  private async handlePositionsMapResponse(payload: any, meta: string | null) {
+    const noradId = meta?.startsWith('POSITIONS:') ? meta.split(':')[1] : meta;
+    const positionsMap = payload.positionsMap;
+
+    if (!positionsMap) {
+      this.logger.warn(`[GSC-POSITIONS] positionsMap missing! Keys: ${Object.keys(payload)}`);
+      return;
+    }
+
+    // İlk key formatını logla — debug için
+    const sampleKey = Object.keys(positionsMap)[0];
+    this.logger.debug(`[GSC-POSITIONS] Timestamp sample: "${sampleKey}"`);
+
+    // Satellite'yi bellekte bul
+    const allSats = await this.satelliteAppService.getAllSatellites();
+    const satellite = allSats.find(s => s.noradId === (noradId ? noradId.toString() : undefined));
+
+    if (!satellite) {
+      this.logger.warn(`[GSC-POSITIONS] No satellite found for noradId: ${noradId}`);
+      return;
+    }
+
+    const trajectoryArray: any[] = [];
+    for (const [timestamp, coords] of Object.entries(positionsMap) as [string, any][]) {
+      try {
+        const time = this.parseJavaTimestamp(timestamp).toISOString();
+
+        const lat = coords[0];
+        const lon = coords[1];
+        const altKm = coords[2] / 1000;
+
+        const cesiumRadius = (6371 + altKm) * 1000;
+        const latRad = lat * (Math.PI / 180);
+        const lonRad = lon * (Math.PI / 180);
+        const x = cesiumRadius * Math.cos(latRad) * Math.cos(lonRad);
+        const y = cesiumRadius * Math.cos(latRad) * Math.sin(lonRad);
+        const z = cesiumRadius * Math.sin(latRad);
+
+        trajectoryArray.push({ id: satellite.id, time, lat, lon, alt: altKm, x, y, z, referenceBody: 'earth' });
+      } catch (e: any) {
+        this.logger.warn(`[GSC-POSITIONS] Skipping entry: ${e.message}`);
+      }
+    }
+
+    this.logger.log(`[GSC-POSITIONS] Processed ${trajectoryArray.length} points for ${satellite.id}`);
+
+    // Cache'e yaz (mevcut veriyle birleştir)
+    const cacheKey = `ODS_TRAJECTORY:${satellite.id}`;
+    const existing = await this.cacheGet<any[]>(cacheKey) || [];
+    const mergeMap = new Map<string, any>();
+    existing.forEach(p => mergeMap.set(p.time, p));
+    trajectoryArray.forEach(p => mergeMap.set(p.time, p));
+
+    let merged = Array.from(mergeMap.values()).sort(
+      (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
+    );
+    if (merged.length > 10000) merged = merged.slice(-10000);
+
+    await this.cacheSet(cacheKey, merged, 24 * 60 * 60 * 1000);
+
+    // Skipping DB update per user request
+    this.logger.debug(`[GSC-POSITIONS] Updated cache for ${satellite.id}. No DB save.`);
+
+    this.gateway.broadcast('satellite_updated', {
+      id: satellite.id,
+      type: 'gsc_positions_update',
+      points: trajectoryArray.slice(-200),
+      latest: trajectoryArray[0] // Pass the latest position for the Satellite List update
+    });
+  }
+
+  /**
+   * Geçiş yörüngesi (PassTrajectoryResponse) cevabını işler.
+   * Payload içinde `trajectoryPointList` (Trajectory nesnesi) beklenir.
+   */
+  private async handlePassTrajectoryResponse(payload: any, meta: string | null) {
+    let noradId: string | null = null;
+    let gsName: string | null = null;
+    let satelliteNo: string | null = null;
+    let timeType: string | null = null;
+
+    if (meta?.startsWith('PASSTRAJECTORY:')) {
+      const parts = meta.split(':');
+      if (parts.length >= 3) {
+        noradId = parts[1] || null;
+        gsName = parts[2] || null;
+      } else if (parts.length === 2) {
+        // format: PASSTRAJECTORY:<satelliteNo>
+        satelliteNo = parts[1].split('_')[0] || null;
+      }
+      
+      // Check if it's our new format PASSTRAJECTORY:${satelliteNo}:${timeType}
+      if (parts.length >= 2 && !gsName) {
+        satelliteNo = parts[1] || null;
+        if (parts[2]) {
+          timeType = parts[2].split('_')[0] || null;
+        }
+      }
+    }
+
+    const trajectory = payload.trajectory || payload;
+    const points: any[] = trajectory?.trajectoryPointList || [];
+    const startingTime = trajectory?.startingTime || '';
+
+    this.logger.log(`[GSC-PASS-TRAJECTORY] Received ${points.length} trajectory points. SatelliteNo/Norad: ${satelliteNo || noradId}, GS: ${gsName || 'N/A'}`);
+
+    this.gateway.broadcast('satellite_updated', {
+      type: 'gsc_pass_trajectory',
+      noradId: noradId || satelliteNo,
+      gsName,
+      pointCount: points.length,
+      points,
+      startingTime
+    });
+
+    // Dedicated broadcast for our new Pass Control Extension
+    this.gateway.broadcast('pass_trajectory_update', {
+      satelliteNo: satelliteNo || noradId,
+      timeType,
+      points,
+      startingTime
+    });
+  }
+
+  /**
+   * Robust date parser for GSC timestamps
+   */
+  private parseJavaTimestamp(val: any): Date {
+    if (!val) return new Date();
+    if (val instanceof Date) return val;
+    if (typeof val === 'number') return new Date(val);
+
+    const valStr = String(val);
+
+    // Clean high-precision nanos if present (e.g. 2026-04-20T05:44:27.814319324Z -> 2026-04-20T05:44:27.814Z)
+    const cleaned = valStr.replace(/(\.[0-9]{3})[0-9]+/, '$1');
+
+    const date = new Date(cleaned);
+    if (!isNaN(date.getTime())) return date;
+
+    // Handle "YYYY-MM-DD_HH-mm-ss" format often found in GSC logs
+    const logFormat = valStr.replace(/_/g, 'T').replace(/-/g, (m, offset) => (offset > 10 ? ':' : '-'));
+    const logDate = new Date(logFormat);
+    if (!isNaN(logDate.getTime())) return logDate;
+
+    return new Date(valStr);
+  }
+
+  /**
+   * Normalizes a GSC pass object to a format suitable for the frontend
+   */
+  private normalizePass(pass: any, gsIdOverride?: string): any {
+    if (!pass || typeof pass !== 'object') return null;
+
+    const aos = pass.aos || pass.realStartTime || pass.schedStartTime || pass.startTime || pass.start_time;
+    const los = pass.los || pass.realEndTime || pass.schedEndTime || pass.endTime || pass.end_time;
+    const gsId = (gsIdOverride && gsIdOverride !== 'ALL') ? gsIdOverride : (pass.gsId || pass.groundStationId || 'DEFAULT');
+    const normalizedAos = this.parseJavaTimestamp(aos);
+    const normalizedLos = this.parseJavaTimestamp(los);
+    let duration = pass.duration;
+
+    if (!duration || duration <= 0) {
+      duration = Math.max(0, Math.round((normalizedLos.getTime() - normalizedAos.getTime()) / 1000));
+    }
+
+    return {
+      ...pass,
+      passId: pass.passId || `P-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+      aos: normalizedAos.toISOString(),
+      los: normalizedLos.toISOString(),
+      duration: duration,
+      maxElevation: pass.maxElevation || pass.maxElevationDegrees || pass.max_elevation || 0,
+      gsId: gsId,
+      groundStationId: gsId,
+      satelliteNo: pass.satelliteNo || pass.satId || 'UNKNOWN'
+    };
+  }
+
+  /**
+   * En son TLE bilgisini (LatestTleResponse) işler ve frontend'e yayınlar.
+   */
+  private async handleLatestTleResponse(payload: any, meta: string | null) {
+    const satNo = meta?.startsWith('LATEST_TLE:') ? meta.split(':')[1] : (payload.satelliteNo || payload.noradId || payload.tle?.satelliteNo || payload.tle?.noradId);
+    
+    this.logger.log(`[GSC-ODSRUNNER] Received Latest TLE for Sat: ${satNo}`);
+    
+    let t1 = payload.tleLine1 || payload.tle?.tleLine1;
+    let t2 = payload.tleLine2 || payload.tle?.tleLine2;
+
+    if ( Array.isArray(payload.tle) && payload.tle.length >= 2) {
+      t1 = payload.tle[0];
+      t2 = payload.tle[1];
+    }
+    // Frontend'e TLE ve tazelik bilgisini gönder
+    this.gateway.broadcast('latest_tle_update', {
+      satelliteNo: satNo,
+      tleLine1: t1,
+      tleLine2: t2,
+      timestamp: new Date().toISOString()
+    });
+  }
 }
-
-Error: webpack exited with an unexpected code: 2.
-    at ChildProcess.<anonymous> (/home/theia/node_modules/@theia/application-manager/lib/application-process.js:86:28)
-    at ChildProcess.emit (node:events:518:28)
-    at maybeClose (node:internal/child_process:1101:16)
-    at ChildProcess._handle.onexit (node:internal/child_process:304:5)
-Uncaught Exception:  Error: webpack exited with an unexpected code: 2.
-Error: webpack exited with an unexpected code: 2.
-    at ChildProcess.<anonymous> (/home/theia/node_modules/@theia/application-manager/lib/application-process.js:86:28)
-    at ChildProcess.emit (node:events:518:28)
-    at maybeClose (node:internal/child_process:1101:16)
-    at ChildProcess._handle.onexit (node:internal/child_process:304:5)
-
-npm ERR! Linux 6.12.69+deb13-amd64
-npm ERR! argv "/usr/local/bin/node" "/home/theia/node_modules/.bin/npm" "run" "build"
-npm ERR! node v22.14.0
-npm ERR! npm  v2.15.12
-npm ERR! code ELIFECYCLE
-npm ERR! gsc-browser-app@1.0.0 build: `npm run -s compile && npm run -s bundle`
-npm ERR! Exit status 1
-npm ERR! 
-npm ERR! Failed at the gsc-browser-app@1.0.0 build script 'npm run -s compile && npm run -s bundle'.
-npm ERR! This is most likely a problem with the gsc-browser-app package,
-npm ERR! not with npm itself.
-npm ERR! Tell the author that this fails on your system:
-npm ERR!     npm run -s compile && npm run -s bundle
-npm ERR! You can get information on how to open an issue for this project with:
-npm ERR!     npm bugs gsc-browser-app
-npm ERR! Or if that isn't available, you can get their info via:
-npm ERR! 
-npm ERR!     npm owner ls gsc-browser-app
-npm ERR! There is likely additional logging output above.
-
-npm ERR! Please include the following file with any support request:
-npm ERR!     /home/theia/browser-app/npm-debug.log
-root@0ca2e90b8761:/home/theia# > postinstall
-> theia check:theia-version
-
-✅ Found 11 workspaces
-✅ Found 48 dependencies
-🟠 Found 2 issues
-
-#1  @theia/core in @uzay/gsc-settings-extension [multiple-versions]
-    error Multiple versions of dependency @theia/core found.
-    1.73.0 in extensions/gsc-settings-extension/node_modules/@theia/core/package.json
-    1.72.0 in node_modules/@theia/core/package.json
-    1.73.0 in extensions/gsc-files-extension/node_modules/@theia/core/package.json
-    1.73.0 in extensions/gsc-mission-extension/node_modules/@theia/core/package.json
-    1.73.0 in extensions/gsc-pass-control-extension/node_modules/@theia/core/package.json
-    1.73.0 in extensions/gsc-pass-prediction-extension/node_modules/@theia/core/package.json
-
-#2  @theia/ai-core in gsc.scheduling.theia [theia-version-mix]
-    error Mix of @theia/* versions found.
-    1.72.0 in node_modules/@theia/ai-core/package.json
-    1.73.0 in extensions/gsc-files-extension/node_modules/@theia/core/package.json
-    1.73.0 in extensions/gsc-mission-extension/node_modules/@theia/core/package.json
-    1.73.0 in extensions/gsc-pass-control-extension/node_modules/@theia/core/package.json
-    1.73.0 in extensions/gsc-pass-prediction-extension/node_modules/@theia/core/package.json
-    1.73.0 in extensions/gsc-settings-extension/node_modules/@theia/core/package.json
-
-
-⛔ A mix of Theia versions is very likely leading to a broken application.
-ℹ️  Use npm ls <package-name> to find out why those multiple versions of a package are pulled.
-ℹ️  Try to resolve those issues by finding package versions along the dependency chain that depend on compatible versions.
-ℹ️  Use overrides in your root package.json to force specific versions as a last resort.
-
-npm verbose stack Error: command failed
-npm verbose stack     at promiseSpawn (/usr/local/lib/node_modules/npm/node_modules/@npmcli/promise-spawn/lib/index.js:22:22)
-npm verbose stack     at spawnWithShell (/usr/local/lib/node_modules/npm/node_modules/@npmcli/promise-spawn/lib/index.js:124:10)
-npm verbose stack     at promiseSpawn (/usr/local/lib/node_modules/npm/node_modules/@npmcli/promise-spawn/lib/index.js:12:12)
-npm verbose stack     at runScriptPkg (/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/run-script-pkg.js:77:13)
-npm verbose stack     at runScript (/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/run-script.js:12:10)
-npm verbose stack     at async Install.exec (/usr/local/lib/node_modules/npm/lib/commands/install.js:163:9)
-npm verbose stack     at async Npm.exec (/usr/local/lib/node_modules/npm/lib/npm.js:207:9)
-npm verbose stack     at async module.exports (/usr/local/lib/node_modules/npm/lib/cli/entry.js:74:5)
-npm error code 1
-npm error path /home/theia
-npm error command failed
-npm error command sh -c theia check:theia-version
-npm verbose cwd /home/theia
-npm verbose os Linux 6.12.69+deb13-amd64
-npm verbose node v22.14.0
-npm verbose npm  v10.9.2
-npm verbose exit 1
-npm verbose code 1
-npm error A complete log of this run can be found in: /root/.npm/_logs/2026-07-22T12_42_29_236Z-debug-0.logroot@c604f5f9045f:/home/theia# npm run build:extensions 
-
-> build:extensions
-> lerna run --scope="@uzay/*" build
-
-lerna notice cli v9.0.7
-lerna notice filter including "@uzay/*"
-lerna info filter [ '@uzay/*' ]
-
- Lerna (powered by Nx)   Running target build for 9 projects:
-
-- @uzay/gsc-core-extension
-- @uzay/gsc-earth-extension
-- @uzay/gsc-files-extension
-- @uzay/gsc-mission-extension
-- @uzay/gsc-moon-extension
-- @uzay/gsc-pass-control-extension
-- @uzay/gsc-pass-prediction-extension
-- @uzay/gsc-settings-extension
-- @uzay/gsc-common
-
-—————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-
-> @uzay/gsc-common:build
-
-@uzay/gsc-common: > @uzay/gsc-common@1.0.0 build
-@uzay/gsc-common: > npm run build:lib
-@uzay/gsc-common: > @uzay/gsc-common@1.0.0 build:lib /home/theia/gsc-common
-@uzay/gsc-common: > vite build --mode lib
-@uzay/gsc-common: vite v7.3.5 building client environment for lib...
-@uzay/gsc-common: transforming...
-@uzay/gsc-common: ✓ 11 modules transformed.
-@uzay/gsc-common: rendering chunks...
-@uzay/gsc-common: computing gzip size...
-@uzay/gsc-common: dist/soc-widgets.es.js  115.90 kB │ gzip: 29.96 kB
-@uzay/gsc-common: dist/soc-widgets.umd.js  89.26 kB │ gzip: 26.05 kB
-@uzay/gsc-common: ✓ built in 3.89s
-
-> @uzay/gsc-core-extension:build
-
-
-> @uzay/gsc-files-extension:build
-
-
-> @uzay/gsc-pass-prediction-extension:build
-
-
-> @uzay/gsc-pass-control-extension:build
-
-
-> @uzay/gsc-mission-extension:build
-
-
-> @uzay/gsc-settings-extension:build
-
-
-> @uzay/gsc-moon-extension:build
-
-@uzay/gsc-files-extension: > @uzay/gsc-files-extension@1.0.0 build
-@uzay/gsc-files-extension: > tsc && cpx "src/**/*.css" lib/
-@uzay/gsc-pass-prediction-extension: > @uzay/gsc-pass-prediction-extension@1.0.0 build
-@uzay/gsc-pass-prediction-extension: > tsc && cpx "src/**/*.css" lib/
-@uzay/gsc-mission-extension: > @uzay/gsc-mission-extension@1.0.0 build
-@uzay/gsc-mission-extension: > tsc && cpx "src/**/*.css" lib/
-@uzay/gsc-core-extension: > @uzay/gsc-core-extension@1.0.0 build
-@uzay/gsc-core-extension: > tsc
-@uzay/gsc-pass-control-extension: > @uzay/gsc-pass-control-extension@1.0.0 build
-@uzay/gsc-pass-control-extension: > tsc && cpx "src/**/*.css" lib/
-@uzay/gsc-moon-extension: npm warn config ignoring workspace config at /home/theia/extensions/gsc-moon-extension/.npmrc
-@uzay/gsc-moon-extension: > @uzay/gsc-moon-extension@1.0.0 build
-@uzay/gsc-moon-extension: > tsc -p tsconfig.json && cpx "src/**/*.css" lib/
-@uzay/gsc-settings-extension: > @uzay/gsc-settings-extension@1.0.0 build
-@uzay/gsc-settings-extension: > tsc && cpx "src/**/*.css" lib/
-
-> @uzay/gsc-earth-extension:build
-
-@uzay/gsc-earth-extension: > @uzay/gsc-earth-extension@1.0.0 build
-@uzay/gsc-earth-extension: > tsc
-
-—————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-
- Lerna (powered by Nx)   Successfully ran target build for 9 projects
-
-
-root@c604f5f9045f:/home/theia# cd browser-app
-root@c604f5f9045f:/home/theia/browser-app# npx theia build
-Could not resolve optional peer dependency '@theia/electron'. Skipping...
-^C
-root@c604f5f9045f:/home/theia/browser-app# npx theia build 2>&1 | tail -50 
-^C
-root@c604f5f9045f:/home/theia/browser-app# npx theia build
-Could not resolve optional peer dependency '@theia/electron'. Skipping...
-^C
-root@c604f5f9045f:/home/theia/browser-app# npm run build
-
-> gsc-browser-app@1.0.0 build
-> npm run -s compile && npm run -s bundle
-
-native node modules are already rebuilt for browser
-Could not resolve optional peer dependency '@theia/electron'. Skipping...
-assets by status 2.01 MiB [cached] 15 assets
-assets by path cesium/ 6.76 MiB 389 assets
-assets by path *.js 82.1 MiB
-  assets by chunk 48.9 MiB (id hint: vendors) 63 assets
-  + 18 assets
-assets by path ../ 66.9 KiB
-  assets by path ../backend/shell-integrations/ 26.2 KiB 9 assets
-  assets by path ../webview/pre/ 40.7 KiB 5 assets
-assets by path textures/*.jpg 39 MiB
-  asset textures/8k_moon.jpg 14.3 MiB [compared for emit] [from: ../gsc-common/public/textures/8k_moon.jpg] [copied]
-  asset textures/8k_earth_clouds.jpg 11.1 MiB [compared for emit] [from: ../gsc-common/public/textures/8k_earth_clouds.jpg] [copied]
-  + 3 assets
-+ 5 assets
-runtime modules 9.68 KiB 19 modules
-orphan modules 132 KiB [orphan] 9 modules
-modules by path ../ 52.9 MiB (javascript) 2.01 MiB (asset)
-  modules by path ../node_modules/ 34.1 MiB (javascript) 2.01 MiB (asset) 3363 modules
-  modules by path ../extensions/ 18.7 MiB 1688 modules
-  + 1 module
-modules by path ./ 12.7 MiB
-  javascript modules 10.5 MiB 1529 modules
-  json modules 2.27 MiB 62 modules
-modules by mime type image/svg+xml 3.17 KiB
-  data:image/svg+xml;base64,PHN2ZyB3aWR0aD0i.. 1.59 KiB [built] [code generated]
-  data:image/svg+xml;base64,PHN2ZyB3aWR0aD0i.. 1.59 KiB [built] [code generated]
-+ 6 modules
-  
-webpack 5.107.2 compiled successfully in 70856 ms
-
-assets by status 1.62 GiB [compared for emit]
-  assets by path cesium/Assets/ 4.18 MiB 205 assets
-  assets by path cesium/Widgets/ 503 KiB 67 assets
-  assets by path textures/*.jpg 39 MiB 5 assets
-  assets by path cesium/ThirdParty/ 843 KiB 5 assets
-  + 3 assets
-assets by status 2.57 MiB [emitted]
-  assets by path cesium/Workers/*.js 1.04 MiB
-    asset cesium/Workers/chunk-55KTRCCC.js 137 KiB [emitted] [from: ../node_modules/cesium/Build/Cesium/Workers/chunk-55KTRCCC.js] [copied]
-    + 109 assets
-  assets by path cesium/ThirdParty/ 232 KiB
-    asset cesium/ThirdParty/google-earth-dbroot-parser.js 214 KiB [emitted] [from: ../node_modules/cesium/Build/Cesium/ThirdParty/google-earth-dbroot-parser.js] [copied]
-    asset cesium/ThirdParty/Workers/zip-web-worker.js 18.1 KiB [emitted] [from: ../node_modules/cesium/Build/Cesium/ThirdParty/Workers/zip-web-worker.js] [copied]
-  asset editor.worker.js 1.31 MiB [emitted] (name: editor.worker) 1 related asset
-runtime modules 670 bytes 3 modules
-cacheable modules 1.1 MiB
-  modules by path ../node_modules/@theia/monaco-editor-core/esm/vs/editor/common/ 430 KiB 45 modules
-  modules by path ../node_modules/@theia/monaco-editor-core/esm/vs/base/common/ 690 KiB
-    modules by path ../node_modules/@theia/monaco-editor-core/esm/vs/base/common/*.js 615 KiB 37 modules
-    modules by path ../node_modules/@theia/monaco-editor-core/esm/vs/base/common/worker/*.js 16.4 KiB
-      ../node_modules/@theia/monaco-editor-core/esm/vs/base/common/worker/webWork...(truncated) 1.08 KiB [built] [code generated]
-      ../node_modules/@theia/monaco-editor-core/esm/vs/base/common/worker/webWorker.js 15.3 KiB [built] [code generated]
-    modules by path ../node_modules/@theia/monaco-editor-core/esm/vs/base/common/diff/*.js 58.3 KiB
-      ../node_modules/@theia/monaco-editor-core/esm/vs/base/common/diff/diff.js 57 KiB [built] [code generated]
-      ../node_modules/@theia/monaco-editor-core/esm/vs/base/common/diff/diffChange.js 1.32 KiB [built] [code generated]
-  modules by path ../node_modules/@theia/monaco-editor-core/esm/vs/*.js 3.58 KiB
-    ../node_modules/@theia/monaco-editor-core/esm/vs/nls.js 2.74 KiB [built] [code generated]
-    ../node_modules/@theia/monaco-editor-core/esm/vs/nls.messages.js 854 bytes [built] [code generated]
-webpack 5.107.2 compiled successfully in 30839 ms
-
-assets by status 2.01 MiB [cached] 15 assets
-assets by path cesium/ 6.76 MiB 389 assets
-assets by path textures/*.jpg 39 MiB
-  asset textures/8k_moon.jpg 14.3 MiB [compared for emit] [from: ../gsc-common/public/textures/8k_moon.jpg] [copied]
-  asset textures/8k_earth_clouds.jpg 11.1 MiB [compared for emit] [from: ../gsc-common/public/textures/8k_earth_clouds.jpg] [copied]
-  asset textures/EARTH_DISPLACE_42K_16BITS_preview.jpg 6.19 MiB [compared for emit] [from: ../gsc-common/public/textures/EARTH_DISPLACE_42K_16BITS_preview.jpg] [copied]
-  + 2 assets
-assets by status 26.9 MiB [emitted]
-  asset secondary-window.js 26.4 MiB [emitted] (name: secondary-window) 1 related asset
-  asset secondary-window.css 568 KiB [emitted] (name: secondary-window) 1 related asset
-asset earth/satellite-2017-11-02_europe_turkey.mbtiles 1.45 GiB [compared for emit] [from: ../gsc-common/public/earth/satellite-2017-11-02_europe_turkey.mbtiles] [copied]
-asset moon/moon_wac.mbtiles 123 MiB [compared for emit] [from: ../gsc-common/public/moon/moon_wac.mbtiles] [copied]
-asset models/imece-web2.gltf 10.7 MiB [compared for emit] [from: ../gsc-common/public/imece-web2.gltf] [copied]
-Entrypoint secondary-window 26.9 MiB (26.5 MiB) = secondary-window.css 568 KiB secondary-window.js 26.4 MiB 17 auxiliary assets
-runtime modules 111 KiB 490 modules
-orphan modules 1.28 MiB (javascript) 1.55 MiB (asset) [orphan] 182 modules
-javascript modules 20 MiB 2143 modules
-css modules 505 KiB
-  modules by path ../node_modules/ 342 KiB 114 modules
-  modules by path ./ 163 KiB 42 modules
-json modules 2.36 MiB
-  modules by path ./node_modules/@theia/core/ 2.23 MiB 50 modules
-  modules by path ../node_modules/ 89.8 KiB 10 modules
-  modules by path ./node_modules/@theia/monaco/ 36.2 KiB 10 modules
-asset modules 463 KiB (asset) 84 bytes (javascript)
-  ../node_modules/vscode-oniguruma/release/onig.wasm 462 KiB (asset) 42 bytes (javascript) [built] [code generated]
-  ../node_modules/@theia/monaco-editor-core/esm/vs/editor/common/services/editorWe...(truncated) 590 bytes (asset) 42 bytes (javascript) [built] [code generated]
-  
-webpack 5.107.2 compiled successfully in 30961 ms
-
-assets by path *.js 38.5 MiB
-  assets by status 38.1 MiB [compared for emit]
-    asset vendors-node_modules_theia_ai-core_lib_node_ai-core-backend-module_js-node_modules_theia_ai-m-972455.js 29.2 MiB [compared for emit] (id hint: vendors) 1 related asset
-    asset vendors-node_modules_theia_core_lib_common_index_js-node_modules_theia_core_lib_common_menu_i-62760b.js 3.48 MiB [compared for emit] (id hint: vendors) 1 related asset
-    asset vendors-node_modules_theia_core_lib_common_collections_js-node_modules_theia_core_lib_common_-16af40.js 2.57 MiB [compared for emit] (id hint: vendors) 1 related asset
-    asset vendors-node_modules_theia_plugin-ext_lib_hosted_node_plugin-host_js.js 2.2 MiB [compared for emit] (id hint: vendors) 1 related asset
-    + 5 assets
-  assets by status 419 KiB [emitted]
-    asset main.js 335 KiB [emitted] (name: main) 1 related asset
-    asset ipc-bootstrap.js 21.8 KiB [emitted] (name: ipc-bootstrap) 1 related asset
-    asset plugin-host.js 17.3 KiB [emitted] (name: plugin-host) 1 related asset
-    asset parcel-watcher.js 16.2 KiB [emitted] (name: parcel-watcher) 1 related asset
-    + 3 assets
-asset native/watcher.node 511 KiB [compared for emit] (auxiliary id hint: vendors)
-asset worker/conoutSocketWorker.js 3.7 KiB [emitted] (name: worker/conoutSocketWorker) 1 related asset
-runtime modules 23.9 KiB 56 modules
-orphan modules 118 KiB [orphan] 2 modules
-modules by path ../node_modules/ 25 MiB
-  javascript modules 23 MiB 2984 modules
-  json modules 2.09 MiB 36 modules
-modules by path ./ 6.98 MiB 651 modules
-modules by path ../extensions/ 162 KiB
-  modules by path ../extensions/gsc-earth-extension/lib/node/services/*.js 127 KiB 4 modules
-  optional modules 2.78 KiB [optional] 2 modules
-  modules by path ../extensions/gsc-earth-extension/lib/node/rpc/*.js 13.5 KiB 2 modules
-  + 2 modules
-modules by path ../gsc-common/ 114 KiB
-  ../gsc-common/dist/soc-widgets.es.js 113 KiB [built] [code generated]
-  ../gsc-common/package.json 1.07 KiB [optional] [built] [code generated]
-+ 63 modules
-webpack 5.107.2 compiled successfully in 14749 ms
