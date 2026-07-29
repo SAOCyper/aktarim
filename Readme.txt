@@ -1,4 +1,142 @@
-import { injectable, postConstruct, inject } from '@theia/core/shared/inversify';
+2026-07-29T06:54:03.163Z root INFO INFO [SatelliteApplicationService] [main.js:2201] [requestGscSatelliteList] [GSC-DB] Requesting Satellite List...
+2026-07-29T06:54:03.163Z root INFO INFO [ArtemisService] [main.js:846] [publish] [ARTEMIS] Message sent to gsc.server.database_request_queue_ | Class: tr.gov.uzay.gsc.server.database.api.messaging.requests.SatListRequest | CorrId: req-1785308043162-rqsf9qv
+2026-07-29T06:54:03.168Z root INFO INFO [OdsListenerService] [main.js:1196] [handleDatabaseResponse] [GSC-DB-INCOMING] Class:  | CorrId: req-1785308043162-rqsf9qv | Keys: satelliteList
+2026-07-29T06:54:03.168Z root INFO INFO [OdsListenerService] [main.js:1200] [handleDatabaseResponse] ### GSC SAT LIST RECEIVED (5 ITEMS) ###
+2026-07-29T06:54:03.168Z root INFO INFO [OdsListenerService] [1204:33] [js] [SAT] No: 56178 | Name: IMC | Priority: 1 | TLE Auto: true | Disabled: false
+2026-07-29T06:54:03.168Z root INFO INFO [OdsListenerService] [1204:33] [js] [SAT] No: 39030 | Name: GK-2 | Priority: 2 | TLE Auto: true | Disabled: false
+2026-07-29T06:54:03.168Z root INFO INFO [OdsListenerService] [1204:33] [js] [SAT] No: 69097 | Name: 69097 | Priority: 3 | TLE Auto: true | Disabled: false
+2026-07-29T06:54:03.168Z root INFO INFO [OdsListenerService] [1204:33] [js] [SAT] No: 67206 | Name: 67206 | Priority: 4 | TLE Auto: true | Disabled: false
+2026-07-29T06:54:03.168Z root INFO INFO [OdsListenerService] [1204:33] [js] [SAT] No: 60342 | Name: 60342 | Priority: 5 | TLE Auto: true | Disabled: false
+2026-07-29T06:54:03.468Z root INFO [SocDataService] Merged 1 dynamic passes into main state for normalized IDs.
+2026-07-29T06:54:03.468Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs.
+2026-07-29T06:54:03.583Z root INFO [FILTER-DEBUG] Total Passes in memory: 481 Sample Pass: {
+  passId: '260728120460342',
+  satId: '60342',
+  satName: '60342',
+  gsId: 'undefined',
+  aos: '2026-07-28T12:04:18.705Z',
+  los: '2026-07-28T12:11:41.099Z',
+  duration: 442,
+  maxElevation: 16.662663455577352,
+  direction: 'Unknown',
+  satelliteNo: '60342',
+  startAzimuthDegrees: 180.63152133632855,
+  averageAltitude: 476929.2565698932,
+  schedule: 'AUTO_SCHEDULED'
+} GroundStations: [
+  {
+    id: 'MIYEG',
+    name: 'MIYEG',
+    lat: 39.8914,
+    lon: 32.77857,
+    alt: 0.925,
+    minElevation: 5
+  },
+  {
+    id: 'TROMSO',
+    name: 'TROMSO',
+    lat: 69.3598,
+    lon: 18.5993,
+    alt: 0.142727,
+    minElevation: 5
+  }
+]
+2026-07-29T06:54:03.766Z root INFO [FILTER-DEBUG] Total Passes in memory: 481 Sample Pass: {
+  passId: '260728120460342',
+  satId: '60342',
+  satName: '60342',
+  gsId: 'undefined',
+  aos: '2026-07-28T12:04:18.705Z',
+  los: '2026-07-28T12:11:41.099Z',
+  duration: 442,
+  maxElevation: 16.662663455577352,
+  direction: 'Unknown',
+  satelliteNo: '60342',
+  startAzimuthDegrees: 180.63152133632855,
+  averageAltitude: 476929.2565698932,
+  schedule: 'AUTO_SCHEDULED'
+} GroundStations: [
+  {
+    id: 'MIYEG',
+    name: 'MIYEG',
+    lat: 39.8914,
+    lon: 32.77857,
+    alt: 0.925,
+    minElevation: 5
+  },
+  {
+    id: 'TROMSO',
+    name: 'TROMSO',
+    lat: 69.3598,
+    lon: 18.5993,
+    alt: 0.142727,
+    minElevation: 5
+  }
+]
+2026-07-29T06:54:03.849Z root INFO [FILTER-DEBUG] Total Passes in memory: 481 Sample Pass: {
+  passId: '260728120460342',
+  satId: '60342',
+  satName: '60342',
+  gsId: 'undefined',
+  aos: '2026-07-28T12:04:18.705Z',
+  los: '2026-07-28T12:11:41.099Z',
+  duration: 442,
+  maxElevation: 16.662663455577352,
+  direction: 'Unknown',
+  satelliteNo: '60342',
+  startAzimuthDegrees: 180.63152133632855,
+  averageAltitude: 476929.2565698932,
+  schedule: 'AUTO_SCHEDULED'
+} GroundStations: [
+  {
+    id: 'MIYEG',
+    name: 'MIYEG',
+    lat: 39.8914,
+    lon: 32.77857,
+    alt: 0.925,
+    minElevation: 5
+  },
+  {
+    id: 'TROMSO',
+    name: 'TROMSO',
+    lat: 69.3598,
+    lon: 18.5993,
+    alt: 0.142727,
+    minElevation: 5
+  }
+]
+2026-07-29T06:54:10.966Z root INFO [FILTER-DEBUG] Total Passes in memory: 481 Sample Pass: {
+  passId: '260728120460342',
+  satId: '60342',
+  satName: '60342',
+  gsId: 'undefined',
+  aos: '2026-07-28T12:04:18.705Z',
+  los: '2026-07-28T12:11:41.099Z',
+  duration: 442,
+  maxElevation: 16.662663455577352,
+  direction: 'Unknown',
+  satelliteNo: '60342',
+  startAzimuthDegrees: 180.63152133632855,
+  averageAltitude: 476929.2565698932,
+  schedule: 'AUTO_SCHEDULED'
+} GroundStations: [
+  {
+    id: 'MIYEG',
+    name: 'MIYEG',
+    lat: 39.8914,
+    lon: 32.77857,
+    alt: 0.925,
+    minElevation: 5
+  },
+  {
+    id: 'TROMSO',
+    name: 'TROMSO',
+    lat: 69.3598,
+    lon: 18.5993,
+    alt: 0.142727,
+    minElevation: 5
+  }
+]import { injectable, postConstruct, inject } from '@theia/core/shared/inversify';
 import { SatellitePosition, GroundStation } from '@uzay/gsc-common';
 import { SatelliteClientManager } from '../rpc/satellite-client-manager';
 import * as fs from 'fs';
