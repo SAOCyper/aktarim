@@ -1,13 +1,6 @@
-npm http fetch GET 200 https://registry.npmjs.org/normalize-package-data 37ms (cache revalidated)
-npm http fetch GET 200 https://registry.npmjs.org/init-package-json 38ms (cache revalidated)
-npm http fetch GET 200 https://registry.npmjs.org/read-installed 57ms (cache revalidated)
-npm http fetch GET 200 https://registry.npmjs.org/npm-install-checks 278ms (cache revalidated)
-npm http fetch GET 200 https://registry.npmjs.org/npm-package-arg 279ms (cache revalidated)
-npm http fetch GET 200 https://registry.npmjs.org/npm-registry-client 280ms (cache revalidated)
-npm http fetch GET 200 https://registry.npmjs.org/@modelcontextprotocol%2fsdk 55ms (cache revalidated)
-npm http fetch GET 200 https://registry.npmjs.org/nx 46ms (cache revalidated)
-npm info run @uzay/gsc-core-extension@1.0.0 prepare { code: 0, signal: null }
-npm http fetch GET 200 https://registry.npmjs.org/config-chain 41ms (cache revalidated)
+pm info run @uzay/gsc-core-extension@1.0.0 prepare { code: 0, signal: null }
+npm http fetch GET 200 https://registry.npmjs.org/anymatch 51ms (cache miss)
+npm http fetch GET 200 https://registry.npmjs.org/readdirp 92ms (cache miss)
 npm info run @uzay/gsc-earth-extension@1.0.0 prepare { code: 1, signal: null }
 npm verbose stack Error: command failed
 npm verbose stack     at promiseSpawn (/usr/local/lib/node_modules/npm/node_modules/@npmcli/promise-spawn/lib/index.js:22:22)
@@ -111,4 +104,3 @@ npm verbose node v22.14.0
 npm verbose npm  v10.9.2
 npm verbose exit 1
 npm verbose code 1
-npm error A complete log of this run can be found in: /root/.npm/_logs/2026-08-03T11_05_50_959Z-debug-0.log
