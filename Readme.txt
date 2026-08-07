@@ -9,10 +9,8 @@ Could not resolve optional peer dependency '@theia/electron'. Skipping...
 ▶ ESM (`import`) failed:
   Error: Cannot find module 'ajv/dist/compile/codegen'
   Require stack:
-  - /home/theia/node_modules/ajv-keywords/dist/definitions/typeof.js
-  - /home/theia/node_modules/ajv-keywords/dist/keywords/typeof.js
-  - /home/theia/node_modules/ajv-keywords/dist/keywords/index.js
-  - /home/theia/node_modules/ajv-keywords/dist/index.js
+  - /home/theia/node_modules/ajv-formats/dist/limit.js
+  - /home/theia/node_modules/ajv-formats/dist/index.js
   - /home/theia/node_modules/schema-utils/dist/validate.js
   - /home/theia/node_modules/schema-utils/dist/index.js
   - /home/theia/node_modules/compression-webpack-plugin/dist/index.js
@@ -24,7 +22,7 @@ Could not resolve optional peer dependency '@theia/electron'. Skipping...
       at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
       at Module.require (node:internal/modules/cjs/loader:1311:12)
       at require (node:internal/modules/helpers:136:16)
-      at Object.<anonymous> (/home/theia/node_modules/ajv-keywords/dist/definitions/typeof.js:3:19)
+      at Object.<anonymous> (/home/theia/node_modules/ajv-formats/dist/limit.js:5:19)
       at Module._compile (node:internal/modules/cjs/loader:1554:14)
       at Object..js (node:internal/modules/cjs/loader:1706:10)
       at Module.load (node:internal/modules/cjs/loader:1289:32)
@@ -33,10 +31,8 @@ Could not resolve optional peer dependency '@theia/electron'. Skipping...
 ▶ CJS (`require`) failed:
   Error: Cannot find module 'ajv/dist/compile/codegen'
   Require stack:
-  - /home/theia/node_modules/ajv-keywords/dist/definitions/typeof.js
-  - /home/theia/node_modules/ajv-keywords/dist/keywords/typeof.js
-  - /home/theia/node_modules/ajv-keywords/dist/keywords/index.js
-  - /home/theia/node_modules/ajv-keywords/dist/index.js
+  - /home/theia/node_modules/ajv-formats/dist/limit.js
+  - /home/theia/node_modules/ajv-formats/dist/index.js
   - /home/theia/node_modules/schema-utils/dist/validate.js
   - /home/theia/node_modules/schema-utils/dist/index.js
   - /home/theia/node_modules/compression-webpack-plugin/dist/index.js
@@ -48,7 +44,7 @@ Could not resolve optional peer dependency '@theia/electron'. Skipping...
       at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
       at Module.require (node:internal/modules/cjs/loader:1311:12)
       at require (node:internal/modules/helpers:136:16)
-      at Object.<anonymous> (/home/theia/node_modules/ajv-keywords/dist/definitions/typeof.js:3:19)
+      at Object.<anonymous> (/home/theia/node_modules/ajv-formats/dist/limit.js:5:19)
       at Module._compile (node:internal/modules/cjs/loader:1554:14)
       at Object..js (node:internal/modules/cjs/loader:1706:10)
       at Module.load (node:internal/modules/cjs/loader:1289:32)
@@ -88,3 +84,4 @@ npm ERR! There is likely additional logging output above.
 
 npm ERR! Please include the following file with any support request:
 npm ERR!     /home/theia/browser-app/npm-debug.log
+root@2a85f57da0c0:/home/theia# 
