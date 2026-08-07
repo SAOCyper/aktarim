@@ -1,146 +1,71 @@
-/**
- * Bu dosya esbuild yapılandırmasını özelleştirmek için düzenlenebilir.
- * Sıfırlamak için bu dosyayı silip theia build komutunu tekrar çalıştırın.
- */
-import { browserOptions, watch } from './gen-esbuild.browser.mjs';
-import { nodeOptions } from './gen-esbuild.node.mjs';
-import { sourceMapPathsPlugin } from '@theia/bundle-plugin';
-import esbuild from 'esbuild';
-import * as path from 'path';
-import * as fs from 'fs';
-import { fileURLToPath } from 'url';
+Could not resolve optional peer dependency '@theia/electron'. Skipping...
+[build/browser] Build started
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+[build/node] Build started
 
-// ===================================================
-// MERKEZİ SABİTLER
-// ===================================================
-const ROOT_NODE_MODULES = path.resolve(__dirname, '../node_modules');
-const CESIUM_BUILD = path.resolve(ROOT_NODE_MODULES, 'cesium/Build/Cesium');
+[build/node] Finished with 0 errors in 802ms.
 
-// ===================================================
-// 1. CESIUM STATIK DOSYALARINI KOPYALAYAN PLUGIN
-//    Webpack'teki CopyWebpackPlugin karşılığı
-// ===================================================
-const copyCesiumPlugin = {
-    name: 'copy-cesium-assets',
-    setup(build) {
-        build.onEnd(() => {
-            const outdir = build.initialOptions.outdir || path.resolve(__dirname, 'lib', 'frontend');
-            const cesiumDest = path.join(outdir, 'cesium');
+[build/browser] Finished with 0 errors in 1394ms.
 
-            const copies = [
-                { from: path.join(CESIUM_BUILD, 'Workers'),    to: path.join(cesiumDest, 'Workers') },
-                { from: path.join(CESIUM_BUILD, 'ThirdParty'), to: path.join(cesiumDest, 'ThirdParty') },
-                { from: path.join(CESIUM_BUILD, 'Assets'),     to: path.join(cesiumDest, 'Assets') },
-                { from: path.join(CESIUM_BUILD, 'Widgets'),    to: path.join(cesiumDest, 'Widgets') },
-            ];
+[CopyCesium] Workers -> lib/frontend/cesium/Workers
 
-            for (const { from, to } of copies) {
-                if (fs.existsSync(from)) {
-                    fs.cpSync(from, to, { recursive: true });
-                    console.log(`[CopyCesium] ${path.basename(from)} -> ${to}`);
-                } else {
-                    console.warn(`[CopyCesium] WARN: Source not found: ${from}`);
-                }
-            }
-        });
-    }
-};
+[CopyCesium] ThirdParty -> lib/frontend/cesium/ThirdParty
 
-// ===================================================
-// 2. CESIUM BARE IMPORT RESOLVER
-//    "cesium" importunu kaynak koduna yönlendirin.
-//    NOT: Alias olarak dizin değil, dosya yolu verilmeli!
-// ===================================================
-const cesiumResolverPlugin = {
-    name: 'cesium-resolver',
-    setup(build) {
-        // "cesium" bare import -> Cesium.js ESM entry file
-        build.onResolve({ filter: /^cesium$/ }, () => ({
-            path: path.resolve(ROOT_NODE_MODULES, 'cesium/Source/Cesium.js'),
-        }));
+[CopyCesium] Assets -> lib/frontend/cesium/Assets
 
-        // Cesium'un CSS import'u -> doğrudan dosyaya yönlendir
-        build.onResolve({ filter: /^cesium\/Build\/Cesium\/Widgets\/widgets\.css$/ }, () => ({
-            path: path.resolve(ROOT_NODE_MODULES, 'cesium/Build/Cesium/Widgets/widgets.css'),
-        }));
-    }
-};
+[CopyCesium] Widgets -> lib/frontend/cesium/Widgets
 
-// ===================================================
-// 3. FRONTEND (BROWSER) YAPILANDIRMASI
-// ===================================================
+[esbuild] Build completed successfully.
 
-// Webpack DefinePlugin karşılığı: Cesium runtime URL'si
-if (!browserOptions.define) browserOptions.define = {};
-browserOptions.define['CESIUM_BASE_URL'] = JSON.stringify('/cesium/');
-browserOptions.define['process.env.NODE_ENV'] = JSON.stringify(
-    process.env.NODE_ENV || 'development'
-);
+root@2a85f57da0c0:/home/theia# npm run start:browser
 
-// Modül arama yollarına root node_modules'ü ekle
-// Webpack'teki resolve.modules karşılığı
-if (!browserOptions.nodePaths) browserOptions.nodePaths = [];
-browserOptions.nodePaths.unshift(ROOT_NODE_MODULES);
+> start:browser
+> cd browser-app && npm run start
 
-// Plugin'leri ekle
-if (!browserOptions.plugins) browserOptions.plugins = [];
-browserOptions.plugins.push(cesiumResolverPlugin);
-browserOptions.plugins.push(copyCesiumPlugin);
-browserOptions.plugins.push(sourceMapPathsPlugin());
 
-// ===================================================
-// 4. BACKEND (NODE) YAPILANDIRMASI
-// ===================================================
+> gsc-browser-app@1.0.0 start /home/theia/browser-app
+> theia start --hostname=0.0.0.0 --plugins=local-dir:../plugins
 
-// Native modülleri bundle dışı bırak (webpack externals karşılığı)
-// Bu modüller runtime'da Node.js tarafından yüklenecek
-if (!nodeOptions.external) nodeOptions.external = [];
-const nativeExternals = [
-    'keytar', 'node-pty', 'nsfw',
-    'sqlite3', 'drivelist',
-    // parcel-watcher Theia tarafından zaten external olarak işaretleniyor
-];
-for (const ext of nativeExternals) {
-    if (!nodeOptions.external.includes(ext)) {
-        nodeOptions.external.push(ext);
-    }
+Backend main: entry point loaded [0.148 s since backend process start]
+Backend server: loading modules... [0.151 s since backend process start]
+Backend server: container created [0.271 s since backend process start]
+[SOC Core] Backend module loaded (no additional bindings needed — handled by soc-earth-extension).
+Failed to start the backend application:
+Error: Cannot find module '/home/theia/browser-app/lib/backend/Build/CesiumUnminified/index.cjs'
+Require stack:
+- /home/theia/browser-app/lib/backend/main.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Function._load (node:internal/modules/cjs/loader:1055:27)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+    at Module.require (node:internal/modules/cjs/loader:1311:12)
+    at require (node:internal/modules/helpers:136:16)
+    at ../node_modules/cesium/index.cjs (/home/theia/browser-app/lib/backend/main.js:417713:83)
+    at __require (/home/theia/browser-app/lib/backend/main.js:16:50)
+    at ../extensions/gsc-core-extension/lib/common/features/satellite/services/CesiumEntityManager.js (/home/theia/browser-app/lib/backend/main.js:417778:20)
+    at __require (/home/theia/browser-app/lib/backend/main.js:16:50) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/theia/browser-app/lib/backend/main.js' ]
+}
+/home/theia/browser-app/lib/backend/main.js:331
+      throw reason;
+      ^
+
+Error: Cannot find module '/home/theia/browser-app/lib/backend/Build/CesiumUnminified/index.cjs'
+Require stack:
+- /home/theia/browser-app/lib/backend/main.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Function._load (node:internal/modules/cjs/loader:1055:27)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+    at Module.require (node:internal/modules/cjs/loader:1311:12)
+    at require (node:internal/modules/helpers:136:16)
+    at ../node_modules/cesium/index.cjs (/home/theia/browser-app/lib/backend/main.js:417713:83)
+    at __require (/home/theia/browser-app/lib/backend/main.js:16:50)
+    at ../extensions/gsc-core-extension/lib/common/features/satellite/services/CesiumEntityManager.js (/home/theia/browser-app/lib/backend/main.js:417778:20)
+    at __require (/home/theia/browser-app/lib/backend/main.js:16:50) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/theia/browser-app/lib/backend/main.js' ]
 }
 
-// Modül arama yollarına root node_modules'ü ekle
-if (!nodeOptions.nodePaths) nodeOptions.nodePaths = [];
-nodeOptions.nodePaths.unshift(ROOT_NODE_MODULES);
-
-// Plugin'leri ekle
-if (!nodeOptions.plugins) nodeOptions.plugins = [];
-nodeOptions.plugins.push(sourceMapPathsPlugin());
-
-// ===================================================
-// 5. BUILD ÇALIŞTIR
-// ===================================================
-const args = process.argv.slice(2);
-const isWatch = args.includes('--watch') || watch;
-
-async function runBuild() {
-    try {
-        if (isWatch) {
-            const browserCtx = await esbuild.context(browserOptions);
-            const nodeCtx = await esbuild.context(nodeOptions);
-            await Promise.all([browserCtx.watch(), nodeCtx.watch()]);
-            console.log('[esbuild] Watching for changes...');
-        } else {
-            await Promise.all([
-                esbuild.build(browserOptions),
-                esbuild.build(nodeOptions),
-            ]);
-            console.log('[esbuild] Build completed successfully.');
-        }
-    } catch (err) {
-        console.error('[esbuild] Build failed:', err);
-        process.exit(1);
-    }
-}
-
-runBuild();
+Node.js v22.14.0
