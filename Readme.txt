@@ -1,164 +1,104 @@
-/**
- * Bu dosya esbuild yapılandırmasını özelleştirmek için düzenlenebilir.
- * Sıfırlamak için bu dosyayı silip theia build komutunu tekrar çalıştırın.
- */
-import { browserOptions, watch } from './gen-esbuild.browser.mjs';
-import { nodeOptions } from './gen-esbuild.node.mjs';
-import { sourceMapPathsPlugin } from '@theia/bundle-plugin';
-import esbuild from 'esbuild';
-import * as path from 'path';
-import * as fs from 'fs';
-import { fileURLToPath } from 'url';
+———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+ Lerna (powered by Nx)   Successfully ran target build for 8 projects
 
-// ===================================================
-// MERKEZİ SABİTLER
-// ===================================================
-const ROOT_NODE_MODULES = path.resolve(__dirname, '../node_modules');
-const CESIUM_BUILD = path.resolve(ROOT_NODE_MODULES, 'cesium/Build/Cesium');
 
-// ===================================================
-// 1. CESIUM STATIK DOSYALARINI KOPYALAYAN PLUGIN
-// ===================================================
-const copyCesiumPlugin = {
-    name: 'copy-cesium-assets',
-    setup(build) {
-        build.onEnd(() => {
-            const outdir = build.initialOptions.outdir || path.resolve(__dirname, 'lib', 'frontend');
-            const cesiumDest = path.join(outdir, 'cesium');
 
-            const copies = [
-                { from: path.join(CESIUM_BUILD, 'Workers'), to: path.join(cesiumDest, 'Workers') },
-                { from: path.join(CESIUM_BUILD, 'ThirdParty'), to: path.join(cesiumDest, 'ThirdParty') },
-                { from: path.join(CESIUM_BUILD, 'Assets'), to: path.join(cesiumDest, 'Assets') },
-                { from: path.join(CESIUM_BUILD, 'Widgets'), to: path.join(cesiumDest, 'Widgets') },
-            ];
+> gsc-browser-app@1.0.0 build /home/theia/browser-app
+> npm run -s compile && npm run -s bundle
 
-            for (const { from, to } of copies) {
-                if (fs.existsSync(from)) {
-                    fs.cpSync(from, to, { recursive: true });
-                    console.log(`[CopyCesium] ${path.basename(from)} -> ${to}`);
-                } else {
-                    console.warn(`[CopyCesium] WARN: Source not found: ${from}`);
-                }
-            }
-        });
-    }
-};
+native node modules are already rebuilt for browser
+Could not resolve optional peer dependency '@theia/electron'. Skipping...
+[build/browser] Build started
 
-// ===================================================
-// 2. MODÜL ÇÖZÜMLEME (RESOLUTION) PLUGINİ
-//    Webpack'teki resolve.alias ve Module._resolveFilename karşılığı
-// ===================================================
-const aliasMap = {
-    'react': path.resolve(ROOT_NODE_MODULES, 'react'),
-    'react-dom': path.resolve(ROOT_NODE_MODULES, 'react-dom'),
-    'parcel-watcher': path.resolve(ROOT_NODE_MODULES, '@parcel/watcher'),
-    '@theia/filesystem/lib/node/parcel-watcher': path.resolve(ROOT_NODE_MODULES, '@parcel/watcher'),
-    '@uzay/gsc-core-extension': path.resolve(ROOT_NODE_MODULES, '@uzay/gsc-core-extension'),
-};
+[build/node] Build started
 
-const resolveAliasPlugin = {
-    name: 'resolve-alias',
-    setup(build) {
-        // Cesium bare import -> ES module source
-        build.onResolve({ filter: /^cesium$/ }, () => ({
-            path: path.resolve(ROOT_NODE_MODULES, 'cesium/Source/Cesium.js'),
-        }));
+✘ [ERROR] Cannot read file "../node_modules/@parcel/watcher": is a directory
 
-        // Cesium CSS yönlendirmesi
-        build.onResolve({ filter: /^cesium\/Build\/Cesium\/Widgets\/widgets\.css$/ }, () => ({
-            path: path.resolve(ROOT_NODE_MODULES, 'cesium/Build/Cesium/Widgets/widgets.css'),
-        }));
 
-        // Diğer alias'lar
-        for (const [key, target] of Object.entries(aliasMap)) {
-            const escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            build.onResolve({ filter: new RegExp(`^${escapedKey}$`) }, () => ({
-                path: target,
-            }));
-        }
+✘ [ERROR] Cannot read file "../node_modules/react": is a directory
 
-        // @vscode/ripgrep yönlendirmesi
-        build.onResolve({ filter: /^@vscode\/ripgrep/ }, (args) => {
-            const targetPath = args.path === '@vscode/ripgrep/bin/rg'
-                ? path.resolve(ROOT_NODE_MODULES, '@vscode/ripgrep/bin/rg')
-                : path.resolve(ROOT_NODE_MODULES, '@vscode/ripgrep');
-            return { path: targetPath };
-        });
-    }
-};
+    ../node_modules/@theia/core/shared/react/index.js:1:25:
+      1 │ module.exports = require('react');
+        ╵                          ~~~~~~~
 
-// ===================================================
-// 3. FRONTEND (BROWSER) YAPILANDIRMASI
-// ===================================================
 
-// Webpack DefinePlugin karşılığı
-if (!browserOptions.define) browserOptions.define = {};
-browserOptions.define['CESIUM_BASE_URL'] = JSON.stringify('/cesium/');
+✘ [ERROR] Cannot read file "../node_modules/react-dom": is a directory
 
-// Modül arama yolları (webpack resolve.modules karşılığı)
-if (!browserOptions.nodePaths) browserOptions.nodePaths = [];
-if (!browserOptions.nodePaths.includes(ROOT_NODE_MODULES)) {
-    browserOptions.nodePaths.push(ROOT_NODE_MODULES);
+    ../node_modules/react-dom/client.js:3:16:
+      3 │ var m = require('react-dom');
+        ╵                 ~~~~~~~~~~~
+
+
+✘ [ERROR] Cannot read file "../node_modules/@vscode/ripgrep": is a directory
+
+    ../node_modules/@theia/search-in-workspace/lib/node/search-in-workspace-backend-module.js:22:26:
+      22 │ const ripgrep_1 = require("@vscode/ripgrep");
+         ╵                           ~~~~~~~~~~~~~~~~~
+
+
+✘ [ERROR] Cannot read file "../node_modules/@uzay/gsc-core-extension": is a directory
+
+    ../extensions/gsc-earth-extension/lib/node/soc-backend-module.js:11:37:
+      11 │ const gsc_core_extension_1 = require("@uzay/gsc-core-extension");
+         ╵                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+✘ [ERROR] Cannot read file "../node_modules/@uzay/gsc-core-extension": is a directory
+
+    ../extensions/gsc-settings-extension/lib/browser/soc-settings-widget.js:51:37:
+      51 │ const gsc_core_extension_1 = require("@uzay/gsc-core-extension");
+         ╵                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+[build/node] Finished with 3 errors in 398ms.
+
+[esbuild] Build failed: Error: Build failed with 3 errors:
+error: Cannot read file "../node_modules/@parcel/watcher": is a directory
+../extensions/gsc-earth-extension/lib/node/soc-backend-module.js:11:37: ERROR: Cannot read file "../node_modules/@uzay/gsc-core-extension": is a directory
+../node_modules/@theia/search-in-workspace/lib/node/search-in-workspace-backend-module.js:22:26: ERROR: Cannot read file "../node_modules/@vscode/ripgrep": is a directory
+    at failureErrorWithLog (/home/theia/node_modules/esbuild/lib/main.js:1476:15)
+    at /home/theia/node_modules/esbuild/lib/main.js:945:25
+    at /home/theia/node_modules/esbuild/lib/main.js:1354:9 {
+  errors: [Getter/Setter],
+  warnings: [Getter/Setter]
 }
 
-// Plugin'leri ekle
-if (!browserOptions.plugins) browserOptions.plugins = [];
-browserOptions.plugins.push(resolveAliasPlugin);
-browserOptions.plugins.push(copyCesiumPlugin);
-browserOptions.plugins.push(sourceMapPathsPlugin());
+Error: esbuild exited with an unexpected code: 1.
+    at ChildProcess.<anonymous> (/home/theia/node_modules/@theia/application-manager/lib/application-process.js:86:28)
+    at ChildProcess.emit (node:events:518:28)
+    at maybeClose (node:internal/child_process:1101:16)
+    at Socket.<anonymous> (node:internal/child_process:456:11)
+    at Socket.emit (node:events:518:28)
+    at Pipe.<anonymous> (node:net:351:12)
+Uncaught Exception:  Error: esbuild exited with an unexpected code: 1.
+Error: esbuild exited with an unexpected code: 1.
+    at ChildProcess.<anonymous> (/home/theia/node_modules/@theia/application-manager/lib/application-process.js:86:28)
+    at ChildProcess.emit (node:events:518:28)
+    at maybeClose (node:internal/child_process:1101:16)
+    at Socket.<anonymous> (node:internal/child_process:456:11)
+    at Socket.emit (node:events:518:28)
+    at Pipe.<anonymous> (node:net:351:12)
 
-// ===================================================
-// 4. BACKEND (NODE) YAPILANDIRMASI
-// ===================================================
+npm ERR! Linux 6.12.69+deb13-amd64
+npm ERR! argv "/usr/local/bin/node" "/home/theia/node_modules/.bin/npm" "run" "build"
+npm ERR! node v22.14.0
+npm ERR! npm  v2.15.12
+npm ERR! code ELIFECYCLE
+npm ERR! gsc-browser-app@1.0.0 build: `npm run -s compile && npm run -s bundle`
+npm ERR! Exit status 1
+npm ERR! 
+npm ERR! Failed at the gsc-browser-app@1.0.0 build script 'npm run -s compile && npm run -s bundle'.
+npm ERR! This is most likely a problem with the gsc-browser-app package,
+npm ERR! not with npm itself.
+npm ERR! Tell the author that this fails on your system:
+npm ERR!     npm run -s compile && npm run -s bundle
+npm ERR! You can get information on how to open an issue for this project with:
+npm ERR!     npm bugs gsc-browser-app
+npm ERR! Or if that isn't available, you can get their info via:
+npm ERR! 
+npm ERR!     npm owner ls gsc-browser-app
+npm ERR! There is likely additional logging output above.
 
-// Native modülleri bundle dışı bırak (webpack externals karşılığı)
-if (!nodeOptions.external) nodeOptions.external = [];
-const nativeExternals = ['keytar', 'node-pty', 'nsfw', 'parcel-watcher', 'sqlite3', 'drivelist'];
-for (const ext of nativeExternals) {
-    if (!nodeOptions.external.includes(ext)) {
-        nodeOptions.external.push(ext);
-    }
-}
-
-// Modül arama yolları
-if (!nodeOptions.nodePaths) nodeOptions.nodePaths = [];
-if (!nodeOptions.nodePaths.includes(ROOT_NODE_MODULES)) {
-    nodeOptions.nodePaths.push(ROOT_NODE_MODULES);
-}
-
-// Plugin'leri ekle
-if (!nodeOptions.plugins) nodeOptions.plugins = [];
-nodeOptions.plugins.push(resolveAliasPlugin);
-nodeOptions.plugins.push(sourceMapPathsPlugin());
-
-// ===================================================
-// 5. BUILD ÇALIŞTIR
-// ===================================================
-const args = process.argv.slice(2);
-const isWatch = args.includes('--watch') || watch;
-
-async function runBuild() {
-    try {
-        if (isWatch) {
-            const browserCtx = await esbuild.context(browserOptions);
-            const nodeCtx = await esbuild.context(nodeOptions);
-            await Promise.all([browserCtx.watch(), nodeCtx.watch()]);
-            console.log('[esbuild] Watching for changes...');
-        } else {
-            await Promise.all([
-                esbuild.build(browserOptions),
-                esbuild.build(nodeOptions),
-            ]);
-            console.log('[esbuild] Build completed successfully.');
-        }
-    } catch (err) {
-        console.error('[esbuild] Build failed:', err);
-        process.exit(1);
-    }
-}
-
-runBuild();
+npm ERR! Please include the following file with any support request:
+npm ERR!     /home/theia/browser-app/npm-debug.log
