@@ -1,99 +1,29 @@
-# Builder stage
-FROM yeralti:8282/pardus25-1-node22.14-ci:1.0.0 as build-stage
-
-WORKDIR /home/theia
-
-# Copy repository files
-COPY . .
-
-ENV ELECTRON_GET_USE_PROXY "http://proxy.uzay.tubitak.gov.tr:3128"
-
-RUN npm config set registry="http://uzayrepo.uzay.tubitak.gov.tr/repository/npm-proxy" -g && \
-npm config set https-proxy="http://proxy.uzay.tubitak.gov.tr:3128" -g && \
-npm config set proxy="http://proxy.uzay.tubitak.gov.tr:3128" -g
-
-ENV http_proxy "http://proxy.uzay.tubitak.gov.tr:3128"
-ENV https_proxy "http://proxy.uzay.tubitak.gov.tr:3128"
-ENV no_proxy "localhost,127.0.0.1,.uzay.tubitak.gov.tr"
-ENV PUPPETEER_SKIP_DOWNLOAD=true \
-    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    npm_config_puppeteer_skip_download=true \
-    NODE_OPTIONS="--max_old_space_size=8192"
-
-RUN apt-get update && apt-get install -y \
-    libx11-dev \
-    libxkbfile-dev \
-    libsecret-1-dev \
-    build-essential python3 make g++ gcc  python3-setuptools && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install dependencies, compile application
-# Remove unnecesarry files for the browser application
-# Download plugins and build application production mode
-RUN npm install --verbose && \
-    npm run build:extensions --verbose && \
-    npm run download:plugins --verbose && \
-    npm run build:browser:prod --verbose && \
-    find . -name \*.ts -o -name \*.ts.map -o -name \*.spec.* -type f -delete && \
-    rm -rf .git gsc-core-extension
-
-# Production stage uses a small base image
-FROM yeralti:8282/pardus25-1-node22.14-ci:1.0.0 as production-stage
-
-USER root
-
-# Copy application from builder-stage
-COPY --from=build-stage --chown=theia:theia /home/theia /home/theia
-
-# Create theia user and directories
-# Application will be copied to /home/theia
-# Default workspace is located at /home/project
-#RUN addgroup theia && adduser --ingroup theia theia
-RUN chmod g+rw /home && \
-    mkdir -p /home/project && \
-    mkdir -p /home/theia/.theia && \
-    echo '{"security.workspace.trust.enabled": false}' > /home/theia/.theia/settings.json && \
-    chown -R theia:theia /home/theia && \
-    chown -R theia:theia /home/project && \
-    #theia'ya şifre ata
-    echo "theia:theia123" | chpasswd
-
-
-# Copy jupyter config
-#COPY jupyter_server_config.py /etc/jupyter/jupyter_server_config.py
-
-#RUN apt-get update && apt-get install -y apt-transport-https && \
-#    apt-get update && apt-get install -y git openssh-client openssh-server libsecret-1-0 nano sudo python3 python3-pip python3-venv make g++ && \
-#    apt-get clean
-
-ENV HOME /home/theia
-WORKDIR /home/theia
-
-
-#RUN python3 -m venv  /home/theia/jupyter-env && \
-#    pip config set global.index-url http://uzayrepo.uzay.tubitak.gov.tr/repository/pypi-proxy/simple && \
-#    pip config set global.trusted-host uzayrepo.uzay.tubitak.gov.tr && \
-#    /home/theia/jupyter-env/bin/pip install --upgrade pip && \
-#    /home/theia/jupyter-env/bin/pip install jupyterhub jupyter-server-proxy 
-
-
-
-EXPOSE 3000 8000
-
-# Specify default shell for Theia and the Built-In plugins directory
-ENV SHELL=/bin/bash \
-    THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins
-
-# Use installed git instead of dugite
-#ENV USE_LOCAL_GIT true
-#ENV PATH="/home/theia/jupyter-env/bin:$PATH"
-
-# Swtich to Theia user
-USER theia
-WORKDIR /home/theia/browser-app
-
-# Launch the backend application via node
-ENTRYPOINT [ "node", "/home/theia/browser-app/lib/backend/main.js" ]
-
-# Arguments passed to the application
-CMD [ "--root-dir=/home/project", "--hostname=0.0.0.0", "--port=3000"]
+     artemis
+sistem@uag-gp:/opt$ docker logs -f gsc-cesium 
+Backend main: entry point loaded [0.253 s since backend process start]
+Backend server: loading modules... [0.262 s since backend process start]
+Backend server: container created [0.431 s since backend process start]
+[SOC Core] Backend module loaded (no additional bindings needed — handled by soc-earth-extension).
+Backend server: modules loaded [0.792 s since backend process start]
+Backend server: resolving application [0.806 s since backend process start]
+Configuring to accept webviews on '^.+\.webview\..+$' hostname.
+2026-08-18T10:37:15.344Z root WARN Backend lk.initialize took longer than the expected maximum 50 milliseconds: 94.9 ms [0.909 s since backend process start]
+2026-08-18T10:37:15.344Z root WARN Backend Object.initialize took longer than the expected maximum 50 milliseconds: 93.2 ms [0.909 s since backend process start]
+2026-08-18T10:37:15.344Z root WARN Backend qde.initialize took longer than the expected maximum 50 milliseconds: 94.0 ms [0.910 s since backend process start]
+2026-08-18T10:37:15.349Z core:BackendApplication INFO configured all backend app contributions
+2026-08-18T10:37:15.353Z core:BackendApplication INFO Theia app listening on http://0.0.0.0:3000.
+2026-08-18T10:37:15.367Z root INFO Configuration directory URI: 'file:///home/theia/.theia'
+2026-08-18T10:37:15.370Z root INFO Backend application startup sequence completed (async work may still be pending): 23.2 ms [0.936 s since backend process start]
+2026-08-18T10:37:15.370Z root INFO All backend contributions settled: 128.5 ms [0.936 s since backend process start]
+2026-08-18T10:37:15.370Z root INFO Settings file not found at '/home/theia/.theia/backend-settings.json'. Falling back to defaults.
+2026-08-18T10:37:15.372Z root WARN The local plugin referenced by local-dir:/home/theia/plugins does not exist.
+2026-08-18T10:37:15.372Z root WARN The local plugin referenced by local-dir:/home/theia/.theia/plugins does not exist.
+2026-08-18T10:37:15.372Z root WARN The local plugin referenced by local-dir:/home/theia/.theia/deployedPlugins does not exist.
+2026-08-18T10:37:15.372Z root INFO Resolve plugins list: 1.7 ms [0.938 s since backend process start]
+2026-08-18T10:37:15.372Z root INFO Deploy plugins list: 2.0 ms [0.939 s since backend process start]
+2026-08-18T10:37:26.640Z root INFO creating connection for 5a9d7c01-7ec1-46dd-ae3d-d357db65e43d
+2026-08-18T10:37:33.184Z root INFO socket closed
+2026-08-18T10:37:33.184Z root INFO closing connection for 5a9d7c01-7ec1-46dd-ae3d-d357db65e43d
+2026-08-18T10:37:33.184Z core:DefaultMessagingService INFO Closing channel on service path '/localization-server'.
+2026-08-18T10:37:33.184Z core:DefaultMessagingService INFO Closing channel on service path '/os'.
+2026-08-18T10:37:36.086Z root INFO creating connection for d8a185c6-506c-4f94-84ac-4afbf1a80e74
