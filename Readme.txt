@@ -1,84 +1,119 @@
-{
-    "name": "gsc.scheduling.theia",
-    "private": true,
-    "engines": {
-        "node": ">=20"
-    },
-    "workspaces": [
-        "extensions/*",
-        "browser-app",
-        "browser-app-cesium"
-    ],
-    "scripts": {
-        "clean": "npm run -s rebuild:clean && npm run -s lint:clean && lerna run clean",
-        "compile": "lerna run compile",
-        "build:extensions": "lerna run --scope=\"@uzay/*\" build",
-        "build:electron": "npm run compile && npm run build:extensions && cd electron-app && npm run build",
-        "build:browser-app-cesium": "npm run compile && npm run build:extensions && cd browser-app-cesium && npm run build",
-        "build:browser-app-cesium:prod": "npm run compile && npm run build:extensions && cd browser-app-cesium && npm run build:prod",
-        "build:browser": "npm run compile && npm run build:extensions && cd browser-app && npm run build",
-        "build:browser:prod": "npm run compile && npm run build:extensions && cd browser-app && npm run build:prod",
-        "download:plugins": "theia download:plugins --rate-limit=15 --parallel=false --ignore-errors",
-        "test": "lerna run test",
-        "mimic": "cd mimic-viewer && npm run build",
-        "lint": "lerna run lint",
-        "lint:fix": "lerna run lint -- --fix",
-        "postinstall": "theia check:theia-version",
-        "rebuild:clean": "rimraf node_modules",
-        "rebuild:browser": "cd browser-app && npm run rebuild",
-        "rebuild:electron": "cd electron-app && npm run rebuild",
-        "start:browser": "cd browser-app && npm run start",
-        "start:electron": "cd electron-app && npm run start"
-    },
-    "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^7.18.0",
-        "@typescript-eslint/eslint-plugin-tslint": "^7.0.2",
-        "@typescript-eslint/parser": "^7.18.0",
-        "esbuild":"^0.28.2",
-        "eslint": "8",
-        "eslint-plugin-deprecation": "^3.0.0",
-        "eslint-plugin-import": "^2.27.5",
-        "eslint-plugin-no-null": "latest",
-        "eslint-plugin-no-unsanitized": "latest",
-        "eslint-plugin-react": "^7.31.10",
-        "lerna": "^9.0.0",
-        "rimraf": "^5.0.0",
-        "terser-webpack-plugin": "^5.6.1",
-        "typescript": "~5.9.3",
-        "webpack": "^5.89.0",
-        "webpack-cli": "^5.1.4",
-        "copy-webpack-plugin": "^11.0.0",
-        "html-webpack-plugin": "^5.6.0",
-        "ajv": "^8.12.0",
-        "ajv-keywords": "^5.1.0",
-        "ajv-formats": "^2.1.1"
-    },
-    "dependencies": {
-        "@emotion/react": "^11.14.0",
-        "@emotion/styled": "^11.14.1",
-        "@tanstack/react-table": "8.21.3",
-        "cesium": "^1.142.0",
-        "dotenv": "^17.4.2",
-        "drivelist": "^12.0.2",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-icons": "^5.6.0",
-        "theia": "^2.1.2"
-    },
-    "overrides": {
-        "@theia/core": "1.74.1",
-        "@theia/application-package": "1.74.1",
-        "@theia/request": "1.74.1",
-        "@theia/application-manager": "1.74.1",
-        "typescript": "~5.9.3"
-    },
-    "theiaPluginsDir": "plugins",
-    "theiaPlugins": {
-        "vscode.theme-monokai": "https://open-vsx.org/api/vscode/theme-monokai/1.95.3/file/vscode.theme-monokai-1.95.3.vsix",
-        "material-icon-theme": "https://open-vsx.org/api/PKief/material-icon-theme/5.30.0/file/PKief.material-icon-theme-5.30.0.vsix",
-        "svg-code-editor": "https://open-vsx.org/api/jock/svg/1.5.3/file/jock.svg-1.5.3.vsix",
-        "vscode.markdown": "https://open-vsx.org/api/vscode/markdown/1.95.3/file/vscode.markdown-1.95.3.vsix",
-        "sqltools": "https://open-vsx.org/api/mtxr/sqltools/0.28.5/file/mtxr.sqltools-0.28.5.vsix",
-        "sqltools-pg": "https://open-vsx.org/api/mtxr/sqltools-driver-pg/0.5.6/file/mtxr.sqltools-driver-pg-0.5.6.vsix"
-    }
-}
+53.30 
+53.30 
+53.30  Lerna (powered by Nx)   Successfully ran target build for 8 projects
+53.30 
+53.30 
+53.31 npm verb unsafe-perm in lifecycle true
+53.31 npm info postbuild:extensions gsc.scheduling.theia@
+53.31 npm verb exit [ 0, true ]
+53.31 npm info ok 
+53.39 npm info it worked if it ends with ok
+53.39 npm verb cli [
+53.39 npm verb cli   '/usr/local/bin/node',
+53.39 npm verb cli   '/home/theia/node_modules/.bin/npm',
+53.39 npm verb cli   'run',
+53.39 npm verb cli   'build:prod'
+53.39 npm verb cli ]
+53.39 npm info using npm@2.15.12
+53.39 npm info using node@v22.14.0
+53.44 npm verb run-script [ 'prebuild:prod', 'build:prod', 'postbuild:prod' ]
+53.44 npm info prebuild:prod gsc-browser-app@1.0.0
+53.44 npm info build:prod gsc-browser-app@1.0.0
+53.44 
+53.44 > gsc-browser-app@1.0.0 build:prod /home/theia/browser-app
+53.44 > npm run -s compile && npm run -s bundle:prod
+53.44 
+54.33 native node modules are already rebuilt for browser
+54.74 Could not resolve optional peer dependency '@theia/electron'. Skipping...
+54.84 node:internal/modules/cjs/loader:1225
+54.84   const err = new Error(message);
+54.84               ^
+54.84 
+54.84 Error: Cannot find module 'esbuild'
+54.84 Require stack:
+54.84 - /home/theia/node_modules/esbuild-plugins-node-modules-polyfill/dist/index.js
+54.84     at Function._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+54.84     at Function._load (node:internal/modules/cjs/loader:1055:27)
+54.84     at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+54.84     at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+54.84     at Module.require (node:internal/modules/cjs/loader:1311:12)
+54.84     at require (node:internal/modules/helpers:136:16)
+54.84     at Module.<anonymous> (/home/theia/node_modules/esbuild-plugins-node-modules-polyfill/dist/index.js:35:15)
+54.84     at Module._compile (node:internal/modules/cjs/loader:1554:14)
+54.84     at Object..js (node:internal/modules/cjs/loader:1706:10)
+54.84     at Module.load (node:internal/modules/cjs/loader:1289:32) {
+54.84   code: 'MODULE_NOT_FOUND',
+54.84   requireStack: [
+54.84     '/home/theia/node_modules/esbuild-plugins-node-modules-polyfill/dist/index.js'
+54.84   ]
+54.84 }
+54.84 
+54.84 Node.js v22.14.0
+54.84 
+54.84 Error: esbuild exited with an unexpected code: 1.
+54.84     at ChildProcess.<anonymous> (/home/theia/browser-app/node_modules/@theia/application-manager/lib/application-process.js:97:28)
+54.84     at ChildProcess.emit (node:events:518:28)
+54.84     at maybeClose (node:internal/child_process:1101:16)
+54.84     at ChildProcess._handle.onexit (node:internal/child_process:304:5)
+54.84 Uncaught Exception:  Error: esbuild exited with an unexpected code: 1.
+54.84 Error: esbuild exited with an unexpected code: 1.
+54.84     at ChildProcess.<anonymous> (/home/theia/browser-app/node_modules/@theia/application-manager/lib/application-process.js:97:28)
+54.84     at ChildProcess.emit (node:events:518:28)
+54.84     at maybeClose (node:internal/child_process:1101:16)
+54.84     at ChildProcess._handle.onexit (node:internal/child_process:304:5)
+54.86 
+54.86 npm verb unsafe-perm in lifecycle true
+54.86 npm info gsc-browser-app@1.0.0 Failed to exec build:prod script
+54.86 npm verb stack Error: gsc-browser-app@1.0.0 build:prod: `npm run -s compile && npm run -s bundle:prod`
+54.86 npm verb stack Exit status 1
+54.86 npm verb stack     at EventEmitter.<anonymous> (/home/theia/node_modules/npm/lib/utils/lifecycle.js:217:16)
+54.86 npm verb stack     at EventEmitter.emit (node:events:518:28)
+54.86 npm verb stack     at ChildProcess.<anonymous> (/home/theia/node_modules/npm/lib/utils/spawn.js:24:14)
+54.86 npm verb stack     at ChildProcess.emit (node:events:518:28)
+54.86 npm verb stack     at maybeClose (node:internal/child_process:1101:16)
+54.86 npm verb stack     at ChildProcess._handle.onexit (node:internal/child_process:304:5)
+54.86 npm verb pkgid gsc-browser-app@1.0.0
+54.86 npm verb cwd /home/theia/browser-app
+54.86 npm ERR! Linux 6.12.69+deb13-amd64
+54.86 npm ERR! argv "/usr/local/bin/node" "/home/theia/node_modules/.bin/npm" "run" "build:prod"
+54.86 npm ERR! node v22.14.0
+54.86 npm ERR! npm  v2.15.12
+54.86 npm ERR! code ELIFECYCLE
+54.86 npm ERR! gsc-browser-app@1.0.0 build:prod: `npm run -s compile && npm run -s bundle:prod`
+54.86 npm ERR! Exit status 1
+54.86 npm ERR! 
+54.86 npm ERR! Failed at the gsc-browser-app@1.0.0 build:prod script 'npm run -s compile && npm run -s bundle:prod'.
+54.86 npm ERR! This is most likely a problem with the gsc-browser-app package,
+54.86 npm ERR! not with npm itself.
+54.86 npm ERR! Tell the author that this fails on your system:
+54.86 npm ERR!     npm run -s compile && npm run -s bundle:prod
+54.86 npm ERR! You can get information on how to open an issue for this project with:
+54.86 npm ERR!     npm bugs gsc-browser-app
+54.86 npm ERR! Or if that isn't available, you can get their info via:
+54.86 npm ERR! 
+54.86 npm ERR!     npm owner ls gsc-browser-app
+54.86 npm ERR! There is likely additional logging output above.
+54.86 npm verb exit [ 1, true ]
+54.86 
+54.86 npm ERR! Please include the following file with any support request:
+54.86 npm ERR!     /home/theia/browser-app/npm-debug.log
+54.86 npm verbose cwd /home/theia
+54.86 npm verbose os Linux 6.12.69+deb13-amd64
+54.86 npm verbose node v22.14.0
+54.86 npm verbose npm  v10.9.2
+54.86 npm verbose exit 1
+54.86 npm verbose code 1
+------
+Dockerfile:33
+--------------------
+  32 |     # Download plugins and build application production mode
+  33 | >>> RUN npm install --verbose && \
+  34 | >>>     npm run build:extensions --verbose && \
+  35 | >>>     npm run download:plugins --verbose && \
+  36 | >>>     npm run build:browser:prod --verbose && \
+  37 | >>>     find . -name \*.ts -o -name \*.ts.map -o -name \*.spec.* -type f -delete && \
+  38 | >>>     rm -rf .git gsc-core-extension
+  39 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c npm install --verbose &&     npm run build:extensions --verbose &&     npm run download:plugins --verbose &&     npm run build:browser:prod --verbose &&     find . -name \\*.ts -o -name \\*.ts.map -o -name \\*.spec.* -type f -delete &&     rm -rf .git gsc-core-extension" did not complete successfully: exit code: 1
+mert@mertunubol:~/Development/gsc.scheduling.theia$ 
