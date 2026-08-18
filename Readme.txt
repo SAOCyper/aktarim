@@ -1,71 +1,84 @@
-Could not resolve optional peer dependency '@theia/electron'. Skipping...
-[build/browser] Build started
-
-[build/node] Build started
-
-[build/node] Finished with 0 errors in 802ms.
-
-[build/browser] Finished with 0 errors in 1394ms.
-
-[CopyCesium] Workers -> lib/frontend/cesium/Workers
-
-[CopyCesium] ThirdParty -> lib/frontend/cesium/ThirdParty
-
-[CopyCesium] Assets -> lib/frontend/cesium/Assets
-
-[CopyCesium] Widgets -> lib/frontend/cesium/Widgets
-
-[esbuild] Build completed successfully.
-
-root@2a85f57da0c0:/home/theia# npm run start:browser
-
-> start:browser
-> cd browser-app && npm run start
-
-
-> gsc-browser-app@1.0.0 start /home/theia/browser-app
-> theia start --hostname=0.0.0.0 --plugins=local-dir:../plugins
-
-Backend main: entry point loaded [0.148 s since backend process start]
-Backend server: loading modules... [0.151 s since backend process start]
-Backend server: container created [0.271 s since backend process start]
-[SOC Core] Backend module loaded (no additional bindings needed — handled by soc-earth-extension).
-Failed to start the backend application:
-Error: Cannot find module '/home/theia/browser-app/lib/backend/Build/CesiumUnminified/index.cjs'
-Require stack:
-- /home/theia/browser-app/lib/backend/main.js
-    at Function._resolveFilename (node:internal/modules/cjs/loader:1225:15)
-    at Function._load (node:internal/modules/cjs/loader:1055:27)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
-    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
-    at Module.require (node:internal/modules/cjs/loader:1311:12)
-    at require (node:internal/modules/helpers:136:16)
-    at ../node_modules/cesium/index.cjs (/home/theia/browser-app/lib/backend/main.js:417713:83)
-    at __require (/home/theia/browser-app/lib/backend/main.js:16:50)
-    at ../extensions/gsc-core-extension/lib/common/features/satellite/services/CesiumEntityManager.js (/home/theia/browser-app/lib/backend/main.js:417778:20)
-    at __require (/home/theia/browser-app/lib/backend/main.js:16:50) {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [ '/home/theia/browser-app/lib/backend/main.js' ]
+{
+    "name": "gsc.scheduling.theia",
+    "private": true,
+    "engines": {
+        "node": ">=20"
+    },
+    "workspaces": [
+        "extensions/*",
+        "browser-app",
+        "browser-app-cesium"
+    ],
+    "scripts": {
+        "clean": "npm run -s rebuild:clean && npm run -s lint:clean && lerna run clean",
+        "compile": "lerna run compile",
+        "build:extensions": "lerna run --scope=\"@uzay/*\" build",
+        "build:electron": "npm run compile && npm run build:extensions && cd electron-app && npm run build",
+        "build:browser-app-cesium": "npm run compile && npm run build:extensions && cd browser-app-cesium && npm run build",
+        "build:browser-app-cesium:prod": "npm run compile && npm run build:extensions && cd browser-app-cesium && npm run build:prod",
+        "build:browser": "npm run compile && npm run build:extensions && cd browser-app && npm run build",
+        "build:browser:prod": "npm run compile && npm run build:extensions && cd browser-app && npm run build:prod",
+        "download:plugins": "theia download:plugins --rate-limit=15 --parallel=false --ignore-errors",
+        "test": "lerna run test",
+        "mimic": "cd mimic-viewer && npm run build",
+        "lint": "lerna run lint",
+        "lint:fix": "lerna run lint -- --fix",
+        "postinstall": "theia check:theia-version",
+        "rebuild:clean": "rimraf node_modules",
+        "rebuild:browser": "cd browser-app && npm run rebuild",
+        "rebuild:electron": "cd electron-app && npm run rebuild",
+        "start:browser": "cd browser-app && npm run start",
+        "start:electron": "cd electron-app && npm run start"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^7.18.0",
+        "@typescript-eslint/eslint-plugin-tslint": "^7.0.2",
+        "@typescript-eslint/parser": "^7.18.0",
+        "esbuild":"^0.28.2",
+        "eslint": "8",
+        "eslint-plugin-deprecation": "^3.0.0",
+        "eslint-plugin-import": "^2.27.5",
+        "eslint-plugin-no-null": "latest",
+        "eslint-plugin-no-unsanitized": "latest",
+        "eslint-plugin-react": "^7.31.10",
+        "lerna": "^9.0.0",
+        "rimraf": "^5.0.0",
+        "terser-webpack-plugin": "^5.6.1",
+        "typescript": "~5.9.3",
+        "webpack": "^5.89.0",
+        "webpack-cli": "^5.1.4",
+        "copy-webpack-plugin": "^11.0.0",
+        "html-webpack-plugin": "^5.6.0",
+        "ajv": "^8.12.0",
+        "ajv-keywords": "^5.1.0",
+        "ajv-formats": "^2.1.1"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.1",
+        "@tanstack/react-table": "8.21.3",
+        "cesium": "^1.142.0",
+        "dotenv": "^17.4.2",
+        "drivelist": "^12.0.2",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-icons": "^5.6.0",
+        "theia": "^2.1.2"
+    },
+    "overrides": {
+        "@theia/core": "1.74.1",
+        "@theia/application-package": "1.74.1",
+        "@theia/request": "1.74.1",
+        "@theia/application-manager": "1.74.1",
+        "typescript": "~5.9.3"
+    },
+    "theiaPluginsDir": "plugins",
+    "theiaPlugins": {
+        "vscode.theme-monokai": "https://open-vsx.org/api/vscode/theme-monokai/1.95.3/file/vscode.theme-monokai-1.95.3.vsix",
+        "material-icon-theme": "https://open-vsx.org/api/PKief/material-icon-theme/5.30.0/file/PKief.material-icon-theme-5.30.0.vsix",
+        "svg-code-editor": "https://open-vsx.org/api/jock/svg/1.5.3/file/jock.svg-1.5.3.vsix",
+        "vscode.markdown": "https://open-vsx.org/api/vscode/markdown/1.95.3/file/vscode.markdown-1.95.3.vsix",
+        "sqltools": "https://open-vsx.org/api/mtxr/sqltools/0.28.5/file/mtxr.sqltools-0.28.5.vsix",
+        "sqltools-pg": "https://open-vsx.org/api/mtxr/sqltools-driver-pg/0.5.6/file/mtxr.sqltools-driver-pg-0.5.6.vsix"
+    }
 }
-/home/theia/browser-app/lib/backend/main.js:331
-      throw reason;
-      ^
-
-Error: Cannot find module '/home/theia/browser-app/lib/backend/Build/CesiumUnminified/index.cjs'
-Require stack:
-- /home/theia/browser-app/lib/backend/main.js
-    at Function._resolveFilename (node:internal/modules/cjs/loader:1225:15)
-    at Function._load (node:internal/modules/cjs/loader:1055:27)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
-    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
-    at Module.require (node:internal/modules/cjs/loader:1311:12)
-    at require (node:internal/modules/helpers:136:16)
-    at ../node_modules/cesium/index.cjs (/home/theia/browser-app/lib/backend/main.js:417713:83)
-    at __require (/home/theia/browser-app/lib/backend/main.js:16:50)
-    at ../extensions/gsc-core-extension/lib/common/features/satellite/services/CesiumEntityManager.js (/home/theia/browser-app/lib/backend/main.js:417778:20)
-    at __require (/home/theia/browser-app/lib/backend/main.js:16:50) {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [ '/home/theia/browser-app/lib/backend/main.js' ]
-}
-
-Node.js v22.14.0
