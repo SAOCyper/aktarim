@@ -1,172 +1,115 @@
-/**
- * Bu dosya esbuild yapilandirmasini ozellestirmek icin duzenlenebilir.
- * Sifirlamak icin bu dosyayi silip theia build komutunu tekrar calistirin.
- */
-import { browserOptions, watch } from './gen-esbuild.browser.mjs';
-import { nodeOptions } from './gen-esbuild.node.mjs';
-import { sourceMapPathsPlugin } from '@theia/bundle-plugin';
-import esbuild from 'esbuild';
-import * as path from 'path';
-import * as fs from 'fs';
-import { fileURLToPath } from 'url';
-import { createRequire } from 'module';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const _require = createRequire(import.meta.url);
-
-// ===================================================
-// MERKEZI SABITLER
-// ===================================================
-const ROOT_NODE_MODULES = path.resolve(__dirname, '../node_modules');
-const CESIUM_BUILD = path.resolve(ROOT_NODE_MODULES, 'cesium/Build/Cesium');
-
-// ===================================================
-// 1. ROOT MODULLERI ZORLAYICI PLUGIN
-//    "Cannot apply @injectable decorator multiple times" hatasinin cozumu.
-//
-//    Neden olur: extensions/*/node_modules/ icinde @theia/core veya inversify
-//    kopyasi varsa, esbuild ayni sinifi iki farkli fiziksel yoldan alir ve
-//    bundle'a iki kez koyar. @injectable her iki kopyada da calisir -> hata.
-//
-//    Cozum: @theia/*, inversify, reflect-metadata importlarini her zaman
-//    root /home/theia/node_modules/ icindeki TEK kopyaya yonlendir.
-// ===================================================
-const forceRootModulesPlugin = {
-    name: 'force-root-modules',
-    setup(build) {
-        build.onResolve(
-            { filter: /^(@theia\/|@uzay\/|inversify(\/|$)|reflect-metadata(\/|$)|react(\/|-dom\/|$)|react-dom(\/|$))/ },
-            (args) => {
-                // Ignore entry points
-                if (args.kind === 'entry-point') return undefined;
-
-                // Explicitly resolve @uzay packages to bypass Node's require.resolve limitations
-                if (args.path.startsWith('@uzay/')) {
-                    const parts = args.path.split('/');
-                    const pkgName = parts[1];
-                    let subpath = parts.slice(2).join('/');
-                    if (subpath && !subpath.endsWith('.js')) {
-                        subpath += '.js';
-                    }
-                    const absolutePath = path.resolve(__dirname, '..', 'extensions', pkgName, subpath || 'lib/browser/common-index.js');
-                    return { path: absolutePath };
-                }
-
-                try {
-                    const resolved = _require.resolve(args.path);
-                    return { path: resolved };
-                } catch {
-                    return undefined;
-                }
-            }
-        );
-    }
-};
-
-// ===================================================
-// 2. CESIUM STATIK DOSYALARINI KOPYALAYAN PLUGIN
-// ===================================================
-const copyCesiumPlugin = {
-    name: 'copy-cesium-assets',
-    setup(build) {
-        build.onEnd(() => {
-            const outdir = build.initialOptions.outdir || path.resolve(__dirname, 'lib', 'frontend');
-            const cesiumDest = path.join(outdir, 'cesium');
-            const copies = [
-                { from: path.join(CESIUM_BUILD, 'Workers'),    to: path.join(cesiumDest, 'Workers') },
-                { from: path.join(CESIUM_BUILD, 'ThirdParty'), to: path.join(cesiumDest, 'ThirdParty') },
-                { from: path.join(CESIUM_BUILD, 'Assets'),     to: path.join(cesiumDest, 'Assets') },
-                { from: path.join(CESIUM_BUILD, 'Widgets'),    to: path.join(cesiumDest, 'Widgets') },
-            ];
-            for (const { from, to } of copies) {
-                if (fs.existsSync(from)) {
-                    fs.cpSync(from, to, { recursive: true });
-                    console.log(`[CopyCesium] ${path.basename(from)} -> ${to}`);
-                } else {
-                    console.warn(`[CopyCesium] WARN: Source not found: ${from}`);
-                }
-            }
-        });
-    }
-};
-
-// ===================================================
-// 3. CESIUM RESOLVER
-// ===================================================
-const cesiumResolverPlugin = {
-    name: 'cesium-resolver',
-    setup(build) {
-        build.onResolve({ filter: /^cesium$/ }, () => ({
-            path: path.resolve(ROOT_NODE_MODULES, 'cesium/Source/Cesium.js'),
-        }));
-        build.onResolve({ filter: /^cesium\/Build\/Cesium\/Widgets\/widgets\.css$/ }, () => ({
-            path: path.resolve(ROOT_NODE_MODULES, 'cesium/Build/Cesium/Widgets/widgets.css'),
-        }));
-    }
-};
-
-// ===================================================
-// 4. FRONTEND (BROWSER) YAPILANDIRMASI
-// ===================================================
-
-if (!browserOptions.define) browserOptions.define = {};
-browserOptions.define['CESIUM_BASE_URL'] = JSON.stringify('/cesium/');
-browserOptions.define['process.env.NODE_ENV'] = JSON.stringify(
-    process.env.NODE_ENV || 'production'
-);
-
-if (!browserOptions.nodePaths) browserOptions.nodePaths = [];
-browserOptions.nodePaths.unshift(ROOT_NODE_MODULES);
-
-// forceRootModulesPlugin en BASA gelmeli ki diger pluginlerden once calissin
-if (!browserOptions.plugins) browserOptions.plugins = [];
-browserOptions.plugins.unshift(forceRootModulesPlugin);
-browserOptions.plugins.push(cesiumResolverPlugin);
-browserOptions.plugins.push(copyCesiumPlugin);
-browserOptions.plugins.push(sourceMapPathsPlugin());
-
-// ===================================================
-// 5. BACKEND (NODE) YAPILANDIRMASI
-// ===================================================
-
-if (!nodeOptions.external) nodeOptions.external = [];
-const nativeExternals = ['keytar', 'node-pty', 'nsfw', 'sqlite3', 'drivelist', 'cesium'];
-for (const ext of nativeExternals) {
-    if (!nodeOptions.external.includes(ext)) nodeOptions.external.push(ext);
-}
-
-if (!nodeOptions.nodePaths) nodeOptions.nodePaths = [];
-nodeOptions.nodePaths.unshift(ROOT_NODE_MODULES);
-
-if (!nodeOptions.plugins) nodeOptions.plugins = [];
-nodeOptions.plugins.unshift(forceRootModulesPlugin);
-nodeOptions.plugins.push(sourceMapPathsPlugin());
-
-// ===================================================
-// 6. BUILD CALISTIR
-// ===================================================
-const args = process.argv.slice(2);
-const isWatch = args.includes('--watch') || watch;
-
-async function runBuild() {
-    try {
-        if (isWatch) {
-            const browserCtx = await esbuild.context(browserOptions);
-            const nodeCtx = await esbuild.context(nodeOptions);
-            await Promise.all([browserCtx.watch(), nodeCtx.watch()]);
-            console.log('[esbuild] Watching for changes...');
-        } else {
-            await Promise.all([
-                esbuild.build(browserOptions),
-                esbuild.build(nodeOptions),
-            ]);
-            console.log('[esbuild] Build completed successfully.');
-        }
-    } catch (err) {
-        console.error('[esbuild] Build failed:', err);
-        process.exit(1);
-    }
-}
-
-runBuild();
+60.53 
+60.53 > gsc-browser-app@1.0.0 build:prod /home/theia/browser-app
+60.53 > npm run -s compile && npm run -s bundle:prod
+60.53 
+61.38 native node modules are already rebuilt for browser
+61.78 Could not resolve optional peer dependency '@theia/electron'. Skipping...
+61.94 [build/node] Build started
+61.94 
+61.94 [build/browser] Build started
+61.94 
+62.03 ✘ [ERROR] Cannot read file: /home/theia/extensions/gss-messaging/lib/stomp-messaging/stomp-messaging-contribution.js
+62.03 
+62.03     src-gen/backend/server.js:88:27:
+62.03       88 │ ...d(require('@uzay/gss-messaging/lib/stomp-messaging/stomp-messag...
+62.03          ╵              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+62.03 
+62.03 
+62.10 ✘ [ERROR] Cannot read file: /home/theia/extensions/gss-messaging/lib/browser/common-index.js
+62.10 
+62.10     ../extensions/gsc-core-extension/lib/node/services/artemis.service.js:50:32:
+62.10       50 │ const gss_messaging_1 = require("@uzay/gss-messaging");
+62.10          ╵                                 ~~~~~~~~~~~~~~~~~~~~~
+62.10 
+62.10 
+62.15 ✘ [ERROR] Cannot read file: /home/theia/extensions/gsc-earth-extension/lib/browser/soc-frontend-module.js
+62.15 
+62.15     src-gen/frontend/index.js:124:38:
+62.15       124 │ ..., require('@uzay/gsc-earth-extension/lib/browser/soc-frontend-...
+62.15           ╵              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+62.15 
+62.15 
+62.18 [build/node] Finished with 2 errors in 240ms.
+62.18 
+62.20 [esbuild] Build failed: Error: Build failed with 2 errors:
+62.20 src-gen/backend/server.js:88:27: ERROR: Cannot read file: /home/theia/extensions/gss-messaging/lib/stomp-messaging/stomp-messaging-contribution.js
+62.20 ../extensions/gsc-core-extension/lib/node/services/artemis.service.js:50:32: ERROR: Cannot read file: /home/theia/extensions/gss-messaging/lib/browser/common-index.js
+62.20     at failureErrorWithLog (/home/theia/node_modules/esbuild/lib/main.js:1467:15)
+62.20     at /home/theia/node_modules/esbuild/lib/main.js:926:25
+62.20     at /home/theia/node_modules/esbuild/lib/main.js:1345:9 {
+62.20   errors: [Getter/Setter],
+62.20   warnings: [Getter/Setter]
+62.20 }
+62.20 
+62.23 Error: esbuild exited with an unexpected code: 1.
+62.23     at ChildProcess.<anonymous> (/home/theia/browser-app/node_modules/@theia/application-manager/lib/application-process.js:97:28)
+62.23     at ChildProcess.emit (node:events:518:28)
+62.23     at maybeClose (node:internal/child_process:1101:16)
+62.23     at Socket.<anonymous> (node:internal/child_process:456:11)
+62.23     at Socket.emit (node:events:518:28)
+62.23     at Pipe.<anonymous> (node:net:351:12)
+62.23 Uncaught Exception:  Error: esbuild exited with an unexpected code: 1.
+62.23 Error: esbuild exited with an unexpected code: 1.
+62.23     at ChildProcess.<anonymous> (/home/theia/browser-app/node_modules/@theia/application-manager/lib/application-process.js:97:28)
+62.23     at ChildProcess.emit (node:events:518:28)
+62.23     at maybeClose (node:internal/child_process:1101:16)
+62.23     at Socket.<anonymous> (node:internal/child_process:456:11)
+62.23     at Socket.emit (node:events:518:28)
+62.23     at Pipe.<anonymous> (node:net:351:12)
+62.25 
+62.25 npm verb unsafe-perm in lifecycle true
+62.25 npm info gsc-browser-app@1.0.0 Failed to exec build:prod script
+62.25 npm verb stack Error: gsc-browser-app@1.0.0 build:prod: `npm run -s compile && npm run -s bundle:prod`
+62.25 npm verb stack Exit status 1
+62.25 npm verb stack     at EventEmitter.<anonymous> (/home/theia/node_modules/npm/lib/utils/lifecycle.js:217:16)
+62.25 npm verb stack     at EventEmitter.emit (node:events:518:28)
+62.25 npm verb stack     at ChildProcess.<anonymous> (/home/theia/node_modules/npm/lib/utils/spawn.js:24:14)
+62.25 npm verb stack     at ChildProcess.emit (node:events:518:28)
+62.25 npm verb stack     at maybeClose (node:internal/child_process:1101:16)
+62.25 npm verb stack     at ChildProcess._handle.onexit (node:internal/child_process:304:5)
+62.25 npm verb pkgid gsc-browser-app@1.0.0
+62.25 npm verb cwd /home/theia/browser-app
+62.25 npm ERR! Linux 6.12.69+deb13-amd64
+62.25 npm ERR! argv "/usr/local/bin/node" "/home/theia/node_modules/.bin/npm" "run" "build:prod"
+62.25 npm ERR! node v22.14.0
+62.25 npm ERR! npm  v2.15.12
+62.25 npm ERR! code ELIFECYCLE
+62.25 npm ERR! gsc-browser-app@1.0.0 build:prod: `npm run -s compile && npm run -s bundle:prod`
+62.25 npm ERR! Exit status 1
+62.25 npm ERR! 
+62.25 npm ERR! Failed at the gsc-browser-app@1.0.0 build:prod script 'npm run -s compile && npm run -s bundle:prod'.
+62.25 npm ERR! This is most likely a problem with the gsc-browser-app package,
+62.25 npm ERR! not with npm itself.
+62.25 npm ERR! Tell the author that this fails on your system:
+62.25 npm ERR!     npm run -s compile && npm run -s bundle:prod
+62.25 npm ERR! You can get information on how to open an issue for this project with:
+62.25 npm ERR!     npm bugs gsc-browser-app
+62.25 npm ERR! Or if that isn't available, you can get their info via:
+62.25 npm ERR! 
+62.25 npm ERR!     npm owner ls gsc-browser-app
+62.25 npm ERR! There is likely additional logging output above.
+62.25 npm verb exit [ 1, true ]
+62.25 
+62.25 npm ERR! Please include the following file with any support request:
+62.25 npm ERR!     /home/theia/browser-app/npm-debug.log
+62.25 npm verbose cwd /home/theia
+62.25 npm verbose os Linux 6.12.69+deb13-amd64
+62.25 npm verbose node v22.14.0
+62.25 npm verbose npm  v10.9.2
+62.25 npm verbose exit 1
+62.25 npm verbose code 1
+------
+Dockerfile:33
+--------------------
+  32 |     # Download plugins and build application production mode
+  33 | >>> RUN npm install --verbose && \
+  34 | >>>     npx lerna run build --scope="@uzay/*" --concurrency=1 --skip-nx-cache && \
+  35 | >>>     #npm run build:extensions --concurrency=1 --skip-nx-cache --verbose && \
+  36 | >>>     npm run download:plugins --verbose && \
+  37 | >>>     npm run build:browser:prod --verbose && \
+  38 | >>>     find . -name \*.ts -o -name \*.ts.map -o -name \*.spec.* -type f -delete && \
+  39 | >>>     rm -rf .git gsc-core-extension
+  40 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c npm install --verbose &&     npx lerna run build --scope=\"@uzay/*\" --concurrency=1 --skip-nx-cache &&     npm run download:plugins --verbose &&     npm run build:browser:prod --verbose &&     find . -name \\*.ts -o -name \\*.ts.map -o -name \\*.spec.* -type f -delete &&     rm -rf .git gsc-core-extension" did not complete successfully: exit code: 1
+mert@mertunubol:~/Development/gsc.scheduling.theia$ 
