@@ -1,4 +1,35 @@
-npm http fetch GET 200 https://registry.npmjs.org/@typescript-eslint%2ftypescript-estree 341ms (cache updated)
+root@2a85f57da0c0:/home/theia# find extensions/gsc-core-extension/ -maxdepth 3
+extensions/gsc-core-extension/
+extensions/gsc-core-extension/public
+extensions/gsc-core-extension/public/earth
+extensions/gsc-core-extension/public/moon
+extensions/gsc-core-extension/.gitignore
+extensions/gsc-core-extension/src
+extensions/gsc-core-extension/src/browser
+extensions/gsc-core-extension/src/browser/common-index.ts
+extensions/gsc-core-extension/src/browser/satellite-client-impl.ts
+extensions/gsc-core-extension/src/browser/soc-core-frontend-contribution.ts
+extensions/gsc-core-extension/src/browser/soc-core-frontend-module.ts
+extensions/gsc-core-extension/src/common
+extensions/gsc-core-extension/src/common/features
+extensions/gsc-core-extension/src/common/rpc
+extensions/gsc-core-extension/src/common/main.tsx
+extensions/gsc-core-extension/src/common/theia-entry.ts
+extensions/gsc-core-extension/src/common/assets
+extensions/gsc-core-extension/src/common/App.css
+extensions/gsc-core-extension/src/common/core
+extensions/gsc-core-extension/src/common/App.tsx
+extensions/gsc-core-extension/src/common/index.css
+extensions/gsc-core-extension/src/node
+extensions/gsc-core-extension/src/node/rpc
+extensions/gsc-core-extension/src/node/soc-backend-contribution.ts
+extensions/gsc-core-extension/src/node/static-assets-server-contribution.ts
+extensions/gsc-core-extension/src/node/services
+extensions/gsc-core-extension/src/node/logging
+extensions/gsc-core-extension/src/node/soc-core-backend-module.ts
+extensions/gsc-core-extension/tsconfig.tsbuildinfo
+extensions/gsc-core-extension/tsconfig.json
+extensions/gsc-core-extension/package.jsonnpm http fetch GET 200 https://registry.npmjs.org/@typescript-eslint%2ftypescript-estree 341ms (cache updated)
 npm info run puppeteer@25.1.0 postinstall { code: 1, signal: null }
 npm info run puppeteer@25.1.0 postinstall { code: 1, signal: null }
 npm verbose stack Error: command failed
