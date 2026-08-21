@@ -1,42 +1,131 @@
-ackend main: entry point loaded [0.160 s since backend process start]
-Backend server: loading modules... [0.168 s since backend process start]
-Backend server: container created [0.298 s since backend process start]
-Failed to start the backend application:
-Error: Cannot find module '/home/theia/browser-app/lib/backend/Build/CesiumUnminified/index.cjs'
-Require stack:
-- /home/theia/browser-app/lib/backend/main.js
-    at Function._resolveFilename (node:internal/modules/cjs/loader:1225:15)
-    at Function._load (node:internal/modules/cjs/loader:1055:27)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
-    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
-    at Module.require (node:internal/modules/cjs/loader:1311:12)
-    at require (node:internal/modules/helpers:136:16)
-    at /home/theia/browser-app/lib/backend/main.js:1988:31446
-    at /home/theia/browser-app/lib/backend/main.js:1:343
-    at /home/theia/browser-app/lib/backend/main.js:1988:32891
-    at /home/theia/browser-app/lib/backend/main.js:1:343 {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [ '/home/theia/browser-app/lib/backend/main.js' ]
-}
-/home/theia/browser-app/lib/backend/main.js:1
-var $cn=Object.create;var NF=Object.defineProperty;var Vcn=Object.getOwnPropertyDescriptor;var Gcn=Object.getOwnPropertyNames;var Zcn=Object.getPrototypeOf,Kcn=Object.prototype.hasOwnProperty;var vFe=t=>e=>{var n=t[e];if(n)return n();throw new Error("Module not found in bundle: "+e)};var sr=(t,e)=>()=>(t&&(e=t(t=0)),e);var f=(t,e)=>()=>(e||t((e={exports:{}}).exports,e),e.exports),Gk=(t,e)=>{for(var n in e)NF(t,n,{get:e[n],enumerable:!0})},AFe=(t,e,n,i)=>{if(e&&typeof e=="object"||typeof e=="function")for(let r of Gcn(e))!Kcn.call(t,r)&&r!==n&&NF(t,r,{get:()=>e[r],enumerable:!(i=Vcn(e,r))||i.enumerable});return t};var FF=(t,e,n)=>(n=t!=null?$cn(Zcn(t)):{},AFe(e||!t||!t.__esModule?NF(n,"default",{value:t,enumerable:!0}):n,t)),fe=t=>AFe(NF({},"__esModule",{value:!0}),t);var Gle=f((Fur,SFe)=>{"use strict";var Ycn=function(e){return Jcn(e)&&!Xcn(e)};function Jcn(t){return!!t&&typeof t=="object"}function Xcn(t){var e=Object.prototype.toString.call(t);return e==="[object RegExp]"||e==="[object Date]"||nun(t)}var eun=typeof Symbol=="function"&&Symbol.for,tun=eun?Symbol.for("react.element"):60103;function nun(t){return t.$$typeof===tun}function iun(t){return Array.isArray(t)?[]:{}}function e5(t,e){return e.clone!==!1&&e.isMergeableObject(t)?WH(iun(t),t,e):t}function run(t,e,n){return t.concat(e).map(function(i){return e5(i,n)})}function oun(t,e){if(!e.customMerge)return WH;var n=e.customMerge(t);return typeof n=="function"?n:WH}function aun(t){return Object.getOwnPropertySymbols?Object.getOwnPropertySymbols(t).filter(function(e){return Object.propertyIsEnumerable.call(t,e)}):[]}function wFe(t){return Object.keys(t).concat(aun(t))}function kFe(t,e){try{return e in t}catch{return!1}}function sun(t,e){return kFe(t,e)&&!(Object.hasOwnProperty.call(t,e)&&Object.propertyIsEnumerable.call(t,e))}function lun(t,e,n){var i={};return n.isMergeableObject(t)&&wFe(t).forEach(function(r){i[r]=e5(t[r],n)}),wFe(e).forEach(function(r){sun(t,r)||(kFe(t,r)&&n.isMergeableObject(e[r])?i[r]=oun(r,n)(t[r],e[r],n):i[r]=e5(e[r],n))}),i}function WH(t,e,n){n=n||{},n.arrayMerge=n.arrayMerge||run,n.isMergeableObject=n.isMergeableObject||Ycn,n.cloneUnlessOtherwiseSpecified=e5;var i=Array.isArray(e),r=Array.isArray(t),o=i===r;return o?i?n.arrayMerge(t,e,n):lun(t,e,n):e5(e,n)}WH.all=function(e,n){if(!Array.isArray(e))throw new Error("first argument should be an array");return e.reduce(function(i,r){return WH(i,r,n)},{})};var cun=WH;SFe.exports=cun});var t5=f(rl=>{"use strict";Object.defineProperty(rl,"__esModule",{value:!0});rl.ApplicationProps=rl.NpmRegistryProps=rl.GeneratorConfig=rl.BackendApplicationConfig=rl.FrontendApplicationConfig=rl.DefaultTheme=rl.ElectronFrontendApplicationConfig=void 0;rl.deepmerge=Gle();var Zle;(function(t){t.DEFAULT={windowOptions:{},showWindowEarly:!0,splashScreenOptions:{},appUserModelId:"",uriScheme:"theia"}})(Zle||(rl.ElectronFrontendApplicationConfig=Zle={}));var EFe;(function(t){function e(i){return typeof i=="string"?i:typeof window<"u"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?i.dark:i.light}t.defaultForOSTheme=e;function n(i){return i?"#1E1E1E":"#FFFFFF"}t.defaultBackgroundColor=n})(EFe||(rl.DefaultTheme=EFe={}));var Kle;(function(t){t.DEFAULT={applicationName:"Eclipse Theia",defaultTheme:{light:"light",dark:"dark"},defaultIconTheme:"theia-file-icons",electron:Zle.DEFAULT,defaultLocale:"",validatePreferencesSchema:!0,reloadOnReconnect:!1,uriScheme:"theia"}})(Kle||(rl.FrontendApplicationConfig=Kle={}));var Yle;(function(t){t.DEFAULT={singleInstance:!0,frontendConnectionTimeout:0,configurationFolder:".theia",configureProxyFromPreferences:!1}})(Yle||(rl.BackendApplicationConfig=Yle={}));var Jle;(function(t){t.DEFAULT={preloadTemplate:""}})(Jle||(rl.GeneratorConfig=Jle={}));var Xle;(function(t){t.DEFAULT={next:!1,registry:"https://registry.npmjs.org/"}})(Xle||(rl.NpmRegistryProps=Xle={}));var CFe;(function(t){let e;(function(n){n.browser="browser",n.electron="electron",n.browserOnly="browser-only"})(e=t.ApplicationTarget||(t.ApplicationTarget={})),t.DEFAULT={...Xle.DEFAULT,target:"browser",backend:{config:Yle.DEFAULT},frontend:{config:Kle.DEFAULT},generator:{config:Jle.DEFAULT}}})(CFe||(rl.ApplicationProps=CFe={}))});var $H=f(jF=>{"use strict";Object.defineProperty(jF,"__esModule",{value:!0});jF.BackendApplicationConfigProvider=void 0;var IFe=t5(),ece=class t{static{this.KEY=Symbol("BackendApplicationConfigProvider")}static get(){let e=t.doGet();if(e===void 0)throw new Error("The configuration is not set. Did you call BackendApplicationConfigProvider#set?");return e}static set(e){if(t.doGet()!==void 0)throw new Error("The configuration is already set.");let n=global,i=t.KEY;n[i]=(0,IFe.deepmerge)(IFe.BackendApplicationConfig.DEFAULT,e)}static doGet(){let e=global,n=t.KEY;return e[n]}};jF.BackendApplicationConfigProvider=ece});var UF=f(Bm=>{"use strict";Object.defineProperty(Bm,"__esModule",{value:!0});Bm.IPCEntryPoint=Bm.ipcEntryPoint=void 0;Bm.checkParentAlive=uun;Bm.createIpcEnv=dun;var tce="THEIA_PARENT_PID",nce="THEIA_ENTRY_POINT";Bm.ipcEntryPoint=process.env[nce];var HFe;(function(t){function e(){if(!Bm.ipcEntryPoint)throw new Error(`"${nce}" is missing from the environment`);return Bm.ipcEntryPoint}t.getScriptFromEnv=e})(HFe||(Bm.IPCEntryPoint=HFe={}));function uun(){if(process.env[tce]){let t=Number(process.env[tce]);typeof t=="number"&&!isNaN(t)&&setInterval(()=>{try{process.kill(t,0)}catch{process.exit()}},5e3).unref()}}function dun(t){let e=Object.assign({},t),n=Object.assign({},e.env);for(let i of Object.keys(n))i.startsWith("THEIA_")&&delete n[i];return n[tce]=String(process.pid),n[nce]=e.entryPoint,n}});var xFe=f(qF=>{"use strict";Object.defineProperty(qF,"__esModule",{value:!0});qF.start=_Fe;var pun=UF();(0,pun.checkParentAlive)();process.on("unhandledRejection",(t,e)=>{throw t});async function _Fe(t){return(await t).address()}qF.default=_Fe});var ice=f(()=>{var TFe;(function(t){(function(e){var n=typeof globalThis=="object"?globalThis:typeof global=="object"?global:typeof self=="object"?self:typeof this=="object"?this:s(),i=r(t);typeof n.Reflect<"u"&&(i=r(n.Reflect,i)),e(i,n),typeof n.Reflect>"u"&&(n.Reflect=t);function r(l,c){return function(u,d){Object.defineProperty(l,u,{configurable:!0,writable:!0,value:d}),c&&c(u,d)}}function o(){try{return Function("return this;")()}catch{}}function a(){try{return(0,eval)("(function() { return this; })()")}catch{}}function s(){return o()||a()}})(function(e,n){var i=Object.prototype.hasOwnProperty,r=typeof Symbol=="function",o=r&&typeof Symbol.toPrimitive<"u"?Symbol.toPrimitive:"@@toPrimitive",a=r&&typeof Symbol.iterator<"u"?Symbol.iterator:"@@iterator",s=typeof Object.create=="function",l={__proto__:[]}instanceof Array,c=!s&&!l,u={create:s?function(){return Qe(Object.create(null))}:l?function(){return Qe({__proto__:null})}:function(){return Qe({})},has:c?function(J,le){return i.call(J,le)}:function(J,le){return le in J},get:c?function(J,le){return i.call(J,le)?J[le]:void 0}:function(J,le){return J[le]}},d=Object.getPrototypeOf(Function),p=typeof Map=="function"&&typeof Map.prototype.entries=="function"?Map:po(),h=typeof Set=="function"&&typeof Set.prototype.entries=="function"?Set:bi(),m=typeof WeakMap=="function"?WeakMap:re(),g=r?Symbol.for("@reflect-metadata:registry"):void 0,b=lt(),y=$t(b);function v(J,le,De,ee){if(de(De)){if(!Nt(J))throw new TypeError;if(!bn(le))throw new TypeError;return q(J,le)}else{if(!Nt(J))throw new TypeError;if(!Me(le))throw new TypeError;if(!Me(ee)&&!de(ee)&&!qe(ee))throw new TypeError;return qe(ee)&&(ee=void 0),De=tt(De),P(J,le,De,ee)}}e("decorate",v);function A(J,le){function De(ee,we){if(!Me(ee))throw new TypeError;if(!de(we)&&!Sn(we))throw new TypeError;Z(J,le,ee,we)}return De}e("metadata",A);function I(J,le,De,ee){if(!Me(De))throw new TypeError;return de(ee)||(ee=tt(ee)),Z(J,le,De,ee)}e("defineMetadata",I);function k(J,le,De){if(!Me(le))throw new TypeError;return de(De)||(De=tt(De)),R(J,le,De)}e("hasMetadata",k);function L(J,le,De){if(!Me(le))throw new TypeError;return de(De)||(De=tt(De)),x(J,le,De)}e("hasOwnMetadata",L);function E(J,le,De){if(!Me(le))throw new TypeError;return de(De)||(De=tt(De)),_(J,le,De)}e("getMetadata",E);function H(J,le,De){if(!Me(le))throw new TypeError;return de(De)||(De=tt(De)),j(J,le,De)}e("getOwnMetadata",H);function C(J,le){if(!Me(J))throw new TypeError;return de(le)||(le=tt(le)),ue(J,le)}e("getMetadataKeys",C);function w(J,le){if(!Me(J))throw new TypeError;return de(le)||(le=tt(le)),W(J,le)}e("getOwnMetadataKeys",w);function D(J,le,De){if(!Me(le))throw new TypeError;if(de(De)||(De=tt(De)),!Me(le))throw new TypeError;de(De)||(De=tt(De));var ee=mr(le,De,!1);return de(ee)?!1:ee.OrdinaryDeleteMetadata(J,le,De)}e("deleteMetadata",D);function q(J,le){for(var De=J.length-1;De>=0;--De){var ee=J[De],we=ee(le);if(!de(we)&&!qe(we)){if(!bn(we))throw new TypeError;le=we}}return le}function P(J,le,De,ee){for(var we=J.length-1;we>=0;--we){var Be=J[we],Fe=Be(le,De,ee);if(!de(Fe)&&!qe(Fe)){if(!Me(Fe))throw new TypeError;ee=Fe}}return ee}function R(J,le,De){var ee=x(J,le,De);if(ee)return!0;var we=ct(le);return qe(we)?!1:R(J,we,De)}function x(J,le,De){var ee=mr(le,De,!1);return de(ee)?!1:ot(ee.OrdinaryHasOwnMetadata(J,le,De))}function _(J,le,De){var ee=x(J,le,De);if(ee)return j(J,le,De);var we=ct(le);if(!qe(we))return _(J,we,De)}function j(J,le,De){var ee=mr(le,De,!1);if(!de(ee))return ee.OrdinaryGetOwnMetadata(J,le,De)}function Z(J,le,De,ee){var we=mr(De,ee,!0);we.OrdinaryDefineOwnMetadata(J,le,De,ee)}function ue(J,le){var De=W(J,le),ee=ct(J);if(ee===null)return De;var we=ue(ee,le);if(we.length<=0)return De;if(De.length<=0)return we;for(var Be=new h,Fe=[],We=0,Ze=De;We<Ze.length;We++){var st=Ze[We],ut=Be.has(st);ut||(Be.add(st),Fe.push(st))}for(var bt=0,yn=we;bt<yn.length;bt++){var st=yn[bt],ut=Be.has(st);ut||(Be.add(st),Fe.push(st))}return Fe}function W(J,le){var De=mr(J,le,!1);return De?De.OrdinaryOwnMetadataKeys(J,le):[]}function be(J){if(J===null)return 1;switch(typeof J){case"undefined":return 0;case"boolean":return 2;case"string":return 3;case"symbol":return 4;case"number":return 5;case"object":return J===null?1:6;default:return 6}}function de(J){return J===void 0}function qe(J){return J===null}function Pe(J){return typeof J=="symbol"}function Me(J){return typeof J=="object"?J!==null:typeof J=="function"}function et(J,le){switch(be(J)){case 0:return J;case 1:return J;case 2:return J;case 3:return J;case 4:return J;case 5:return J}var De=le===3?"string":le===5?"number":"default",ee=ae(J,o);if(ee!==void 0){var we=ee.call(J,De);if(Me(we))throw new TypeError;return we}return Ht(J,De==="default"?"number":De)}function Ht(J,le){if(le==="string"){var De=J.toString;if(wt(De)){var ee=De.call(J);if(!Me(ee))return ee}var we=J.valueOf;if(wt(we)){var ee=we.call(J);if(!Me(ee))return ee}}else{var we=J.valueOf;if(wt(we)){var ee=we.call(J);if(!Me(ee))return ee}var Be=J.toString;if(wt(Be)){var ee=Be.call(J);if(!Me(ee))return ee}}throw new TypeError}function ot(J){return!!J}function on(J){return""+J}function tt(J){var le=et(J,3);return Pe(le)?le:on(le)}function Nt(J){return Array.isArray?Array.isArray(J):J instanceof Object?J instanceof Array:Object.prototype.toString.call(J)==="[object Array]"}function wt(J){return typeof J=="function"}function bn(J){return typeof J=="function"}function Sn(J){switch(be(J)){case 3:return!0;case 4:return!0;default:return!1}}function ie(J,le){return J===le||J!==J&&le!==le}function ae(J,le){var De=J[le];if(De!=null){if(!wt(De))throw new TypeError;return De}}function nt(J){var le=ae(J,a);if(!wt(le))throw new TypeError;var De=le.call(J);if(!Me(De))throw new TypeError;return De}function pe(J){return J.value}function Y(J){var le=J.next();return le.done?!1:le}function it(J){var le=J.return;le&&le.call(J)}function ct(J){var le=Object.getPrototypeOf(J);if(typeof J!="function"||J===d||le!==d)return le;var De=J.prototype,ee=De&&Object.getPrototypeOf(De);if(ee==null||ee===Object.prototype)return le;var we=ee.constructor;return typeof we!="function"||we===J?le:we}function at(){var J;!de(g)&&typeof n.Reflect<"u"&&!(g in n.Reflect)&&typeof n.Reflect.defineMetadata=="function"&&(J=Nn(n.Reflect));var le,De,ee,we=new m,Be={registerProvider:Fe,getProvider:Ze,setProvider:ut};return Be;function Fe(bt){if(!Object.isExtensible(Be))throw new Error("Cannot add provider to a frozen registry.");switch(!0){case J===bt:break;case de(le):le=bt;break;case le===bt:break;case de(De):De=bt;break;case De===bt:break;default:ee===void 0&&(ee=new h),ee.add(bt);break}}function We(bt,yn){if(!de(le)){if(le.isProviderFor(bt,yn))return le;if(!de(De)){if(De.isProviderFor(bt,yn))return le;if(!de(ee))for(var Vi=nt(ee);;){var jr=Y(Vi);if(!jr)return;var cs=pe(jr);if(cs.isProviderFor(bt,yn))return it(Vi),cs}}}if(!de(J)&&J.isProviderFor(bt,yn))return J}function Ze(bt,yn){var Vi=we.get(bt),jr;return de(Vi)||(jr=Vi.get(yn)),de(jr)&&(jr=We(bt,yn),de(jr)||(de(Vi)&&(Vi=new p,we.set(bt,Vi)),Vi.set(yn,jr))),jr}function st(bt){if(de(bt))throw new TypeError;return le===bt||De===bt||!de(ee)&&ee.has(bt)}function ut(bt,yn,Vi){if(!st(Vi))throw new Error("Metadata provider not registered.");var jr=Ze(bt,yn);if(jr!==Vi){if(!de(jr))return!1;var cs=we.get(bt);de(cs)&&(cs=new p,we.set(bt,cs)),cs.set(yn,Vi)}return!0}}function lt(){var J;return!de(g)&&Me(n.Reflect)&&Object.isExtensible(n.Reflect)&&(J=n.Reflect[g]),de(J)&&(J=at()),!de(g)&&Me(n.Reflect)&&Object.isExtensible(n.Reflect)&&Object.defineProperty(n.Reflect,g,{enumerable:!1,configurable:!1,writable:!1,value:J}),J}function $t(J){var le=new m,De={isProviderFor:function(st,ut){var bt=le.get(st);return de(bt)?!1:bt.has(ut)},OrdinaryDefineOwnMetadata:Fe,OrdinaryHasOwnMetadata:we,OrdinaryGetOwnMetadata:Be,OrdinaryOwnMetadataKeys:We,OrdinaryDeleteMetadata:Ze};return b.registerProvider(De),De;function ee(st,ut,bt){var yn=le.get(st),Vi=!1;if(de(yn)){if(!bt)return;yn=new p,le.set(st,yn),Vi=!0}var jr=yn.get(ut);if(de(jr)){if(!bt)return;if(jr=new p,yn.set(ut,jr),!J.setProvider(st,ut,De))throw yn.delete(ut),Vi&&le.delete(st),new Error("Wrong provider for target.")}return jr}function we(st,ut,bt){var yn=ee(ut,bt,!1);return de(yn)?!1:ot(yn.has(st))}function Be(st,ut,bt){var yn=ee(ut,bt,!1);if(!de(yn))return yn.get(st)}function Fe(st,ut,bt,yn){var Vi=ee(bt,yn,!0);Vi.set(st,ut)}function We(st,ut){var bt=[],yn=ee(st,ut,!1);if(de(yn))return bt;for(var Vi=yn.keys(),jr=nt(Vi),cs=0;;){var Wb=Y(jr);if(!Wb)return bt.length=cs,bt;var vp=pe(Wb);try{bt[cs]=vp}catch(_e){try{it(jr)}finally{throw _e}}cs++}}function Ze(st,ut,bt){var yn=ee(ut,bt,!1);if(de(yn)||!yn.delete(st))return!1;if(yn.size===0){var Vi=le.get(ut);de(Vi)||(Vi.delete(bt),Vi.size===0&&le.delete(Vi))}return!0}}function Nn(J){var le=J.defineMetadata,De=J.hasOwnMetadata,ee=J.getOwnMetadata,we=J.getOwnMetadataKeys,Be=J.deleteMetadata,Fe=new m,We={isProviderFor:function(Ze,st){var ut=Fe.get(Ze);return!de(ut)&&ut.has(st)?!0:we(Ze,st).length?(de(ut)&&(ut=new h,Fe.set(Ze,ut)),ut.add(st),!0):!1},OrdinaryDefineOwnMetadata:le,OrdinaryHasOwnMetadata:De,OrdinaryGetOwnMetadata:ee,OrdinaryOwnMetadataKeys:we,OrdinaryDeleteMetadata:Be};return We}function mr(J,le,De){var ee=b.getProvider(J,le);if(!de(ee))return ee;if(De){if(b.setProvider(J,le,y))return y;throw new Error("Illegal state.")}}function po(){var J={},le=[],De=(function(){function We(Ze,st,ut){this._index=0,this._keys=Ze,this._values=st,this._selector=ut}return We.prototype["@@iterator"]=function(){return this},We.prototype[a]=function(){return this},We.prototype.next=function(){var Ze=this._index;if(Ze>=0&&Ze<this._keys.length){var st=this._selector(this._keys[Ze],this._values[Ze]);return Ze+1>=this._keys.length?(this._index=-1,this._keys=le,this._values=le):this._index++,{value:st,done:!1}}return{value:void 0,done:!0}},We.prototype.throw=function(Ze){throw this._index>=0&&(this._index=-1,this._keys=le,this._values=le),Ze},We.prototype.return=function(Ze){return this._index>=0&&(this._index=-1,this._keys=le,this._values=le),{value:Ze,done:!0}},We})(),ee=(function(){function We(){this._keys=[],this._values=[],this._cacheKey=J,this._cacheIndex=-2}return Object.defineProperty(We.prototype,"size",{get:function(){return this._keys.length},enumerable:!0,configurable:!0}),We.prototype.has=function(Ze){return this._find(Ze,!1)>=0},We.prototype.get=function(Ze){var st=this._find(Ze,!1);return st>=0?this._values[st]:void 0},We.prototype.set=function(Ze,st){var ut=this._find(Ze,!0);return this._values[ut]=st,this},We.prototype.delete=function(Ze){var st=this._find(Ze,!1);if(st>=0){for(var ut=this._keys.length,bt=st+1;bt<ut;bt++)this._keys[bt-1]=this._keys[bt],this._values[bt-1]=this._values[bt];return this._keys.length--,this._values.length--,ie(Ze,this._cacheKey)&&(this._cacheKey=J,this._cacheIndex=-2),!0}return!1},We.prototype.clear=function(){this._keys.length=0,this._values.length=0,this._cacheKey=J,this._cacheIndex=-2},We.prototype.keys=function(){return new De(this._keys,this._values,we)},We.prototype.values=function(){return new De(this._keys,this._values,Be)},We.prototype.entries=function(){return new De(this._keys,this._values,Fe)},We.prototype["@@iterator"]=function(){return this.entries()},We.prototype[a]=function(){return this.entries()},We.prototype._find=function(Ze,st){if(!ie(this._cacheKey,Ze)){this._cacheIndex=-1;for(var ut=0;ut<this._keys.length;ut++)if(ie(this._keys[ut],Ze)){this._cacheIndex=ut;break}}return this._cacheIndex<0&&st&&(this._cacheIndex=this._keys.length,this._keys.push(Ze),this._values.push(void 0)),this._cacheIndex},We})();return ee;function we(We,Ze){return We}function Be(We,Ze){return Ze}function Fe(We,Ze){return[We,Ze]}}function bi(){var J=(function(){function le(){this._map=new p}return Object.defineProperty(le.prototype,"size",{get:function(){return this._map.size},enumerable:!0,configurable:!0}),le.prototype.has=function(De){return this._map.has(De)},le.prototype.add=function(De){return this._map.set(De,De),this},le.prototype.delete=function(De){return this._map.delete(De)},le.prototype.clear=function(){this._map.clear()},le.prototype.keys=function(){return this._map.keys()},le.prototype.values=function(){return this._map.keys()},le.prototype.entries=function(){return this._map.entries()},le.prototype["@@iterator"]=function(){return this.keys()},le.prototype[a]=function(){return this.keys()},le})();return J}function re(){var J=16,le=u.create(),De=ee();return(function(){function Ze(){this._key=ee()}return Ze.prototype.has=function(st){var ut=we(st,!1);return ut!==void 0?u.has(ut,this._key):!1},Ze.prototype.get=function(st){var ut=we(st,!1);return ut!==void 0?u.get(ut,this._key):void 0},Ze.prototype.set=function(st,ut){var bt=we(st,!0);return bt[this._key]=ut,this},Ze.prototype.delete=function(st){var ut=we(st,!1);return ut!==void 0?delete ut[this._key]:!1},Ze.prototype.clear=function(){this._key=ee()},Ze})();function ee(){var Ze;do Ze="@@WeakMap@@"+We();while(u.has(le,Ze));return le[Ze]=!0,Ze}function we(Ze,st){if(!i.call(Ze,De)){if(!st)return;Object.defineProperty(Ze,De,{value:u.create()})}return Ze[De]}function Be(Ze,st){for(var ut=0;ut<st;++ut)Ze[ut]=Math.random()*255|0;return Ze}function Fe(Ze){if(typeof Uint8Array=="function"){var st=new Uint8Array(Ze);return typeof crypto<"u"?crypto.getRandomValues(st):typeof msCrypto<"u"?msCrypto.getRandomValues(st):Be(st,Ze),st}return Be(new Array(Ze),Ze)}function We(){var Ze=Fe(J);Ze[6]=Ze[6]&79|64,Ze[8]=Ze[8]&191|128;for(var st="",ut=0;ut<J;++ut){var bt=Ze[ut];(ut===4||ut===6||ut===8)&&(st+="-"),bt<16&&(st+="0"),st+=bt.toString(16).toLowerCase()}return st}}function Qe(J){return J.__=void 0,delete J.__,J}})})(TFe||(TFe={}))});var Om=f((Vur,RFe)=>{var hun=require("path").relative;RFe.exports=yun;var fun=process.cwd();function DFe(t,e){for(var n=t.split(/[ ,]+/),i=String(e).toLowerCase(),r=0;r<n.length;r++){var o=n[r];if(o&&(o==="*"||o.toLowerCase()===i))return!0}return!1}function mun(t,e,n){var i=Object.getOwnPropertyDescriptor(t,e),r=i.value;return i.get=function(){return r},i.writable&&(i.set=function(a){return r=a}),delete i.value,delete i.writable,Object.defineProperty(t,e,i),i}function gun(t){for(var e="",n=0;n<t;n++)e+=", arg"+n;return e.substr(2)}function bun(t){var e=this.name+": "+this.namespace;this.message&&(e+=" deprecated "+this.message);for(var n=0;n<t.length;n++)e+=`
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+/**
+ * Ozel esbuild yapilandirmasi.
+ * - @uzay/*, @theia/* gibi paketleri root node_modules'den cozer
+ * - Browser build'e Cesium statik dosyalarini kopyalar
+ * - Node/backend build'de cesium'u external olarak isaret eder
+ *   (Cesium browser-only bir kutuphanedir, backend bundle'ina girmemeli)
+ */
+import { browserOptions, watch } from './gen-esbuild.browser.mjs';
+import { nodeOptions } from './gen-esbuild.node.mjs';
+import esbuild from 'esbuild';
+import * as path from 'path';
+import * as fs from 'fs';
+import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 
-Error: Cannot find module '/home/theia/browser-app/lib/backend/Build/CesiumUnminified/index.cjs'
-Require stack:
-- /home/theia/browser-app/lib/backend/main.js
-    at Function._resolveFilename (node:internal/modules/cjs/loader:1225:15)
-    at Function._load (node:internal/modules/cjs/loader:1055:27)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
-    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
-    at Module.require (node:internal/modules/cjs/loader:1311:12)
-    at require (node:internal/modules/helpers:136:16)
-    at /home/theia/browser-app/lib/backend/main.js:1988:31446
-    at /home/theia/browser-app/lib/backend/main.js:1:343
-    at /home/theia/browser-app/lib/backend/main.js:1988:32891
-    at /home/theia/browser-app/lib/backend/main.js:1:343 {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [ '/home/theia/browser-app/lib/backend/main.js' ]
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const _require = createRequire(import.meta.url);
+
+const ROOT_NODE_MODULES = path.resolve(__dirname, '../node_modules');
+const CESIUM_BUILD = path.resolve(ROOT_NODE_MODULES, 'cesium/Build/Cesium');
+
+/**
+ * Bu plugin; @theia/*, @uzay/*, inversify, reflect-metadata ve react gibi
+ * singleton olmasi gereken paketleri root node_modules uzerinden cozer.
+ * Uzantisiz subpath'ler icin once direkt dener, olmazsa .js ekleyerek tekrar dener.
+ */
+const forceRootModulesPlugin = {
+    name: 'force-root-modules',
+    setup(build) {
+        build.onResolve(
+            { filter: /^(@theia\/|@uzay\/|inversify(\/|$)|reflect-metadata(\/|$)|react(\/|-dom\/|$)|react-dom(\/|$))/ },
+            (args) => {
+                if (args.kind === 'entry-point') return undefined;
+
+                // Once uzantisiz dene, olmadiysa .js ekle
+                const candidates = [args.path, args.path + '.js'];
+                for (const candidate of candidates) {
+                    try {
+                        return { path: _require.resolve(candidate) };
+                    } catch {
+                        // sonrakini dene
+                    }
+                }
+                return undefined;
+            }
+        );
+    }
+};
+
+/**
+ * Cesium statik dosyalarini (Build/Cesium/) cikti klasorune kopyalar.
+ */
+const cesiumCopyPlugin = {
+    name: 'cesium-copy',
+    setup(build) {
+        build.onEnd(async () => {
+            const outdir = build.initialOptions.outdir;
+            if (!outdir) return;
+
+            const dest = path.join(outdir, 'cesium');
+            if (fs.existsSync(dest)) return;
+
+            if (!fs.existsSync(CESIUM_BUILD)) {
+                console.warn('[cesium-copy] Cesium Build klasoru bulunamadi:', CESIUM_BUILD);
+                return;
+            }
+
+            console.log('[cesium-copy] Cesium statik dosyalari kopyalaniyor...');
+            fs.mkdirSync(dest, { recursive: true });
+            copyDirSync(CESIUM_BUILD, dest);
+            console.log('[cesium-copy] Cesium dosyalari kopyalandi.');
+        });
+    }
+};
+
+function copyDirSync(src, dest) {
+    const entries = fs.readdirSync(src, { withFileTypes: true });
+    for (const entry of entries) {
+        const srcPath = path.join(src, entry.name);
+        const destPath = path.join(dest, entry.name);
+        if (entry.isDirectory()) {
+            fs.mkdirSync(destPath, { recursive: true });
+            copyDirSync(srcPath, destPath);
+        } else {
+            fs.copyFileSync(srcPath, destPath);
+        }
+    }
 }
 
-Node.js v22.14.0
+// Mevcut Theia plugin listesine ekle, hicbirini cikarma
+const customBrowserOptions = {
+    ...browserOptions,
+    plugins: [
+        forceRootModulesPlugin,
+        cesiumCopyPlugin,
+        ...(browserOptions.plugins || [])
+    ],
+    define: {
+        ...(browserOptions.define || {}),
+        CESIUM_BASE_URL: JSON.stringify('./cesium'),
+    }
+};
+
+const customNodeOptions = {
+    ...nodeOptions,
+    // Cesium browser-only kutuphanesidir, backend bundle'ina girmesin.
+    // Girerse icindeki relative require('./Build/CesiumUnminified/...') calisma
+    // zamaninda yanlis path'e bakar ve MODULE_NOT_FOUND hatasi verir.
+    external: [...(nodeOptions.external || []), 'cesium'],
+    plugins: [
+        forceRootModulesPlugin,
+        ...(nodeOptions.plugins || [])
+    ]
+};
+
+if (watch) {
+    const [browserCtx, nodeCtx] = await Promise.all([
+        esbuild.context(customBrowserOptions),
+        esbuild.context(customNodeOptions)
+    ]);
+    await Promise.all([
+        browserCtx.watch(),
+        nodeCtx.watch()
+    ]);
+} else {
+    await Promise.all([
+        esbuild.build(customBrowserOptions),
+        esbuild.build(customNodeOptions)
+    ]);
+}
