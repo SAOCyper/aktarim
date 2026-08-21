@@ -1,37 +1,47 @@
 {
-    "compilerOptions": {
-        "target": "ES2020",
-        "module": "commonjs",
-        "lib": ["ES2020", "DOM"],
-        "outDir": "lib",
-        "declaration": true,
-        "declarationMap": true,
-        "sourceMap": true,
-        "strict": false,
-        "strictPropertyInitialization": false,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "jsx": "react-jsx",
-        "moduleResolution": "node",
-        "baseUrl": ".",
-        "paths": {
-            "@theia/*": ["../../node_modules/@theia/*"],
-            "@lumino/*": ["../../node_modules/@lumino/*"],
-            "react": ["../../node_modules/@types/react"],
-            "inversify": ["../../node_modules/inversify"]
-        },
-        "rootDir": "src"
-    },
-    "include": ["src/**/*.ts", "src/**/*.tsx"],
-    "exclude": [
-        "node_modules",
+    "name": "@uzay/gsc-core-extension",
+    "version": "1.0.0",
+    "description": "SOC Core — Theia RPC bridge (backend → SocDataService). Required by all other SOC extensions.",
+    "license": "MIT",
+    "main":"lib/browser/common-index.js",
+    "typings":"lib/browser/common-index.d.ts",
+    "keywords": [
+        "theia-extension",
+        "satellite"
+    ],
+    "files": [
         "lib",
-        "../gsc-core-extension/lib",
-        "../**/lib",
-        "@uzay/gsc-core-extension/lib",
-        "src/common/App.tsx",
-        "src/common/main.tsx"
-    ]
+        "src"
+    ],
+    "theiaExtensions": [
+        {
+            "frontend": "lib/browser/soc-core-frontend-module",
+            "backend": "lib/node/soc-core-backend-module"
+        }
+    ],
+    "dependencies": {
+        "recharts": "^2.15.1",
+        "@uzay/gss-messaging": "^0.1.1",
+        "sqlite3": "^5.1.7",
+        "busboy": "^1.6.0"
+    },
+    "peerDependencies": {
+        "@theia/core": "1.72.0",
+        "cesium":"1.138.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "@types/react":"^18.2.0",
+        "@types/react-dom": "^18.2.0",
+        "react": "^18.2.0",
+        "react-dom":"^18.2.0",
+        "rimraf": "^5.0.0",
+        "typescript": "~5.9.3"
+    },
+    "scripts": {
+        "clean": "rimraf lib",
+        "build": "tsc",
+        "watch": "tsc -w"
+    }
 }
