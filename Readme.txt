@@ -1,6 +1,7 @@
-const cleanTarget = String(idOrNo).replace('SAT-', '').trim();
-        return socState.satellites?.find((s: any) => {
-            const sIdClean = String(s.id || '').replace('SAT-', '').trim();
-            const sNoradClean = String(s.noradId || '').replace('SAT-', '').trim();
-            return sIdClean === cleanTarget || sNoradClean === cleanTarget;
-        });
+this.fetchPasses(true).catch(console.error);
+            this.fetchDynamicPasses(this.state.gsFilterId).catch(console.error);
+        } else if (event === 'config_change_result') {
+            console.log('[SocDataService] Received config_change_result broadcast. Reloading passes...');
+            this._broadcastEvent(event, data);
+            this.fetchPasses(true).catch(console.error);
+            this.fetchDynamicPasses(this.state.gsFilterId).catch(console.error);
