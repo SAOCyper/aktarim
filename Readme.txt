@@ -1,87 +1,98 @@
-import { injectable } from '@theia/core/shared/inversify';
-import { SatelliteClient } from '../../common/theia-entry';
-import { CustomLogger } from '../logging/custom-logger';
+ build:extensions
+> lerna run --scope="@uzay/*" build
 
-@injectable()
-export class SatelliteClientManager {
-    private readonly logger = new CustomLogger(SatelliteClientManager.name);
-    private clients = new Set<SatelliteClient>();
+lerna notice cli v9.0.7
+lerna notice filter including "@uzay/*"
+lerna info filter [ '@uzay/*' ]
 
-    addClient(client: SatelliteClient) {
-        this.clients.add(client);
-    }
+ Lerna (powered by Nx)   Running target build for 8 projects:
 
-    removeClient(client: SatelliteClient) {
-        this.clients.delete(client);
-    }
+- @uzay/gsc-core-extension
+- @uzay/gsc-earth-extension
+- @uzay/gsc-files-extension
+- @uzay/gsc-mission-extension
+- @uzay/gsc-moon-extension
+- @uzay/gsc-pass-control-extension
+- @uzay/gsc-pass-prediction-extension
+- @uzay/gsc-settings-extension
 
-    // Adapts the old Socket.io 'broadcast' signature to our new JSON-RPC client interface
-    broadcast(event: string, data: any) {
-        for (const client of this.clients) {
-            try {
-                switch (event) {
-                    case 'satellite_updated':
-                        client.onSatelliteUpdated(data);
-                        break;
-                    case 'ground_station_updated':
-                        client.onGroundStationUpdated(data);
-                        break;
-                    case 'pass_prediction':
-                        client.onPassPrediction(data);
-                        break;
-                    case 'current_pass':
-                        client.onCurrentPass(data);
-                        break;
-                    case 'approaching_passes':
-                        client.onApproachingPasses(data);
-                        break;
-                    case 'system_mode_update':
-                        client.onSystemModeUpdate(data);
-                        break;
-                    case 'config_change_result':
-                        client.onConfigChangeResult(data);
-                        break;
-                    case 'sat_config_names':
-                        client.onSatConfigNames(data);
-                        break;
-                    case 'sat_config_details':
-                        client.onSatConfigDetails(data);
-                        break;
-                    case 'global_config_names':
-                        client.onGlobalConfigNames(data);
-                        break;
-                    case 'global_config_details':
-                        client.onGlobalConfigDetails(data);
-                        break;
-                    case 'global_config_operation_result':
-                    case 'sat_config_operation_result':
-                    case 'system_mode_setting_result':
-                        client.onConfigOperationResult(data);
-                        break;
-                    case 'latest_tle_update':
-                        client.onLatestTleUpdate(data);
-                        break;
-                    case 'tle_renewal_result':
-                        client.onTleRenewalResult(data);
-                        break;
-                    case 'pass_trajectory_update':
-                    case 'gsc_pass_trajectory':
-                        client.onPassTrajectoryUpdate(data);
-                        break;
-                    case 'pass_preferences':
-                        client.onPassPreferences(data);
-                        break;
-                    case 'pass_settings_feedback':
-                        client.onPassSettingsFeedback(data);
-                        break;
-                    case 'pass_schedule_setting_result':
-                        client.onPassScheduleSettingResult(data);
-                    default:
-                        this.logger.warn(`Unmapped broadcast event: ${event}`);
-                }
-            } catch (err: any) {
-                this.logger.error(`Error broadcasting ${event}: ${err.message}`);
-            }
-        }
-    }
-}
+—————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+> @uzay/gsc-core-extension:build
+
+@uzay/gsc-core-extension: > @uzay/gsc-core-extension@1.0.0 build
+@uzay/gsc-core-extension: > tsc
+
+> @uzay/gsc-earth-extension:build
+
+
+> @uzay/gsc-files-extension:build
+
+
+> @uzay/gsc-pass-prediction-extension:build
+
+
+> @uzay/gsc-moon-extension:build
+
+
+> @uzay/gsc-mission-extension:build
+
+
+> @uzay/gsc-pass-control-extension:build
+
+
+> @uzay/gsc-settings-extension:build
+
+@uzay/gsc-moon-extension: npm warn config ignoring workspace config at /home/theia/extensions/gsc-moon-extension/.npmrc
+@uzay/gsc-pass-prediction-extension: > @uzay/gsc-pass-prediction-extension@1.0.0 build
+@uzay/gsc-pass-prediction-extension: > tsc && cpx "src/**/*.css" lib/
+@uzay/gsc-moon-extension: > @uzay/gsc-moon-extension@1.0.0 build
+@uzay/gsc-moon-extension: > tsc -p tsconfig.json && cpx "src/**/*.css" lib/
+@uzay/gsc-earth-extension: > @uzay/gsc-earth-extension@1.0.0 build
+@uzay/gsc-earth-extension: > tsc
+@uzay/gsc-files-extension: > @uzay/gsc-files-extension@1.0.0 build
+@uzay/gsc-files-extension: > tsc && cpx "src/**/*.css" lib/
+@uzay/gsc-settings-extension: > @uzay/gsc-settings-extension@1.0.0 build
+@uzay/gsc-settings-extension: > tsc && cpx "src/**/*.css" lib/
+@uzay/gsc-mission-extension: > @uzay/gsc-mission-extension@1.0.0 build
+@uzay/gsc-mission-extension: > tsc && cpx "src/**/*.css" lib/
+@uzay/gsc-pass-control-extension: > @uzay/gsc-pass-control-extension@1.0.0 build
+@uzay/gsc-pass-control-extension: > tsc && cpx "src/**/*.css" lib/
+@uzay/gsc-mission-extension: src/browser/components/MissionWidgetPanel.tsx(3,44): error TS2307: Cannot find module '@uzay/gsc-core-extension' or its corresponding type declarations.
+@uzay/gsc-mission-extension: src/browser/soc-mission-widget.tsx(5,54): error TS2307: Cannot find module '@uzay/gsc-core-extension' or its corresponding type declarations.
+@uzay/gsc-mission-extension: npm error Lifecycle script `build` failed with error:
+@uzay/gsc-mission-extension: npm error code 2
+@uzay/gsc-mission-extension: npm error path /home/theia/extensions/gsc-mission-extension
+@uzay/gsc-mission-extension: npm error workspace @uzay/gsc-mission-extension@1.0.0
+@uzay/gsc-mission-extension: npm error location /home/theia/extensions/gsc-mission-extension
+@uzay/gsc-mission-extension: npm error command failed
+@uzay/gsc-mission-extension: npm error command sh -c tsc && cpx "src/**/*.css" lib/
+@uzay/gsc-settings-extension: src/browser/components/SettingsWidget.tsx(2,32): error TS2307: Cannot find module '@uzay/gsc-core-extension' or its corresponding type declarations.
+@uzay/gsc-settings-extension: src/browser/soc-settings-widget.tsx(5,54): error TS2307: Cannot find module '@uzay/gsc-core-extension' or its corresponding type declarations.
+@uzay/gsc-settings-extension: npm error Lifecycle script `build` failed with error:
+@uzay/gsc-settings-extension: npm error code 2
+@uzay/gsc-settings-extension: npm error path /home/theia/extensions/gsc-settings-extension
+@uzay/gsc-settings-extension: npm error workspace @uzay/gsc-settings-extension@1.0.0
+@uzay/gsc-settings-extension: npm error location /home/theia/extensions/gsc-settings-extension
+@uzay/gsc-settings-extension: npm error command failed
+@uzay/gsc-settings-extension: npm error command sh -c tsc && cpx "src/**/*.css" lib/
+@uzay/gsc-earth-extension: src/browser/cesium-view-widget.tsx(11,77): error TS2307: Cannot find module '@uzay/gsc-core-extension' or its corresponding type declarations.
+@uzay/gsc-earth-extension: src/browser/components/EarthViewer.tsx(45,8): error TS2307: Cannot find module '@uzay/gsc-core-extension' or its corresponding type declarations.
+@uzay/gsc-earth-extension: src/browser/satellite-client-impl.ts(2,49): error TS2307: Cannot find module '@uzay/gsc-core-extension' or its corresponding type declarations.
+@uzay/gsc-earth-extension: src/browser/soc-frontend-contribution.ts(25,55): error TS2307: Cannot find module '@uzay/gsc-core-extension' or its corresponding type declarations.
+@uzay/gsc-earth-extension: src/browser/soc-frontend-module.ts(12,93): error TS2307: Cannot find module '@uzay/gsc-core-extension' or its corresponding type declarations.
+@uzay/gsc-earth-extension: npm error Lifecycle script `build` failed with error:
+@uzay/gsc-earth-extension: npm error code 2
+@uzay/gsc-earth-extension: npm error path /home/theia/extensions/gsc-earth-extension
+@uzay/gsc-earth-extension: npm error workspace @uzay/gsc-earth-extension@1.0.0
+@uzay/gsc-earth-extension: npm error location /home/theia/extensions/gsc-earth-extension
+@uzay/gsc-earth-extension: npm error command failed
+@uzay/gsc-earth-extension: npm error command sh -c tsc
+
+—————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+ Lerna (powered by Nx)   Running target build for 8 projects failed
+
+Failed tasks:
+
+- @uzay/gsc-mission-extension:build
