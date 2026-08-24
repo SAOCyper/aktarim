@@ -1,569 +1,347 @@
-Frontend: loading modules... [1.301 s since frontend page start] bundle.js:20943:8008
-Frontend: container created [1.306 s since frontend page start] bundle.js:20943:8008
-sending initial connect on DH1MBmZ35JA4SwW4AAAB bundle.js:443:110027
-initial connect received on DH1MBmZ35JA4SwW4AAAB bundle.js:443:109802
-Frontend: preloaded [1.336 s since frontend page start] bundle.js:20943:8008
-Frontend: core modules loaded [1.449 s since frontend page start] bundle.js:20943:8008
-[SOC Core] Frontend module loading... bundle.js:20608:34540
-[SOC Core] Frontend module bindings completed. bundle.js:20608:35183
-[SOC-Earth] Frontend module loading... bundle.js:20708:6173
->>> [SOC] SOCFrontendModule bindings completed. bundle.js:20708:7190
->>> [SOC] SOCFrontendModule loading... bundle.js:20806:2694
->>> [SOC] SOCFrontendModule bindings completed. bundle.js:20806:3194
-Frontend: modules loaded [1.593 s since frontend page start] bundle.js:20943:8008
-Frontend: resolving application [1.593 s since frontend page start] bundle.js:20943:8008
-Frontend: application resolved [1.595 s since frontend page start] bundle.js:20943:8008
-Default overrides registered for these keys, but preferences not registered 
-Array [ "toolbar.showToolbar" ]
-bundle.js:1123:12182
-2026-08-24T06:07:04.344Z root INFO [SOC Earth] Extension loaded. RPC already initialized by gsc-core-extension bundle.js:1122:210509
-2026-08-24T06:07:04.362Z root INFO Detected keyboard layout from pressed keys: Turkish Q (PC) bundle.js:1122:210509
-2026-08-24T06:07:04.435Z root INFO [SOC Core] Initializing RPC connection to backend... bundle.js:1122:210509
-2026-08-24T06:07:04.436Z root INFO [SocDataService] Starting locked refresh flow (force=true)... bundle.js:1122:210509
-2026-08-24T06:07:04.436Z root INFO [SOC Core] SocDataService RPC client initialized. bundle.js:1122:210509
-2026-08-24T06:07:04.436Z root INFO [SOC] Satellite Ops Center extension loaded. 2 bundle.js:1122:210509
-2026-08-24T06:07:04.437Z root INFO [SOC] Files Panel extension loaded. bundle.js:1122:210509
-2026-08-24T06:07:04.437Z root INFO [SOC] Settings Panel extension loaded. bundle.js:1122:210509
-2026-08-24T06:07:04.437Z root INFO [SOC] Mission Panel extension loaded. bundle.js:1122:210509
-2026-08-24T06:07:04.437Z root INFO [SOC] Pass Control Panel extension loaded. bundle.js:1122:210509
-2026-08-24T06:07:04.443Z root INFO Start frontend contributions: 169.0 ms [1.764 s since frontend page start] bundle.js:1122:210509
-2026-08-24T06:07:04.443Z root INFO Changed application state from 'init' to 'started_contributions'. bundle.js:1122:210509
-2026-08-24T06:07:04.444Z root INFO Changed application state from 'started_contributions' to 'attached_shell'. bundle.js:1122:210509
-2026-08-24T06:07:04.444Z root INFO >>> Restoring the layout state... bundle.js:1122:210509
-2026-08-24T06:07:04.540Z root INFO [SocDataService] Acquire. refCount: 1 bundle.js:1122:210509
-2026-08-24T06:07:04.540Z root INFO [SocDataService] Acquire. refCount: 2 bundle.js:1122:210509
-Uncaught (in promise) Error: Unable to write to Workspace Settings.
-    set http://localhost:3301/bundle.js:1123
-    onStart http://localhost:3301/bundle.js:20708
-    startContributions http://localhost:3301/bundle.js:1368
-    o http://localhost:3301/bundle.js:1368
-    startAsync http://localhost:3301/bundle.js:1158
-    measure http://localhost:3301/bundle.js:1368
-    measureContribution http://localhost:3301/bundle.js:1368
-    startContributions http://localhost:3301/bundle.js:1368
-bundle.js:1123:22706
-2026-08-24T06:07:04.550Z root INFO [e4fe1250-1f5d-412a-8d3e-f97c8740d0e1] Waiting for backend deployment: 116.0 ms [1.876 s since frontend page start] bundle.js:1122:210509
-2026-08-24T06:07:04.558Z root INFO [SocDataService] Acquire. refCount: 3 bundle.js:1122:210509
-2026-08-24T06:07:04.558Z root INFO [SocDataService] Acquire. refCount: 4 bundle.js:1122:210509
-2026-08-24T06:07:04.558Z root INFO [SocDataService] Acquire. refCount: 5 bundle.js:1122:210509
-2026-08-24T06:07:04.558Z root INFO [EarthViewer] Auto-discovery initialized. Querying /mbtiles/list from backend... http://localhost:3301/mbtiles/list bundle.js:1122:210509
-2026-08-24T06:07:04.558Z root INFO [SocDataService] Acquire. refCount: 6 bundle.js:1122:210509
-2026-08-24T06:07:04.561Z terminal WARN Failed attaching to terminal id 701586799, the terminal is most likely gone. Starting up a new terminal instead. bundle.js:1122:210509
-2026-08-24T06:07:04.693Z root WARN Linked preference "workbench.colorCustomizations" not found. bundle.js:1122:210509
-2026-08-24T06:07:04.693Z root WARN Linked preference "editor.experimental.preferTreeSitter" not found. bundle.js:1122:210509
-2026-08-24T06:07:04.696Z root INFO [EarthViewer] [soc-cmd] Processing command: "selectSatellite" null bundle.js:1122:210509
-2026-08-24T06:07:04.701Z root INFO [SocDataService] fetchGroundStations success: Received 1 stations. bundle.js:1122:210509
-2026-08-24T06:07:04.701Z root INFO [SocDataService] _updateGroundStations: Updating state with 1 sanitized stations. bundle.js:1122:210509
-2026-08-24T06:07:04.701Z root INFO [SocDataService] Triggering GLOBAL Pass Sync for initial load... bundle.js:1122:210509
-2026-08-24T06:07:04.701Z root INFO [SocDataService] fetchGroundStations finished inFlight for key: groundstations bundle.js:1122:210509
-2026-08-24T06:07:04.744Z root INFO [e4fe1250-1f5d-412a-8d3e-f97c8740d0e1] Loading plugin contributions bundle.js:1122:210509
-2026-08-24T06:07:04.775Z root INFO <<< The layout has been successfully restored. bundle.js:1122:210509
-2026-08-24T06:07:04.775Z root INFO Initialize the workbench layout: 331.0 ms [2.101 s since frontend page start] bundle.js:1122:210509
-2026-08-24T06:07:04.776Z root INFO Changed application state from 'attached_shell' to 'initialized_layout'. bundle.js:1122:210509
-2026-08-24T06:07:04.780Z root INFO [EarthViewer] Received mbtiles response list: 
-Object { earth: (1) […], moon: (1) […] }
-bundle.js:1122:210509
-2026-08-24T06:07:04.780Z root INFO [EarthViewer] Received MBTiles state sync update: 
-Object { earth: (1) […], moon: (1) […] }
-bundle.js:1122:210509
-2026-08-24T06:07:04.783Z root INFO [EarthViewer] Keeping current active state; skip auto-discovery overwrite. bundle.js:1122:210509
-2026-08-24T06:07:04.784Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. 3 bundle.js:1122:210509
-2026-08-24T06:07:04.785Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:1122:210509
-2026-08-24T06:07:04.793Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:1122:210509
-WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
-WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
-2026-08-24T06:07:05.698Z root INFO Replace loading indicator with ready workbench UI (animation): 920.0 ms [3.023 s since frontend page start] bundle.js:1122:210509
-2026-08-24T06:07:05.698Z root INFO Changed application state from 'initialized_layout' to 'ready'. bundle.js:1122:210509
-2026-08-24T06:07:05.698Z root INFO All frontend contributions settled: 1429.0 ms [3.024 s since frontend page start] bundle.js:1122:210509
-2026-08-24T06:07:06.788Z core:ApplicationShell WARN Widget was activated, but did not accept focus after 2000ms: soc:mission bundle.js:1122:210509
-2026-08-24T06:07:07.963Z core:ApplicationShell WARN Widget was activated, but did not accept focus after 2000ms: soc:pass-list bundle.js:1122:210509
-2026-08-24T06:07:07.964Z core:ApplicationShell WARN Widget was activated, but did not accept focus after 2000ms: soc:pass-summary bundle.js:1122:210509
-2026-08-24T06:07:10.297Z root INFO [PassControlPanel] Auto-fetching actual pass trajectory for sat #56178 (Pass ID/Time: 2026-08-24T06:49:51.492174589Z)... bundle.js:1122:210509
-2026-08-24T06:07:12.578Z root INFO [SocDataService] Merged 1 dynamic passes into main state for normalized IDs. bundle.js:1122:210509
-2026-08-24T06:07:12.578Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:1122:210509
-WebGL warning: copyTexSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
-WebGL warning: copyTexSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
-2026-08-24T06:07:15.938Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 1 Y: 0 Level: 1. bundle.js:1122:210509
-2026-08-24T06:07:15.938Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 1 Y: 1 Level: 1. bundle.js:1122:210509
-2026-08-24T06:07:15.938Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 0 Y: 0 Level: 1. bundle.js:1122:210509
-2026-08-24T06:07:15.938Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 0 Y: 1 Level: 1. bundle.js:1122:210509
-2026-08-24T06:07:16.351Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 0 Y: 0 Level: 0. bundle.js:1122:210509
-2026-08-24T06:07:16.428Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 2 Y: 0 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:16.428Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 2 Y: 1 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:16.428Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 3 Y: 2 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:16.428Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 3 Y: 3 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:16.428Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 2 Y: 2 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:16.428Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 2 Y: 3 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:16.428Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 3 Y: 0 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:16.429Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 3 Y: 1 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:16.466Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 0 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.467Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 1 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.467Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 2 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.468Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 5 Y: 4 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.471Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 5 Y: 5 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.473Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 4 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.473Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 5 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.473Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 3 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.474Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 7 Y: 2 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.474Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 7 Y: 3 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.512Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 9 Y: 5 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.512Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 9 Y: 6 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.512Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 8 Y: 5 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.512Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 8 Y: 6 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.512Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 9 Y: 3 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.513Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 9 Y: 4 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.513Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 10 Y: 5 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.513Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 10 Y: 6 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.513Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 8 Y: 3 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.513Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 8 Y: 4 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.551Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 4 Y: 2 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.551Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 4 Y: 3 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.551Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 4 Y: 1 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.551Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 5 Y: 2 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.551Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 5 Y: 3 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.552Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 10 Y: 3 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.552Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 10 Y: 4 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.552Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 9 Y: 7 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.552Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 8 Y: 7 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.552Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 10 Y: 7 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.552Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 11 Y: 3 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.552Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 11 Y: 4 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.553Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 11 Y: 5 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.590Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 5 Y: 1 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.590Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 11 Y: 6 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.591Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 3 Y: 0 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.591Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 3 Y: 1 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.591Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 3 Y: 2 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.591Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 3 Y: 3 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.591Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 11 Y: 7 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.591Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 3 Y: 4 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.591Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 3 Y: 5 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.629Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 1 Y: 0 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:16.629Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 1 Y: 1 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:16.629Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 1 Y: 2 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:16.630Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 2 Y: 0 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.630Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 2 Y: 1 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.631Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 2 Y: 2 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.631Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 2 Y: 3 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.631Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 4 Y: 0 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.665Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 5 Y: 0 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:16.665Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 1 Y: 3 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:16.967Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 7 Y: 3 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.968Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 7 Y: 4 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.969Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 7 Y: 5 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.969Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 7 Y: 7 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.972Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 7 Y: 6 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.972Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 5 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:16.972Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 6 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:17.007Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 12 Y: 5 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:17.007Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 12 Y: 6 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:17.008Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 7 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:17.008Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 12 Y: 7 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:17.008Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 13 Y: 5 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:17.008Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 13 Y: 6 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:17.049Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 5 Y: 5 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:17.049Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 5 Y: 6 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:17.089Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 18 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.090Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 18 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.090Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 19 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.090Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 19 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.090Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 18 Y: 9 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.090Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 18 Y: 10 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.090Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 18 Y: 13 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.091Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 19 Y: 9 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.091Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 19 Y: 10 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.139Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 19 Y: 13 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.139Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 17 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.139Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 17 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.139Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 20 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.139Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 20 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.140Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 17 Y: 9 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.140Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 17 Y: 10 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.141Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 20 Y: 9 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.141Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 20 Y: 10 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.172Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 17 Y: 13 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.173Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 20 Y: 13 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.173Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 16 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.173Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 16 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.173Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 16 Y: 9 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.173Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 16 Y: 10 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.173Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 21 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.173Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 21 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.206Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 21 Y: 9 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.206Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 21 Y: 10 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.206Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 16 Y: 13 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.206Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 21 Y: 13 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:17.426Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 37 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.426Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 37 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.426Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 38 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.426Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 38 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.427Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 37 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.427Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 38 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.427Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 36 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.427Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 36 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.469Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 39 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.470Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 39 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.470Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 36 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.470Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 39 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.470Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 35 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.470Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 35 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.470Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 40 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.471Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 40 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.528Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 35 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.528Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 40 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.528Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 34 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.528Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 34 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:17.642Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.642Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.643Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.643Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.643Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.643Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.643Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.643Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.643Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.643Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.682Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.682Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.682Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.682Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.682Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.683Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.683Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.683Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.683Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.683Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.719Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.719Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.720Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.720Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.720Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 72 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.720Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 72 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.720Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 79 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.720Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 79 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.720Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 72 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.720Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 72 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.767Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 79 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:17.768Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 79 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:18.167Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 151 Y: 96 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.168Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 151 Y: 97 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.168Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 152 Y: 96 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.168Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 152 Y: 97 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.168Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 151 Y: 98 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.169Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 150 Y: 96 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.169Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 150 Y: 97 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.169Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 152 Y: 98 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.206Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 150 Y: 98 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.206Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 153 Y: 96 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.206Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 153 Y: 97 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.206Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 149 Y: 96 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.207Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 149 Y: 97 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.207Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 153 Y: 98 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.207Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 149 Y: 98 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.248Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 154 Y: 96 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.248Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 154 Y: 97 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.249Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 148 Y: 96 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.249Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 148 Y: 97 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.249Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 154 Y: 98 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.249Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 148 Y: 98 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:18.770Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 46 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:18.771Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 46 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:18.832Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 46 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:18.832Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 46 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:18.832Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 46 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:18.832Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 71 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:18.833Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 71 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:18.833Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 71 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:18.833Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 71 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:18.884Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 46 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:18.937Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 72 Y: 46 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:18.993Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 41 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:18.993Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 41 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:19.043Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 34 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:19.147Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 41 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:19.257Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 34 Y: 26 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:19.257Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 41 Y: 26 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:19.372Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 15 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:19.372Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 15 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:19.373Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 15 Y: 13 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:19.373Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 14 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:19.373Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 14 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:19.413Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 22 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:19.413Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 22 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:19.413Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 22 Y: 13 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:19.413Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 23 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:19.414Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 23 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:19.414Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 15 Y: 14 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:19.619Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 3 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:19.619Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 4 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:19.726Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 12 Y: 3 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:19.726Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 12 Y: 4 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:19.726Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 4 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:19.727Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 5 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:19.772Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 11 Y: 8 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:19.773Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 11 Y: 9 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:19.818Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 13 Y: 7 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:29.642Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 8 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:29.643Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 6 Y: 9 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:29.746Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 15 Y: 9 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:29.746Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 15 Y: 10 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:29.746Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 14 Y: 13 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:29.815Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 21 Y: 14 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:29.867Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 14 Y: 14 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:30.058Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 40 Y: 26 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:30.096Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 39 Y: 26 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:30.096Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 33 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:30.096Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 33 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:30.137Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 33 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:30.138Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 33 Y: 26 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:30.138Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 32 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:30.138Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 32 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:30.157Z core:ApplicationShell WARN Widget was activated, but did not accept focus after 2000ms: soc:files bundle.js:1122:210509
-2026-08-24T06:07:30.295Z root INFO [SocDataService] Merged 1 dynamic passes into main state for normalized IDs. bundle.js:1122:210509
-2026-08-24T06:07:30.295Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:1122:210509
-2026-08-24T06:07:30.407Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 72 Y: 51 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:30.407Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 79 Y: 51 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:31.300Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 155 Y: 97 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.300Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 155 Y: 98 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.300Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 155 Y: 96 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.346Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 151 Y: 97 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.347Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 151 Y: 98 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.347Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 152 Y: 97 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.347Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 152 Y: 98 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.347Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 150 Y: 98 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.347Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 150 Y: 97 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.380Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 153 Y: 97 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.380Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 153 Y: 98 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.380Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 149 Y: 97 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.381Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 149 Y: 98 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.428Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 148 Y: 97 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.428Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 148 Y: 98 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.546Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 155 Y: 99 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.547Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 155 Y: 100 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.598Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 152 Y: 99 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.598Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 152 Y: 100 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.598Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 151 Y: 99 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.598Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 151 Y: 100 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.598Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 153 Y: 99 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.598Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 153 Y: 100 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.598Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 150 Y: 99 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.599Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 150 Y: 100 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.599Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 149 Y: 99 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:31.599Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 149 Y: 100 Level: 8. bundle.js:1122:210509
-2026-08-24T06:07:32.681Z root INFO [EarthViewer] Received MBTiles state sync update: 
-Object { earth: (1) […], moon: (1) […] }
-bundle.js:1122:210509
-2026-08-24T06:07:32.698Z root ERROR [MbtilesService] toggleMbtiles failed: toggleMbtiles@http://localhost:3301/bundle.js:20855:13580
-bundle.js:1122:210509
-2026-08-24T06:07:32.710Z root INFO [EarthViewer] Received MBTiles state sync update: 
-Object { earth: (1) […], moon: (1) […] }
-bundle.js:1122:210509
-Uncaught (in promise) Error: Toggle failed: 500
-    toggleMbtiles http://localhost:3301/bundle.js:20855
-bundle.js:20855:13580
-2026-08-24T06:07:33.001Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.002Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.002Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.002Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.002Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.002Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.002Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.002Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.002Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.003Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.003Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.004Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.004Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.004Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.004Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.004Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.008Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.315Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.315Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.316Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.316Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.316Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.316Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.316Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.316Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.316Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.316Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.316Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.317Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.317Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.317Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.317Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.317Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.317Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.978Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 38 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:33.978Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 38 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:33.981Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 37 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:33.982Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 37 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:33.982Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 38 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:33.982Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 37 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:33.982Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 39 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:33.982Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.982Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.982Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.982Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.983Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.983Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.984Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:33.984Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 2 Y: 0 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:33.984Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 2 Y: 1 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:33.984Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 19 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:34.296Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 19 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:34.315Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 9 Y: 6 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:34.315Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 18 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:34.316Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 39 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:34.316Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 39 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:34.316Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 9 Y: 5 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:34.316Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 36 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:34.317Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 18 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:34.317Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 36 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:34.317Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 36 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:34.317Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 1 Y: 0 Level: 1. bundle.js:1122:210509
-2026-08-24T06:07:34.317Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 1 Y: 1 Level: 1. bundle.js:1122:210509
-2026-08-24T06:07:34.317Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 4 Y: 2 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:34.317Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 4 Y: 3 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:34.555Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 0 Y: 0 Level: 0. bundle.js:1122:210509
-2026-08-24T06:07:35.339Z root INFO [EarthViewer] Received MBTiles state sync update: 
-Object { earth: (1) […], moon: (1) […] }
-bundle.js:1122:210509
-2026-08-24T06:07:35.345Z root ERROR [MbtilesService] toggleMbtiles failed: toggleMbtiles@http://localhost:3301/bundle.js:20855:13580
-bundle.js:1122:210509
-2026-08-24T06:07:35.352Z root INFO [EarthViewer] Received MBTiles state sync update: 
-Object { earth: (1) […], moon: (1) […] }
-bundle.js:1122:210509
-Uncaught (in promise) Error: Toggle failed: 500
-    toggleMbtiles http://localhost:3301/bundle.js:20855
-bundle.js:20855:13580
-2026-08-24T06:07:35.380Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.380Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.381Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.381Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.381Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.381Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.381Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.381Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.381Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.381Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.382Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.383Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.383Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.383Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.383Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.383Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.932Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 38 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:35.932Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 38 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:35.933Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 37 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:35.933Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 37 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:35.933Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 38 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:35.933Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 37 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:35.933Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.933Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.933Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.933Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.934Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.934Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.934Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:35.934Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 2 Y: 0 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:35.934Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 2 Y: 1 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:35.934Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 19 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:35.934Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.697Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.699Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.699Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.778Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 38 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:36.779Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 38 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:36.795Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 19 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:36.795Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.795Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.796Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.796Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.796Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.796Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.796Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.797Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.797Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.797Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.797Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.797Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.797Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.797Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.797Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.797Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:36.798Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.051Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 9 Y: 6 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:37.051Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 37 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.052Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 37 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.052Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 38 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.052Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 37 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.052Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 39 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.052Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 39 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.052Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 39 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.052Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.052Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.052Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.053Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.053Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 2 Y: 0 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:37.053Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 2 Y: 1 Level: 2. bundle.js:1122:210509
-2026-08-24T06:07:37.053Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 19 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:37.053Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 18 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:37.053Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 18 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:37.053Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 9 Y: 5 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:37.081Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 4 Y: 3 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:37.082Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 4 Y: 2 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:37.082Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 36 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.082Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 36 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.082Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 36 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.082Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 1 Y: 0 Level: 1. bundle.js:1122:210509
-2026-08-24T06:07:37.082Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 1 Y: 1 Level: 1. bundle.js:1122:210509
-2026-08-24T06:07:37.133Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 0 Y: 0 Level: 0. bundle.js:1122:210509
-2026-08-24T06:07:37.576Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 79 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.577Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 79 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.577Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 79 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.577Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 79 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.577Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 72 Y: 48 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.577Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 72 Y: 49 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.577Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 72 Y: 50 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.577Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 72 Y: 47 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.577Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 79 Y: 51 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.623Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 78 Y: 51 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.623Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 73 Y: 51 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.623Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 72 Y: 51 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.624Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 40 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.624Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 40 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.624Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 20 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:37.624Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 20 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:37.625Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 10 Y: 5 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:37.625Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 10 Y: 6 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:37.625Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 5 Y: 2 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:37.625Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 5 Y: 3 Level: 3. bundle.js:1122:210509
-2026-08-24T06:07:37.664Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 76 Y: 51 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.664Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 75 Y: 51 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.664Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 77 Y: 51 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.665Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 74 Y: 51 Level: 7. bundle.js:1122:210509
-2026-08-24T06:07:37.665Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 40 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.665Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 35 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.665Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 35 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.666Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 35 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.666Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 17 Y: 11 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:37.666Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 17 Y: 12 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:37.666Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 8 Y: 5 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:37.666Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 8 Y: 6 Level: 4. bundle.js:1122:210509
-2026-08-24T06:07:37.699Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 35 Y: 26 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.699Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 41 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.699Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 41 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.699Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 17 Y: 13 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:37.746Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 40 Y: 26 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.748Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 34 Y: 23 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.748Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 34 Y: 24 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:37.748Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 20 Y: 13 Level: 5. bundle.js:1122:210509
-2026-08-24T06:07:37.789Z root INFO An error occurred in "MAt": Failed to obtain image tile X: 41 Y: 25 Level: 6. bundle.js:1122:210509
-2026-08-24T06:07:42.579Z root INFO [SocDataService] Merged 1 dynamic passes into main state for normalized IDs. bundle.js:1122:210509
-2026-08-24T06:07:42.579Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:1122:210509
-2026-08-24T06:08:00.313Z root INFO [SocDataService] Merged 1 dynamic passes into main state for normalized IDs. bundle.js:1122:210509
-2026-08-24T06:08:00.313Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:1122:210509
-2026-08-24T06:08:12.589Z root INFO [SocDataService] Merged 1 dynamic passes into main state for normalized IDs. bundle.js:1122:210509
-2026-08-24T06:08:12.590Z root INFO [SocDataService] Merged 5 dynamic passes into main state for normalized IDs. bundle.js:1122:210509
+import { injectable, inject } from '@theia/core/shared/inversify';
+import { BackendApplicationContribution } from '@theia/core/lib/node';
+import { ArtemisService } from './services/artemis.service';
+import { SatelliteApplicationService } from './services/satellite-application.service';
+import { OdsListenerService } from './services/ods-listener.service';
+import { CustomLogger } from './logging/custom-logger';
+import * as fs from 'fs';
+import * as path from 'path';
+// express type is intentionally omitted — Theia and root node_modules carry
+// different @types/express versions that are incompatible at the TS level.
+// The runtime object is a genuine express.Application; typed as `any` here.
+
+/**
+ * Directory where .mbtiles files are stored.
+ * At runtime __dirname = packages/soc-earth-extension/lib/backend/
+ * Three levels up lands in packages/, then we step into gsc-core-extension/public.
+ * Override via MBTILES_DIR env var if files live elsewhere.
+ */
+const getMbtilesDir = () => {
+    // 1. Explicit override
+    if (process.env.MBTILES_DIR) return process.env.MBTILES_DIR;
+
+    // 2. Derive from PUBLIC_ASSETS_DIR (Docker mount point)
+    //    Yapi: {PUBLIC_ASSETS_DIR}/mbtiles/earth/ ve /moon/
+    if (process.env.PUBLIC_ASSETS_DIR) {
+        return path.join(process.env.PUBLIC_ASSETS_DIR, 'mbtiles');
+    }
+
+    // 3. Gelistirme icin local fallback:
+    //    gsc-core-extension/public/mbtiles/
+    return path.resolve(__dirname, '../../public/mbtiles');
+};
+const MBTILES_DIR = getMbtilesDir();
+const MBTILES_STATE_FILE = path.join(MBTILES_DIR, '.mbtiles-state.json');
+
+function ensureMbtilesDir() {
+    if (!fs.existsSync(MBTILES_DIR)) {
+        fs.mkdirSync(MBTILES_DIR, { recursive: true });
+    }
+    const earthDir = path.join(MBTILES_DIR, 'earth');
+    const moonDir = path.join(MBTILES_DIR, 'moon');
+    if (!fs.existsSync(earthDir)) fs.mkdirSync(earthDir, { recursive: true });
+    if (!fs.existsSync(moonDir)) fs.mkdirSync(moonDir, { recursive: true });
+}
+
+function readMbtilesState(): Record<string, boolean> {
+    try {
+        if (fs.existsSync(MBTILES_STATE_FILE)) {
+            return JSON.parse(fs.readFileSync(MBTILES_STATE_FILE, 'utf8'));
+        }
+    } catch { /* ignore */ }
+    return {};
+}
+
+function writeMbtilesState(state: Record<string, boolean>) {
+    fs.writeFileSync(MBTILES_STATE_FILE, JSON.stringify(state, null, 2));
+}
+
+function listMbtilesForDataset(dataset: string, state: Record<string, boolean>) {
+    const dir = path.join(MBTILES_DIR, dataset);
+    if (!fs.existsSync(dir)) return [];
+    
+    const items = fs.readdirSync(dir);
+    
+    // Check if there are raw Z-level directories (e.g. "0", "1", "2") indicating extracted tiles
+    let hasRawDirs = false;
+    try {
+        hasRawDirs = items.some(f => /^\d+$/.test(f) && fs.statSync(path.join(dir, f)).isDirectory());
+    } catch { /* ignore stat errors */ }
+
+    const dbs = items
+        .filter(f => f.endsWith('.mbtiles'))
+        .map(filename => ({
+            filename,
+            dataset,
+            enabled: state[`${dataset}/${filename}`] ?? true,
+            path: path.join(dir, filename)
+        }));
+        
+    // If raw tiles exist, add a virtual entry so the frontend activates the layer
+    if (hasRawDirs) {
+        dbs.push({
+            filename: 'raw_extracted_tiles_folder',
+            dataset,
+            enabled: state[`${dataset}/raw_extracted_tiles_folder`] ?? true,
+            path: dir
+        });
+    }
+    
+    return dbs;
+}
+
+@injectable()
+export class SocBackendContribution implements BackendApplicationContribution {
+    private readonly logger = new CustomLogger(SocBackendContribution.name);
+
+    constructor(
+        @inject(ArtemisService) private readonly artemis: ArtemisService,
+        @inject(SatelliteApplicationService) private readonly appService: SatelliteApplicationService,
+        @inject(OdsListenerService) private readonly odsListener: OdsListenerService
+    ) {}
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    configure(app: any): void {
+        const express = require('express');
+        app.use(express.json());
+        app.use(express.urlencoded({ extended: true }));
+
+        // ── GET /satellite/trajectory/:id ─────────────────────────────────────
+        app.get('/satellite/trajectory/:id', async (req: any, res: any) => {
+            const satId = req.params.id;
+            try {
+                const points = await this.odsListener.getTrajectory(satId);
+                if (points.length === 0) {
+                    const sat = await this.appService.getAllSatellites()
+                        .then((sats: any[]) => sats.find((s: any) => s.id === satId || s.noradId === satId));
+                    if (sat?.noradId) {
+                        this.logger.log(`[REST /trajectory] Cache cold for ${satId}. Triggering GSC positions for NORAD ${sat.noradId}...`);
+                        this.appService.requestGscSatPositions(sat.noradId).catch(() => {});
+                    }
+                }
+                res.json(points);
+            } catch (err: any) {
+                this.logger.error(`[REST /trajectory] Error for ${satId}: ${err.message}`);
+                res.status(500).json({ error: err.message });
+            }
+        });
+
+        // ── GET /mbtiles/list ─────────────────────────────────────────────────
+        app.get('/mbtiles/list', (_req: any, res: any) => {
+            try {
+                ensureMbtilesDir();
+                const state = readMbtilesState();
+                const earth = listMbtilesForDataset('earth', state);
+                const moon  = listMbtilesForDataset('moon',  state);
+                res.json({ earth, moon });
+            } catch (err: any) {
+                this.logger.error(`[REST /mbtiles/list] Error: ${err.message}`);
+                res.status(500).json({ error: err.message });
+            }
+        });
+
+        // ── POST /mbtiles/toggle ──────────────────────────────────────────────
+        app.post('/mbtiles/toggle', (req: any, res: any) => {
+            try {
+                const { dataset, filename, enabled } = req.body || {};
+                if (!dataset || !filename || enabled === undefined) {
+                    return res.status(400).json({ error: 'dataset, filename and enabled are required' });
+                }
+                const state = readMbtilesState();
+                state[`${dataset}/${filename}`] = !!enabled;
+                writeMbtilesState(state);
+                this.logger.log(`[REST /mbtiles/toggle] ${dataset}/${filename} → ${enabled}`);
+                res.json({ ok: true });
+            } catch (err: any) {
+                this.logger.error(`[REST /mbtiles/toggle] Error: ${err.message}`);
+                res.status(500).json({ error: err.message });
+            }
+        });
+
+        // ── POST /mbtiles/upload/:dataset ─────────────────────────────────────
+        // Accepts multipart/form-data with a single "file" field.
+        app.post('/mbtiles/upload/:dataset', (req: any, res: any) => {
+            const dataset = req.params.dataset as string;
+            const datasetDir = path.join(MBTILES_DIR, dataset);
+            try {
+                ensureMbtilesDir();
+                if (!fs.existsSync(datasetDir)) fs.mkdirSync(datasetDir, { recursive: true });
+            } catch (err: any) {
+                return res.status(500).json({ error: `Cannot create directory: ${err.message}` });
+            }
+
+            let savedFilename = '';
+            const busboy = require('busboy');
+            const bb = busboy({ headers: req.headers });
+
+            bb.on('file', (name: string, file: any, info: any) => {
+                const { filename } = info;
+                if (!filename.endsWith('.mbtiles')) { file.resume(); return; }
+                savedFilename = filename;
+                const dest = path.join(datasetDir, filename);
+                const ws = fs.createWriteStream(dest);
+                file.pipe(ws);
+            });
+
+            bb.on('close', () => {
+                if (savedFilename) {
+                    this.logger.log(`[REST /mbtiles/upload] Saved ${dataset}/${savedFilename}`);
+                    res.json({ success: true, filename: savedFilename });
+                } else {
+                    res.status(400).json({ error: 'No valid .mbtiles file received' });
+                }
+            });
+
+            bb.on('error', (err: any) => {
+                this.logger.error(`[REST /mbtiles/upload] busboy error: ${err.message}`);
+                res.status(500).json({ error: err.message });
+            });
+
+            req.pipe(bb);
+        });
+
+        // ── GET /mbtiles/:z/:x/:y (Earth) and /mbtiles/:dataset/:z/:x/:y (Moon, etc.) ──
+        const sqlite3 = require('sqlite3');
+        const dbCache: Record<string, any> = {};
+        const getDb = (filepath: string) => {
+            if (!dbCache[filepath]) {
+                dbCache[filepath] = new sqlite3.Database(filepath, sqlite3.OPEN_READONLY);
+            }
+            return dbCache[filepath];
+        };
+
+        const serveTile = (dataset: string, z: string, x: string, y: string, res: any) => {
+            const state = readMbtilesState();
+            const files = listMbtilesForDataset(dataset, state).filter(f => f.enabled);
+            if (files.length === 0) {
+                return res.status(404).send('No enabled datasets');
+            }
+
+            const cleanY = y.replace('.png', '').replace('.jpg', '').replace(/\?.*/, '');
+            const parsedZ = parseInt(z, 10);
+            const parsedX = parseInt(x, 10);
+            const parsedY = parseInt(cleanY, 10);
+            if (isNaN(parsedZ) || isNaN(parsedX) || isNaN(parsedY)) {
+                return res.status(400).send('Invalid tile coordinates');
+            }
+
+            // Cesium requests tiles top-to-bottom. MBTiles (TMS) stores them bottom-to-top.
+            const tmsY = (1 << parsedZ) - 1 - parsedY;
+
+            const tryNextDb = (idx: number) => {
+                if (idx >= files.length) {
+                    // Fallback to raw directory structure if SQLite didn't have it (or if no .mbtiles files exist)
+                    try {
+                        const rawXyzPathPng = path.join(MBTILES_DIR, dataset, z, x, `${parsedY}.png`);
+                        const rawXyzPathJpg = path.join(MBTILES_DIR, dataset, z, x, `${parsedY}.jpg`);
+                        const rawTmsPathPng = path.join(MBTILES_DIR, dataset, z, x, `${tmsY}.png`);
+                        const rawTmsPathJpg = path.join(MBTILES_DIR, dataset, z, x, `${tmsY}.jpg`);
+
+                        if (fs.existsSync(rawTmsPathPng)) return res.sendFile(rawTmsPathPng);
+                        if (fs.existsSync(rawTmsPathJpg)) return res.sendFile(rawTmsPathJpg);
+                        if (fs.existsSync(rawXyzPathPng)) return res.sendFile(rawXyzPathPng);
+                        if (fs.existsSync(rawXyzPathJpg)) return res.sendFile(rawXyzPathJpg);
+                    } catch (e: any) {
+                        this.logger.error(`[serveTile] Raw folder check failed: ${e.message}`);
+                    }
+
+                    return res.status(404).send('Tile not found');
+                }
+
+                const file = files[idx];
+                if (file.filename === 'raw_extracted_tiles_folder') {
+                    // Skip sqlite check for virtual folder item
+                    return tryNextDb(idx + 1);
+                }
+
+                try {
+                    const db = getDb(file.path);
+                    db.get('SELECT tile_data FROM tiles WHERE zoom_level = ? AND tile_column = ? AND tile_row = ?',
+                        [parsedZ, parsedX, tmsY],
+                        (err: any, row: any) => {
+                            if (row && row.tile_data) {
+                                res.set('Content-Type', 'image/png');
+                                res.set('Cache-Control', 'public, max-age=86400');
+                                return res.send(row.tile_data);
+                            }
+                            // Fallback: try raw XYZ Y if TMS Y returned no tile
+                            db.get('SELECT tile_data FROM tiles WHERE zoom_level = ? AND tile_column = ? AND tile_row = ?',
+                                [parsedZ, parsedX, parsedY],
+                                (err2: any, row2: any) => {
+                                    if (row2 && row2.tile_data) {
+                                        res.set('Content-Type', 'image/png');
+                                        res.set('Cache-Control', 'public, max-age=86400');
+                                        return res.send(row2.tile_data);
+                                    }
+                                    tryNextDb(idx + 1);
+                                });
+                        });
+                } catch (err: any) {
+                    this.logger.error(`[serveTile] SQLite database read error: ${err.message}`);
+                    tryNextDb(idx + 1);
+                }
+            };
+            tryNextDb(0);
+        };
+
+        app.get('/mbtiles/:z/:x/:y', (req: any, res: any) => {
+            serveTile('earth', req.params.z, req.params.x, req.params.y, res);
+        });
+
+        app.get('/mbtiles/:dataset/:z/:x/:y', (req: any, res: any) => {
+            serveTile(req.params.dataset, req.params.z, req.params.x, req.params.y, res);
+        });
+
+        // ── DELETE /mbtiles/:dataset/:filename ────────────────────────────────
+        app.delete('/mbtiles/:dataset/:filename', (req: any, res: any) => {
+            try {
+                const { dataset, filename } = req.params;
+                if (!dataset || !filename) {
+                    return res.status(400).json({ error: 'dataset and filename are required' });
+                }
+                ensureMbtilesDir();
+                // Basic traversal protection
+                const safeFilename = filename.replace(/\.\./g, '');
+                const targetPath = path.join(MBTILES_DIR, dataset, safeFilename);
+                
+                if (fs.existsSync(targetPath)) {
+                    // Close cached database connection to release the file handle
+                    if (dbCache[targetPath]) {
+                        try {
+                            dbCache[targetPath].close();
+                            delete dbCache[targetPath];
+                        } catch (err: any) {
+                            this.logger.error(`[REST DELETE /mbtiles] Error closing SQLite connection: ${err.message}`);
+                        }
+                    }
+                    
+                    fs.unlinkSync(targetPath);
+                    
+                    // Clean up from state file if present
+                    const state = readMbtilesState();
+                    const stateKey = `${dataset}/${safeFilename}`;
+                    if (stateKey in state) {
+                        delete state[stateKey];
+                        writeMbtilesState(state);
+                    }
+
+                    this.logger.log(`[REST DELETE /mbtiles] Deleted: "${dataset}/${safeFilename}"`);
+                    res.json({ ok: true });
+                } else {
+                    res.status(404).json({ error: 'File not found' });
+                }
+            } catch (err: any) {
+                this.logger.error(`[REST DELETE /mbtiles] Error: ${err.message}`);
+                res.status(500).json({ error: err.message });
+            }
+        });
+
+        ensureMbtilesDir();
+        this.logger.log(`[MBTILES] Initialized MBTILES_DIR at: "${MBTILES_DIR}"`);
+        this.logger.log('SOC Express routes registered: /satellite/trajectory, /mbtiles/*');
+    }
+
+    async onStart(): Promise<void> {
+        this.logger.log('SOC Native Backend successfully started and services are initialized.');
+    }
+}
