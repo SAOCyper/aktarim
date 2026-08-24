@@ -276,24 +276,48 @@ export class SocBackendContribution implements BackendApplicationContribution {
                     return tryNextDb(idx + 1);
                 }
 
+const zlib = require('zlib');
+
+function sendTileData(data: any, res: any) {
+    let tileBuffer = data;
+    if (tileBuffer && tileBuffer.length > 2 && tileBuffer[0] === 0x1f && tileBuffer[1] === 0x8b) {
+        try {
+            tileBuffer = zlib.gunzipSync(tileBuffer);
+        } catch {
+            res.set('Content-Encoding', 'gzip');
+        }
+    }
+    
+    if (tileBuffer && tileBuffer.length > 3 && tileBuffer[0] === 0xff && tileBuffer[1] === 0xd8) {
+        res.set('Content-Type', 'image/jpeg');
+    } else if (tileBuffer && tileBuffer.length > 3 && tileBuffer[0] === 0x89 && tileBuffer[1] === 0x50) {
+        res.set('Content-Type', 'image/png');
+    } else if (tileBuffer && tileBuffer.length > 3 && tileBuffer[0] === 0x47 && tileBuffer[1] === 0x49) {
+        res.set('Content-Type', 'image/gif');
+    } else if (tileBuffer && tileBuffer.length > 3 && tileBuffer[0] === 0x57 && tileBuffer[1] === 0x45) {
+        res.set('Content-Type', 'image/webp');
+    } else {
+        res.set('Content-Type', 'image/png');
+    }
+
+    res.set('Cache-Control', 'public, max-age=86400');
+    return res.send(tileBuffer);
+}
+
                 try {
                     const db = getDb(file.path);
                     db.get('SELECT tile_data FROM tiles WHERE zoom_level = ? AND tile_column = ? AND tile_row = ?',
                         [parsedZ, parsedX, tmsY],
                         (err: any, row: any) => {
                             if (row && row.tile_data) {
-                                res.set('Content-Type', 'image/png');
-                                res.set('Cache-Control', 'public, max-age=86400');
-                                return res.send(row.tile_data);
+                                return sendTileData(row.tile_data, res);
                             }
                             // Fallback: try raw XYZ Y if TMS Y returned no tile
                             db.get('SELECT tile_data FROM tiles WHERE zoom_level = ? AND tile_column = ? AND tile_row = ?',
                                 [parsedZ, parsedX, parsedY],
                                 (err2: any, row2: any) => {
                                     if (row2 && row2.tile_data) {
-                                        res.set('Content-Type', 'image/png');
-                                        res.set('Cache-Control', 'public, max-age=86400');
-                                        return res.send(row2.tile_data);
+                                        return sendTileData(row2.tile_data, res);
                                     }
                                     tryNextDb(idx + 1);
                                 });
