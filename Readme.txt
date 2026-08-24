@@ -1,38 +1,24 @@
 {
     "compilerOptions": {
-        "target": "ES2020",
         "module": "commonjs",
-        "lib": [
-            "ES2020",
-            "DOM"
-        ],
-        "outDir": "lib",
-        "rootDir": "src",
-        "declaration": true,
-        "declarationMap": true,
-        "sourceMap": true,
-        "strict": false,
-        "strictPropertyInitialization": false,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "jsx": "react-jsx",
         "moduleResolution": "node",
         "baseUrl": ".",
+        "target": "es2017",
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "sourceMap": true,
+        "rootDir": "src",
+        "outDir": "lib",
+        "strict": true,
+        "esModuleInterop": true,
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "noImplicitAny": false,
+        "skipLibCheck": true,
         "paths": {
-            "@theia/*": [
-                "../../node_modules/@theia/*"
-            ],
-            "@lumino/*": [
-                "../../node_modules/@lumino/*"
-            ],
-            "react": [
-                "../../node_modules/@types/react"
-            ],
-            "inversify": [
-                "../../node_modules/inversify"
-            ],
             "@uzay/gsc-core-extension": [
                 "../gsc-core-extension/src/browser/common-index.ts",
                 "../gsc-core-extension/lib/browser/common-index.d.ts",
@@ -52,11 +38,6 @@
         ]
     },
     "include": [
-        "src/**/*.ts",
-        "src/**/*.tsx"
-    ],
-    "exclude": [
-        "node_modules",
-        "lib"
+        "src/**/*"
     ]
 }
