@@ -1,33 +1,43 @@
 {
-    "extends": "../configs/base.tsconfig",
-    "include": [],
     "compilerOptions": {
-      "composite": true
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "baseUrl": ".",
+        "target": "es2017",
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "sourceMap": true,
+        "rootDir": "src",
+        "outDir": "lib",
+        "strict": true,
+        "esModuleInterop": true,
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "noImplicitAny": false,
+        "skipLibCheck": true,
+        "paths": {
+            "@uzay/gsc-core-extension": [
+                "../gsc-core-extension/src/browser/common-index.ts",
+                "../gsc-core-extension/lib/browser/common-index.d.ts",
+                "../gsc-core-extension",
+                "../../node_modules/@uzay/gsc-core-extension"
+            ],
+            "@uzay/*": [
+                "../gsc-core-extension/src/browser/common-index.ts",
+                "../*",
+                "../../node_modules/@uzay/*"
+            ]
+        },
+        "references": [
+            {
+                "path": "../gsc-core-extension"
+            }
+        ]
     },
-    "references": [
-      {
-        "path": "../extensions/gsc-core-extension"
-      },
-      {
-        "path": "../extensions/gsc-earth-extension"
-      },
-      {
-        "path": "../extensions/gsc-files-extension"
-      },
-      {
-        "path": "../extensions/gsc-mission-extension"
-      },
-      {
-        "path": "../extensions/gsc-moon-extension"
-      },
-      {
-        "path": "../extensions/gsc-pass-control-extension"
-      },
-      {
-        "path": "../extensions/gsc-pass-prediction-extension"
-      },
-      {
-        "path": "../extensions/gsc-settings-extension"
-      }
+    "include": [
+        "src/**/*"
     ]
 }
