@@ -1,17 +1,6 @@
-mert@mertunubol:~/Development/gsc.scheduling.theia/browser-app$ docker logs -f gsc-cesium-web 
-node:internal/modules/cjs/loader:1228
-  throw err;
-  ^
-
-Error: Cannot find module '/home/theia/browser-app/lib/backend/main.js'
-    at Function._resolveFilename (node:internal/modules/cjs/loader:1225:15)
-    at Function._load (node:internal/modules/cjs/loader:1055:27)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
-    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
-    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:170:5)
-    at node:internal/main/run_main_module:36:49 {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: []
-}
-
-Node.js v22.14.0
+module.exports = {
+  skipDownload: true,
+  chrome: { skipDownload: true },
+  'chrome-headless-shell': { skipDownload: true },
+  firefox: { skipDownload: true },
+};
